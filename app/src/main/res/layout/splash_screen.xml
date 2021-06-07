@@ -6,6 +6,7 @@
     android:background="@color/light_gold">
 
     <ImageView
+        android:id="@+id/splash_screen_iv_logo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@drawable/logo_real_estate"

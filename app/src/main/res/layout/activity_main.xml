@@ -5,34 +5,20 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.openclassrooms.realestatemanager.MainActivity"
-    android:gravity="center">
+    android:gravity="center"
+    android:background="@color/light_gold">
 
-    <LinearLayout
-        android:layout_width="match_parent"
+    <ImageView
+        android:id="@+id/main_activity_btn_logout"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
+        android:layout_margin="20dp"
+        android:src="@drawable/logout_50"
         app:layout_constraintTop_toTopOf="parent"
-        android:gravity="center">
+        app:layout_constraintStart_toStartOf="parent"/>
 
-        <TextView
-            android:id="@+id/activity_main_activity_text_view_main"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Voici la valeur d'un bien : "/>
 
-        <TextView
-            android:id="@+id/activity_main_activity_text_view_quantity"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="0"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
 
-    </LinearLayout>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

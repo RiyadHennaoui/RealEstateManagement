@@ -37,7 +37,7 @@ class SplashScreen : AppCompatActivity() {
                 if(auth.currentUser != null){
                     intentToMainActivity()
                 }else{
-
+                    intentToSignInActivity()
                 }
 
 

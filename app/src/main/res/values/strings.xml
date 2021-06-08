@@ -2,4 +2,12 @@
     <string name="app_name">Real Estate Manager</string>
     <string name="dont_have_account">Dont have an account? </string>
     <string name="sign_up_under_line"><u>Sign up</u></string>
+    <string name="password">Password</string>
+    <string name="email">Email</string>
+    <string name="name">Name</string>
+    <string name="forget_your_password">Forget your password ?</string>
+    <string name="login">Login</string>
+    <string name="create">Create</string>
+    <string name="account">Account</string>
+    <string name="photo_url">Photo url</string>
 </resources>

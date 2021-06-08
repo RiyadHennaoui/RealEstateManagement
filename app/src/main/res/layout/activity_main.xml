@@ -17,6 +17,167 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"/>
 
+    <ImageView
+        android:id="@+id/main_activity_euro"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_baseline_euro_24"
+        android:layout_marginStart="3dp"
+        app:layout_constraintTop_toTopOf="@+id/main_activity_dollar"
+        app:layout_constraintStart_toEndOf="@id/main_activity_dollar"
+        />
+    <View
+        android:id="@+id/main_activity_divier"
+        android:layout_width="1dp"
+        android:layout_height="25dp"
+        android:background="@color/black"
+        app:layout_constraintStart_toEndOf="@id/main_activity_dollar"
+        app:layout_constraintTop_toTopOf="@id/main_activity_dollar"/>
+
+    <ImageView
+        android:id="@+id/main_activity_dollar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_baseline_attach_money_24"
+        app:layout_constraintTop_toTopOf="@+id/main_activity_btn_logout"
+        app:layout_constraintStart_toEndOf="@id/main_activity_btn_logout"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <ImageView
+        android:id="@+id/main_activity_picture_profile"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="30dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:background="@drawable/round_black"/>
+
+    <TextView
+        android:id="@+id/main_activity_tv_welcome_user"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:text="Welcome, Riyad"
+        app:layout_constraintTop_toBottomOf="@id/main_activity_btn_logout"
+        app:layout_constraintStart_toStartOf="@id/main_activity_btn_logout"/>
+
+    <TextView
+        android:id="@+id/main_activity_tv_your"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="YOUR"
+        android:textStyle="bold"
+        android:layout_marginTop="10dp"
+        android:textColor="@color/orange"
+        android:textSize="25sp"
+        app:layout_constraintTop_toBottomOf="@id/main_activity_tv_welcome_user"
+        app:layout_constraintStart_toStartOf="@id/main_activity_tv_welcome_user"/>
+
+    <TextView
+        android:id="@+id/main_activity_tv_dashboard"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="DASHBORD"
+        android:layout_marginStart="15dp"
+        android:textSize="30sp"
+        android:textColor="@color/black"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="@id/main_activity_tv_your"
+        app:layout_constraintTop_toBottomOf="@id/main_activity_tv_your"/>
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintTop_toBottomOf="@id/main_activity_tv_dashboard"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="30dp"
+            app:cardBackgroundColor="@color/gold"
+            app:cardCornerRadius="40dp"
+            app:cardElevation="3dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/main_activity_tv_dashboard"
+            app:layout_constraintBottom_toBottomOf="parent">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:id="@+id/main_activity_tv_date_of_day"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    android:layout_margin="20dp"
+                    android:text="08 June"
+                    android:textSize="18sp"
+                    android:textStyle="bold"/>
+
+                <TextView
+                    android:id="@+id/main_activity_tv_loft"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toBottomOf="@id/main_activity_tv_date_of_day"
+                    app:layout_constraintStart_toStartOf="@id/main_activity_tv_date_of_day"
+                    app:layout_constraintEnd_toStartOf="@id/main_activity_tv_duplex"
+                    android:text="Loft"
+                    android:textSize="20sp"/>
+
+                <TextView
+                    android:id="@+id/main_activity_tv_duplex"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toTopOf="@id/main_activity_tv_loft"
+                    app:layout_constraintStart_toEndOf="@id/main_activity_tv_loft"
+                    android:text="Duplex"
+                    android:textSize="20sp"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+
+
+
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+
+
+
+
+        </androidx.cardview.widget.CardView>
+
+        <com.google.android.material.bottomnavigation.BottomNavigationView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:background="@color/orange"
+            app:menu="@menu/bottom_navigation_menu"/>
+
+
+
+
+    </FrameLayout>
+
+
+
+
+
+
+
+
+
+
+
 
 
 

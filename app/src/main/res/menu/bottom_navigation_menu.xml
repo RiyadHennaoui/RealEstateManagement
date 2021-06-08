@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/bottom_nav_add_property"
+        android:enabled="true"
+        android:icon="@drawable/ic_baseline_note_add_24"
+        android:title="Add Property"
+        app:showAsAction="ifRoom"/>
+
+    <item
+        android:id="@+id/bottom_nav_list_properties"
+        android:enabled="true"
+        android:icon="@drawable/ic_baseline_view_list_24"
+        android:title="List Properties"
+        app:showAsAction="ifRoom"/>
+
+    <item
+        android:id="@+id/bottom_nav_map"
+        android:enabled="true"
+        android:icon="@drawable/ic_baseline_map_24"
+        android:title="map"
+        app:showAsAction="ifRoom"/>
+
+    <item
+        android:id="@+id/bottom_nav_simulator"
+        android:enabled="true"
+        android:icon="@drawable/ic_baseline_assignment_24"
+        android:title="simulator"
+        app:showAsAction="ifRoom"/>
+
+
+</menu>

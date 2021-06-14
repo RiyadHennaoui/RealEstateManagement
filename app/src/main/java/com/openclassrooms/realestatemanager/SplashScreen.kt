@@ -34,11 +34,11 @@ class SplashScreen : AppCompatActivity() {
 
             override fun onAnimationEnd(p0: Animation?) {
 
-                if(auth.currentUser != null){
+//                if(auth.currentUser != null){
                     intentToMainActivity()
-                }else{
-                    intentToSignInActivity()
-                }
+//                }else{
+//                    intentToSignInActivity()
+//                }
 
 
             }

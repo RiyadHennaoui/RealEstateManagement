@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -7,6 +8,10 @@
     tools:context="com.openclassrooms.realestatemanager.MainActivity"
     android:gravity="center"
     android:background="@color/light_gold">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
     <ImageView
         android:id="@+id/main_activity_btn_logout"
@@ -85,6 +90,8 @@
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="@id/main_activity_tv_your"
         app:layout_constraintTop_toBottomOf="@id/main_activity_tv_your"/>
+
+
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -103,7 +110,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/main_activity_tv_dashboard"
-            app:layout_constraintBottom_toTopOf="@id/main_activity_bottom_nav">
+            app:layout_constraintBottom_toTopOf="@id/bottomNavigationView">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
@@ -319,21 +326,35 @@
 
         </androidx.cardview.widget.CardView>
 
-        <com.google.android.material.bottomnavigation.BottomNavigationView
-            android:id="@+id/main_activity_bottom_nav"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom"
-            android:layout_margin="5dp"
-            app:itemIconTint="@drawable/tab_color"
-            android:background="@drawable/nav_backroud_curved"
-            app:menu="@menu/bottom_navigation_menu"/>
-
-
-
 
     </FrameLayout>
 
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+    <com.google.android.material.bottomappbar.BottomAppBar
+        android:id="@+id/main_activity_bottomAppBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        app:fabCradleMargin="7dp"
+        app:fabCradleRoundedCornerRadius="7dp"
+        android:background="@drawable/nav_backroud_curved"/>
+
+
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottomNavigationView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        app:labelVisibilityMode="unlabeled"
+        app:menu="@menu/bottom_navigation_menu"/>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_anchor="@id/main_activity_bottomAppBar"/>
 
 
 
@@ -346,6 +367,4 @@
 
 
 
-
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

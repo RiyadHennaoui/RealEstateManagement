@@ -3,13 +3,17 @@ package com.openclassrooms.realestatemanager.networking
 import android.content.Context
 import android.util.Log
 import com.google.firebase.auth.FirebaseAuth
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class UserRepository {
 
     private lateinit var auth: FirebaseAuth
     lateinit var userRepository: UserRepository
-    val currentUser = auth.currentUser
 
+
+    //Trouvé dans un tuto
     companion object {
         private var instance: UserRepository? = null
 
@@ -19,20 +23,26 @@ class UserRepository {
         }
     }
 
+    fun firebaseAuthGetInstance(){
+
+        auth = FirebaseAuth.getInstance()
+
+    }
+
+
+
     fun createUserWithEmailAndPassord(userEmail:String, userPassword:String,){
 
-        auth.createUserWithEmailAndPassword(userEmail, userPassword)
-            .addOnCompleteListener() { it ->
-                if (it.isSuccessful){
-                    val user = auth.currentUser
-                    Log.e("user creat", "not success")
+        firebaseAuthGetInstance()
+        CoroutineScope(Dispatchers.IO).launch {
+            try {
 
-                }else{
-                    Log.e("user creat", "not success")
-                }
+                auth.createUserWithEmailAndPassword(userEmail, userPassword)
 
-
+            }catch (e: Exception){
+                Log.e("create with emailPass", e.message.toString())
             }
+        }
 
     }
 

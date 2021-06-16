@@ -340,7 +340,8 @@
         android:layout_gravity="bottom"
         app:fabCradleMargin="7dp"
         app:fabCradleRoundedCornerRadius="7dp"
-        android:background="@drawable/nav_backroud_curved"/>
+        android:backgroundTint="@color/orange" />
+
 
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
@@ -349,12 +350,16 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
         app:labelVisibilityMode="unlabeled"
+        app:itemIconTint="@drawable/menu_item_color"
         app:menu="@menu/bottom_navigation_menu"/>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_anchor="@id/main_activity_bottomAppBar"/>
+        app:layout_anchor="@id/main_activity_bottomAppBar"
+        android:backgroundTint="@color/white"
+        android:src="@drawable/ic_add"/>
 
 
 

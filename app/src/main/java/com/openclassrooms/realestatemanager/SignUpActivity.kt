@@ -20,6 +20,7 @@ class SignUpActivity : AppCompatActivity() {
         setContentView(R.layout.activity_sign_up)
         val etEmail: EditText = findViewById(R.id.sign_up_activity_et_email)
         val etPassword: EditText = findViewById(R.id.sign_up_activity_et_password)
+        val etDisplayName: EditText = findViewById(R.id.sign_up_activity_et_name)
         val btnRegister: ImageButton = findViewById(R.id.sign_up_activity_btn_validate)
 
         val userRepository = UserRepository()
@@ -31,11 +32,12 @@ class SignUpActivity : AppCompatActivity() {
 
             val email = etEmail.text.toString()
             val password = etPassword.text.toString()
+            val displayName = etDisplayName.text.toString()
             //TODO ajouter ce qu'il faut
 
-            if (email.isNotEmpty() && password.isNotEmpty()){
+            if (email.isNotEmpty() && password.isNotEmpty() &&  displayName.isNotEmpty()){
 
-                userViewModel.createUser(email, password, ).observe(this, Observer {
+                userViewModel.createUser(email, password, displayName, photoUrl = "").observe(this, Observer {
                     intentToMainActivity()
                 })
 

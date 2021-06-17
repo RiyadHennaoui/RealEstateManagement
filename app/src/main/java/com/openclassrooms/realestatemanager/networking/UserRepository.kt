@@ -1,10 +1,12 @@
 package com.openclassrooms.realestatemanager.networking
 
 import android.content.Context
+import android.net.Uri
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.ktx.userProfileChangeRequest
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -16,18 +18,38 @@ class UserRepository {
 
 
     //return LiveData boolean
-    fun createUserWithEmailAndPassord(userEmail:String, userPassword:String, displayName: String,
+    fun createUserWithEmailAndPassord(userEmail:String, userPassword:String, userDisplayName: String,
                                       photoUrl: String ): LiveData<Boolean>{
         var  userMutableState: MutableLiveData<Boolean> = MutableLiveData()
+
+        val profileUpdates = userProfileChangeRequest {
+            displayName = userDisplayName
+            if (photoUrl.isNotEmpty()){
+                //TODO retrouver comment ajouter la bonne uri avec une photo dans le telphone
+                photoUri = Uri.parse(photoUrl)
+            }
+            }
+
         CoroutineScope(Dispatchers.IO).launch {
             try {
 
                 auth.createUserWithEmailAndPassword(userEmail, userPassword)
                     .addOnCompleteListener {
                         if(it.isSuccessful){
+                            userMutableState.postValue(false)
                             it.result?.user?.let { user ->
-//                                user.updateProfile()
+                                user!!.updateProfile(profileUpdates)
+                                    .addOnCompleteListener { updateProfile ->
+                                        if (updateProfile.isSuccessful){
+                                            userMutableState.postValue(true)
+                                        } else {
+                                            userMutableState.postValue(false)
+                                        }
+
+                                    }
                             }
+                        }else {
+                            userMutableState.postValue(false)
                         }
                     }
 

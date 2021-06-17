@@ -28,7 +28,8 @@
                         </option>
                         <option name="values">
                           <map>
-                            <entry key="outputName" value="ic_add" />
+                            <entry key="color" value="ed9434" />
+                            <entry key="outputName" value="ic_add_orange" />
                             <entry key="sourceFile" value="C:\Users\riyad\AndroidStudioProjects\RealEstateNew\RealEstateManager" />
                           </map>
                         </option>

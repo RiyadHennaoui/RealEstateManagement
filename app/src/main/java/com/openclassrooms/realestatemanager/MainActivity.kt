@@ -17,13 +17,16 @@ class MainActivity : AppCompatActivity() {
         bottomNavigationView = findViewById(R.id.bottomNavigationView)
         fab = findViewById(R.id.fab)
 
-        //For disable middle item in bottom app bar
-        bottomNavigationView!!.background = null
-        bottomNavigationView!!.menu.getItem(2).isEnabled= false
 
+        disableMiddleItemInButtomAppBar()
         configureBottomView()
         configureFab()
 
+    }
+
+    private fun disableMiddleItemInButtomAppBar() {
+        bottomNavigationView!!.background = null
+        bottomNavigationView!!.menu.getItem(2).isEnabled = false
     }
 
     private fun configureBottomView(){
@@ -37,11 +40,11 @@ class MainActivity : AppCompatActivity() {
     private fun updateButtons(integer: Int): Boolean{
         when (integer){
 
-            R.id.bottom_nav_add_property -> openAddProperty()
             R.id.bottom_nav_list_properties -> openListProperties()
             R.id.bottom_nav_map -> openMap()
+            R.id.fab -> openAddProperty()
+            R.id.bottom_nav_search_property -> openSearch()
             R.id.bottom_nav_simulator -> openCreditSimulator()
-            R.id.fab -> openSearch()
         }
         return true
     }

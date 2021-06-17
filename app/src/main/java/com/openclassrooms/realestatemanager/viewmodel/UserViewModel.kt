@@ -6,7 +6,7 @@ import com.openclassrooms.realestatemanager.networking.UserRepository
 class UserViewModel(private val userRepository: UserRepository)
     : ViewModel() {
 
-    fun createUser(userEmail:String, userPassword:String) =
-        userRepository.createUserWithEmailAndPassord(userEmail, userPassword)
+    fun createUser(userEmail:String, userPassword:String, displayName: String, photoUrl: String) =
+        userRepository.createUserWithEmailAndPassord(userEmail, userPassword, displayName, photoUrl)
 
 }

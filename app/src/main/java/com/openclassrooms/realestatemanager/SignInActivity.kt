@@ -97,6 +97,7 @@ class SignInActivity : AppCompatActivity() {
         startActivity(Intent(this, MainActivity::class.java))
     }
 
+    //TODO trouver comment la définir en static dans un fichier apart
     private fun isEmailValid(email: CharSequence): Boolean{
         return android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()
     }

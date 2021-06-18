@@ -32,19 +32,24 @@ class SignUpActivity : AppCompatActivity() {
             val email = etEmail.text.toString()
             val password = etPassword.text.toString()
             val displayName = etDisplayName.text.toString()
-            //TODO ajouter la gestion des photos
+            //TODO ajouter la gestion des photos e tcheck si l'email et le password sont bon
 
-            if (email.isNotEmpty() && password.isNotEmpty() && displayName.isNotEmpty()) {
+            when {
+                !isEmailValid(email) -> etEmail.error = "Email not valid"
+                password.length < 3 -> etPassword.error = "password can not empty or under 3 characters"
+                isEmailValid(email) && password.isNotEmpty() && displayName.isNotEmpty() ->
+                    if (email.isNotEmpty() && password.isNotEmpty() && displayName.isNotEmpty()) {
 
-                userViewModel.createUser(email, password, displayName, photoUrl = "")
-                    .observe(this, {
-                        if(it){
-                            intentToMainActivity()
-                        }
+                        userViewModel.createUser(email, password, displayName, photoUrl = "")
+                            .observe(this, {
+                                if(it){
+                                    intentToMainActivity()
+                                }
+                            })
 
-                    })
-
+                    }
             }
+
 
         }
 
@@ -55,4 +60,10 @@ class SignUpActivity : AppCompatActivity() {
         startActivity(Intent(this, MainActivity::class.java))
 
     }
+
+    private fun isEmailValid(email: CharSequence): Boolean{
+        return android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()
+    }
+
+
 }

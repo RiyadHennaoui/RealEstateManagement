@@ -20,7 +20,7 @@
         app:layout_constraintEnd_toEndOf="parent"/>
 
     <EditText
-        android:id="@+id/sign_in_activity_et_email"
+        android:id="@+id/etSignInEmail"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="30dp"
@@ -33,7 +33,7 @@
         app:layout_constraintEnd_toEndOf="parent"/>
 
     <EditText
-        android:id="@+id/sign_in_activity_et_password"
+        android:id="@+id/etSignInPassword"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="30dp"
@@ -41,7 +41,7 @@
         android:inputType="textPassword"
         android:textSize="30sp"
         android:hint="@string/password"
-        app:layout_constraintTop_toBottomOf="@+id/sign_in_activity_et_email"
+        app:layout_constraintTop_toBottomOf="@+id/etSignInEmail"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>
 
@@ -53,12 +53,12 @@
         android:text="@string/forget_your_password"
         android:textStyle="bold"
         android:textScaleX="1.2"
-        app:layout_constraintTop_toBottomOf="@id/sign_in_activity_et_password"
-        app:layout_constraintEnd_toEndOf="@id/sign_in_activity_et_password"
+        app:layout_constraintTop_toBottomOf="@id/etSignInPassword"
+        app:layout_constraintEnd_toEndOf="@id/etSignInPassword"
         />
 
     <Button
-        android:id="@+id/sign_in_activity_btn_login"
+        android:id="@+id/btnSignInLogin"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="50dp"

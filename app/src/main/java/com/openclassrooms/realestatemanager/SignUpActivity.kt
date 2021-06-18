@@ -14,7 +14,6 @@ import com.openclassrooms.realestatemanager.viewmodel.UserViewModelFactory
 class SignUpActivity : AppCompatActivity() {
 
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_sign_up)
@@ -33,13 +32,17 @@ class SignUpActivity : AppCompatActivity() {
             val email = etEmail.text.toString()
             val password = etPassword.text.toString()
             val displayName = etDisplayName.text.toString()
-            //TODO ajouter ce qu'il faut
+            //TODO ajouter la gestion des photos
 
-            if (email.isNotEmpty() && password.isNotEmpty() &&  displayName.isNotEmpty()){
+            if (email.isNotEmpty() && password.isNotEmpty() && displayName.isNotEmpty()) {
 
-                userViewModel.createUser(email, password, displayName, photoUrl = "").observe(this, Observer {
-                    intentToMainActivity()
-                })
+                userViewModel.createUser(email, password, displayName, photoUrl = "")
+                    .observe(this, {
+                        if(it){
+                            intentToMainActivity()
+                        }
+
+                    })
 
             }
 
@@ -47,7 +50,7 @@ class SignUpActivity : AppCompatActivity() {
 
     }
 
-    fun intentToMainActivity(){
+    private fun intentToMainActivity() {
 
         startActivity(Intent(this, MainActivity::class.java))
 

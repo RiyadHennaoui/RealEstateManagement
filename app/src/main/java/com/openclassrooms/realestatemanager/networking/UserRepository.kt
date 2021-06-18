@@ -63,6 +63,31 @@ class UserRepository {
     }
 
 
+    fun singin(userEmail:String, userPassword:String): LiveData<Boolean>{
+
+        var isLog: MutableLiveData<Boolean> = MutableLiveData()
+
+        CoroutineScope(Dispatchers.IO).launch {
+            try {
+                auth.signInWithEmailAndPassword(userEmail, userPassword)
+                    .addOnCompleteListener { task ->
+                        if (task.isSuccessful){
+                            isLog.postValue(true)
+                        }else{
+                            isLog.postValue(false)
+                            Log.e("task signin", task.exception.toString())
+                        }
+                    }
+            }catch (e: Exception){
+                Log.e("signin with emailPass", e.message.toString() + " > " + userPassword)
+                Log.e("signin string", userPassword + "")
+            }
+        }
+
+        return isLog
+    }
+
+
 
 
 }

@@ -41,12 +41,11 @@ class SignInActivity : AppCompatActivity() {
             val email = etSigninEmail.text.toString()
             val password = etSigninPassword.text.toString()
 
-            //TODO vérifier si l'email est bon sinon faire un toast
 
-            Log.e("signin", password)
-            Log.e("signin", email)
-            if (email.isNotEmpty() && password.isNotEmpty()){
-                if (isEmailValid(email)){
+            when {
+                !isEmailValid(email) -> etSigninEmail.error = "Email not valid"
+                password.length < 3  -> etSigninPassword.error = "password can not empty or under 3 characters"
+                isEmailValid(email) && password.isNotEmpty() ->
                     userViewModel.signIn(email, password).observe(this, {
 
 
@@ -60,12 +59,33 @@ class SignInActivity : AppCompatActivity() {
                         }
 
                     })
-                }else {
-                    Toast.makeText(this, "Email not valid", Toast.LENGTH_LONG).show()
-                }
 
             }
 
+//            Log.e("signin", password)
+//            Log.e("signin", email)
+//            if (email.isNotEmpty() && password.isNotEmpty()){
+//                if (isEmailValid(email)){
+//                    userViewModel.signIn(email, password).observe(this, {
+//
+//
+//                        if(it){
+//                            intentToMainActivity()
+//                        }else if (email.isEmpty()){
+//                            Toast.makeText(this, "Email is empty", Toast.LENGTH_LONG).show()
+//                        }else if(password.isEmpty()){
+//
+//                            Toast.makeText(this, "password is empty", Toast.LENGTH_LONG).show()
+//                        }
+//
+//                    })
+//                }else {
+//                    etSigninEmail.error = "Email not valid"
+//                    Toast.makeText(this, "Email not valid", Toast.LENGTH_LONG).show()
+//                }
+//
+//            }
+//
         }
 
 
@@ -80,4 +100,6 @@ class SignInActivity : AppCompatActivity() {
     private fun isEmailValid(email: CharSequence): Boolean{
         return android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()
     }
+
+
 }

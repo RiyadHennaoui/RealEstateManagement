@@ -25,6 +25,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="30dp"
         android:inputType="textEmailAddress"
+        app:errorTextAppearance="@style/error_appearance"
         android:background="@color/Edit_text_color"
         android:textSize="30sp"
         android:hint="@string/email"

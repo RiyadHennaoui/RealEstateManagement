@@ -9,4 +9,5 @@
     <color name="light_gold">#F7E5D0</color>
     <color name="Edit_text_color">#E4C8A8</color>
     <color name="orange">#E6651B</color>
+    <color name="red_500">#FF0000</color>
 </resources>

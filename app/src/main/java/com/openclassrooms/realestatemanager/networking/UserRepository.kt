@@ -65,6 +65,7 @@ class UserRepository {
 
     fun singin(userEmail:String, userPassword:String): LiveData<Boolean>{
 
+        //TODO gerer le cas où le mot de passe est erroné.
         var isLog: MutableLiveData<Boolean> = MutableLiveData()
 
         CoroutineScope(Dispatchers.IO).launch {

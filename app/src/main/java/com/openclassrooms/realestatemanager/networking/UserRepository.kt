@@ -38,7 +38,7 @@ class UserRepository {
                         if(it.isSuccessful){
                             userMutableState.postValue(false)
                             it.result?.user?.let { user ->
-                                user!!.updateProfile(profileUpdates)
+                                user.updateProfile(profileUpdates)
                                     .addOnCompleteListener { updateProfile ->
                                         if (updateProfile.isSuccessful){
                                             userMutableState.postValue(true)

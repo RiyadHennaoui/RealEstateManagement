@@ -18,7 +18,7 @@
                                 <PersistentState>
                                   <option name="values">
                                     <map>
-                                      <entry key="url" value="jar:file:/C:/Program%20Files/Android/Android%20Studio/plugins/android/lib/android.jar!/images/material/icons/materialiconsround/add_photo_alternate/round_add_photo_alternate_24.xml" />
+                                      <entry key="url" value="jar:file:/C:/Program%20Files/Android/Android%20Studio/plugins/android/lib/android.jar!/images/material/icons/materialicons/filter_list/baseline_filter_list_24.xml" />
                                     </map>
                                   </option>
                                 </PersistentState>
@@ -28,8 +28,8 @@
                         </option>
                         <option name="values">
                           <map>
-                            <entry key="color" value="ffffff" />
-                            <entry key="outputName" value="ic_radd_photo" />
+                            <entry key="color" value="080706" />
+                            <entry key="outputName" value="ic_filter" />
                             <entry key="sourceFile" value="C:\Users\riyad\AndroidStudioProjects\RealEstateNew\RealEstateManager" />
                           </map>
                         </option>

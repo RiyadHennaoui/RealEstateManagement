@@ -1,12 +1,29 @@
 <resources>
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+    <style name="AppTheme" parent="Theme.MaterialComponents.NoActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <!-- Floating Action Button Custum. -->
+        <item name="floatingActionButtonStyle">@style/FloatingActionButtonStyle</item>
     </style>
+    
+    <style name="FloatingActionButtonStyle" parent="Widget.Design.FloatingActionButton">
+        <item name="shapeAppearanceOverlay">@style/FabShapeStyle</item>
+    </style>
+
+   <style name="FabShapeStyle" parent="ShapeAppearance.MaterialComponents.SmallComponent">
+       <item name="cornerFamily">rounded</item>
+       <item name="cornerSizeBottomLeft">28dp</item>
+       <item name="cornerSizeBottomRight">28dp</item>
+       <item name="cornerSizeTopLeft">5dp</item>
+       <item name="cornerSizeTopRight">5dp</item>
+   </style>
+
+
+
 
 
     <style name="error_appearance" parent="@android:style/TextAppearance">

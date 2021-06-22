@@ -1,4 +1,4 @@
-package com.openclassrooms.realestatemanager
+package com.openclassrooms.realestatemanager.database
 
 import android.content.Context
 import androidx.room.Database

@@ -1,0 +1,331 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/light_gold">
+
+    <TextView
+        android:id="@+id/typePropertyAdd"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:text="Type of Property"
+        android:textSize="@dimen/add_text_dimen"
+        android:textColor="@color/brown"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+
+    <HorizontalScrollView
+        android:id="@+id/btnTypeOfProperty"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/typePropertyAdd">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:layout_margin="10dp">
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="10dp"
+                android:backgroundTint="@drawable/button_background_color"
+                android:text="House" />
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="10dp"
+                android:backgroundTint="@drawable/button_background_color"
+                android:text="Manor" />
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Castle"
+                android:layout_marginEnd="10dp"
+                android:backgroundTint="@drawable/button_background_color"/>
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="10dp"
+                android:text="Duplex"
+                android:backgroundTint="@drawable/button_background_color"/>
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="10dp"
+                android:text="Penthouse"
+                android:backgroundTint="@drawable/button_background_color"/>
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="10dp"
+                android:backgroundTint="@drawable/button_background_color"
+                android:text="Loft"/>
+
+        </LinearLayout>
+
+    </HorizontalScrollView>
+
+    <View
+        android:id="@+id/viewType"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/brown"
+        app:layout_constraintTop_toBottomOf="@id/btnTypeOfProperty"
+    android:layout_margin="40dp"/>
+
+    <TextView
+        android:id="@+id/area"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:text="Area :"
+        android:textSize="@dimen/add_text_dimen"
+        android:textColor="@color/brown"
+        app:layout_constraintTop_toBottomOf="@id/viewType"
+        app:layout_constraintStart_toStartOf="parent"/>
+
+    <TextView
+        android:id="@+id/areaValue"
+        android:layout_width="80dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:text="1000m2"
+        android:textSize="@dimen/add_text_dimen"
+        android:textColor="@color/gray_brown"
+        app:layout_constraintStart_toEndOf="@id/area"
+        app:layout_constraintTop_toBottomOf="@id/viewType"/>
+
+    <SeekBar
+        android:id="@+id/areaSeekBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        app:layout_constraintTop_toBottomOf="@id/areaValue"
+        app:layout_constraintStart_toEndOf="@id/areaValue"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <View
+        android:id="@+id/viewArea"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/brown"
+        app:layout_constraintTop_toBottomOf="@id/areaSeekBar"
+        android:layout_margin="40dp"/>
+
+
+    <TextView
+        android:id="@+id/roomsNumber"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:text="Rooms"
+        android:textColor="@color/brown"
+        android:textSize="@dimen/add_text_dimen"
+        app:layout_constraintEnd_toStartOf="@id/bedroomsNumber"
+        app:layout_constraintTop_toBottomOf="@id/viewArea"
+        app:layout_constraintStart_toStartOf="parent"/>
+
+    <EditText
+        android:id="@+id/etRoomsValue"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:inputType="number"
+        android:background="@color/gray_brown"
+        app:layout_constraintTop_toBottomOf="@id/roomsNumber"
+        app:layout_constraintStart_toStartOf="@id/roomsNumber"
+        app:layout_constraintEnd_toEndOf="@id/roomsNumber"/>
+
+    <TextView
+        android:id="@+id/bedroomsNumber"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:text="Bedrooms"
+        android:textColor="@color/brown"
+        android:textSize="@dimen/add_text_dimen"
+        app:layout_constraintStart_toEndOf="@id/roomsNumber"
+        app:layout_constraintEnd_toStartOf="@id/bathroomsNumber"
+        app:layout_constraintTop_toBottomOf="@id/viewArea"/>
+
+    <EditText
+        android:id="@+id/etBedroomValue"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:inputType="number"
+        android:background="@color/gray_brown"
+        android:layout_marginTop="10dp"
+        app:layout_constraintStart_toStartOf="@id/bedroomsNumber"
+        app:layout_constraintEnd_toEndOf="@id/bedroomsNumber"
+        app:layout_constraintTop_toBottomOf="@id/bedroomsNumber"/>
+
+    <TextView
+        android:id="@+id/bathroomsNumber"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:text="Bathrooms"
+        android:textColor="@color/brown"
+        android:textSize="@dimen/add_text_dimen"
+        app:layout_constraintTop_toTopOf="@id/viewArea"
+        app:layout_constraintStart_toEndOf="@id/bedroomsNumber"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <EditText
+        android:id="@+id/etBathrommsValue"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="@color/gray_brown"
+        android:inputType="number"
+        android:layout_marginTop="10dp"
+        app:layout_constraintStart_toStartOf="@id/bathroomsNumber"
+        app:layout_constraintEnd_toEndOf="@id/bathroomsNumber"
+        app:layout_constraintTop_toBottomOf="@id/bathroomsNumber"/>
+
+    <View
+        android:id="@+id/viewRoom"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/brown"
+        app:layout_constraintTop_toBottomOf="@id/etRoomsValue"
+        android:layout_margin="40dp"/>
+
+    <View
+        android:id="@+id/viewMiddleDate"
+        android:layout_width="1dp"
+        android:layout_height="70dp"
+        android:layout_margin="10dp"
+        android:background="@color/brown"
+        app:layout_constraintTop_toBottomOf="@id/viewRoom"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <TextView
+        android:id="@+id/tvEntryDate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:text="Entry Date"
+        android:textColor="@color/brown"
+        android:textSize="@dimen/add_text_dimen"
+        app:layout_constraintEnd_toStartOf="@id/ivEntryDate"
+        app:layout_constraintTop_toBottomOf="@id/viewRoom"
+        app:layout_constraintStart_toStartOf="parent"/>
+
+    <ImageView
+        android:id="@+id/ivEntryDate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:src="@drawable/ic_baseline_date_range_24"
+        app:layout_constraintEnd_toStartOf="@id/viewMiddleDate"
+        app:layout_constraintTop_toBottomOf="@id/viewRoom"
+        app:layout_constraintStart_toEndOf="@id/tvEntryDate"/>
+
+    <TextView
+        android:id="@+id/tvSoldDate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:text="Sold Date"
+        android:textColor="@color/brown"
+        android:textSize="@dimen/add_text_dimen"
+        app:layout_constraintStart_toEndOf="@id/viewMiddleDate"
+        app:layout_constraintEnd_toStartOf="@id/ivSoldDate"
+        app:layout_constraintTop_toBottomOf="@id/viewRoom"/>
+
+
+    <ImageView
+        android:id="@+id/ivSoldDate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:src="@drawable/ic_baseline_date_range_24"
+        app:layout_constraintStart_toEndOf="@id/tvSoldDate"
+        app:layout_constraintTop_toBottomOf="@id/viewRoom"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <TextView
+        android:id="@+id/tvEntryDateValue"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        app:layout_constraintTop_toBottomOf="@id/tvEntryDate"
+        app:layout_constraintStart_toStartOf="parent"/>
+
+    <TextView
+        android:id="@+id/tvSoldDateValue"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        app:layout_constraintTop_toBottomOf="@id/tvSoldDate"
+        app:layout_constraintStart_toEndOf="@id/viewMiddleDate"/>
+
+
+    <View
+        android:id="@+id/viewDate"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_margin="40dp"
+        android:background="@color/brown"
+        app:layout_constraintTop_toBottomOf="@id/viewMiddleDate"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+    
+    <TextView
+        android:id="@+id/tvPointOfInterest"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:text="Points of Interest"
+        android:textColor="@color/brown"
+        android:textSize="@dimen/add_text_dimen"
+        app:layout_constraintTop_toBottomOf="@id/viewDate"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+    
+    <ImageButton
+        android:id="@+id/ibStoreFront"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_storefront"
+        android:background="@color/light_gold"
+        app:layout_constraintTop_toBottomOf="@id/tvPointOfInterest"
+        app:layout_constraintStart_toStartOf="parent"/>
+    
+    <ImageButton
+        android:id="@+id/ibBus"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_bus"
+        android:background="@color/light_gold"
+        app:layout_constraintTop_toBottomOf="@id/tvPointOfInterest"
+        app:layout_constraintStart_toEndOf="@id/ibStoreFront"/>
+    
+
+        
+
+
+
+
+
+
+
+
+
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

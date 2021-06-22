@@ -1,4 +1,4 @@
-package com.openclassrooms.realestatemanager
+package com.openclassrooms.realestatemanager.database
 
 import androidx.lifecycle.LiveData
 import androidx.room.*

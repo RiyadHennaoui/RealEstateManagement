@@ -18,7 +18,7 @@
                                 <PersistentState>
                                   <option name="values">
                                     <map>
-                                      <entry key="url" value="jar:file:/C:/Program%20Files/Android/Android%20Studio/plugins/android/lib/android.jar!/images/material/icons/materialicons/storefront/baseline_storefront_24.xml" />
+                                      <entry key="url" value="jar:file:/C:/Program%20Files/Android/Android%20Studio/plugins/android/lib/android.jar!/images/material/icons/materialicons/place/baseline_place_24.xml" />
                                     </map>
                                   </option>
                                 </PersistentState>
@@ -28,7 +28,8 @@
                         </option>
                         <option name="values">
                           <map>
-                            <entry key="outputName" value="ic_storefront" />
+                            <entry key="color" value="ffffff" />
+                            <entry key="outputName" value="ic_place" />
                             <entry key="sourceFile" value="C:\Users\riyad\AndroidStudioProjects\RealEstateNew\RealEstateManager" />
                           </map>
                         </option>

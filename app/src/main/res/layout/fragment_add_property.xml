@@ -24,12 +24,6 @@
         app:layout_constraintEnd_toEndOf="@id/ivPropertyImage"
         app:layout_constraintBottom_toBottomOf="@id/ivPropertyImage"/>
 
-
-
-
-
-
-
     <TextView
         android:id="@+id/typePropertyAdd"
         android:layout_width="wrap_content"
@@ -110,16 +104,16 @@
         app:layout_constraintTop_toBottomOf="@id/btnTypeOfProperty"
         android:layout_margin="20dp"/>
 
-    <TextView
-        android:id="@+id/area"
+    <ImageView
+        android:id="@+id/ivArea"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
-        android:text="Area :"
-        android:textSize="@dimen/add_text_dimen"
-        android:textColor="@color/brown"
-        app:layout_constraintTop_toBottomOf="@id/viewType"
-        app:layout_constraintStart_toStartOf="parent"/>
+        android:src="@drawable/ic_area"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_tostartOf="@id/areaValue"
+        app:layout_constraintTop_toBottomOf="@id/viewType"/>
+
 
     <TextView
         android:id="@+id/areaValue"
@@ -129,15 +123,17 @@
         android:text="1000m2"
         android:textSize="@dimen/add_text_dimen"
         android:textColor="@color/gray_brown"
-        app:layout_constraintStart_toEndOf="@id/area"
-        app:layout_constraintTop_toBottomOf="@id/viewType"/>
+        app:layout_constraintStart_toEndOf="@id/ivArea"
+        app:layout_constraintBottom_toBottomOf="@id/ivArea"
+        app:layout_constraintTop_toTopOf="@id/ivArea"/>
 
     <SeekBar
         android:id="@+id/areaSeekBar"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
-        app:layout_constraintTop_toBottomOf="@id/areaValue"
+        app:layout_constraintTop_toTopOf="@id/areaValue"
+        app:layout_constraintBottom_toBottomOf="@id/areaValue"
         app:layout_constraintStart_toEndOf="@id/areaValue"
         app:layout_constraintEnd_toEndOf="parent"/>
 
@@ -216,8 +212,6 @@
         app:layout_constraintStart_toEndOf="@id/ivBath"
         app:layout_constraintEnd_toEndOf="parent"/>
 
-
-
     <View
         android:id="@+id/viewRoom"
         android:layout_width="match_parent"
@@ -240,14 +234,14 @@
         android:id="@+id/tvEntryDate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="10dp"
         android:inputType="date"
         android:text="Entry Date"
         android:textColor="@color/brown"
         android:textSize="@dimen/add_text_dimen"
-        app:layout_constraintEnd_toStartOf="@id/ivEntryDate"
-        app:layout_constraintTop_toBottomOf="@id/viewRoom"
-        app:layout_constraintStart_toStartOf="parent"/>
+        app:layout_constraintEnd_toEndOf="@id/viewMiddleDate"
+        app:layout_constraintStart_toEndOf="@+id/ivEntryDate"
+        app:layout_constraintTop_toTopOf="@id/ivEntryDate"
+        app:layout_constraintBottom_toBottomOf="@id/ivEntryDate"/>
 
     <ImageView
         android:id="@+id/ivEntryDate"
@@ -255,21 +249,20 @@
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
         android:src="@drawable/ic_baseline_date_range_24"
-        app:layout_constraintEnd_toStartOf="@id/viewMiddleDate"
         app:layout_constraintTop_toBottomOf="@id/viewRoom"
-        app:layout_constraintStart_toEndOf="@id/tvEntryDate"/>
+        app:layout_constraintStart_toStartOf="parent"/>
 
     <TextView
         android:id="@+id/tvSoldDate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="10dp"
         android:text="Sold Date"
         android:textColor="@color/brown"
         android:textSize="@dimen/add_text_dimen"
-        app:layout_constraintStart_toEndOf="@id/viewMiddleDate"
-        app:layout_constraintEnd_toStartOf="@id/ivSoldDate"
-        app:layout_constraintTop_toBottomOf="@id/viewRoom"/>
+        app:layout_constraintStart_toEndOf="@id/ivSoldDate"
+        app:layout_constraintTop_toTopOf="@id/ivSoldDate"
+        app:layout_constraintEnd_toStartOf="@id/viewMiddleDate"
+        app:layout_constraintBottom_toBottomOf="@id/ivSoldDate"/>
 
 
     <ImageView
@@ -278,25 +271,30 @@
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
         android:src="@drawable/ic_baseline_date_range_24"
-        app:layout_constraintStart_toEndOf="@id/tvSoldDate"
+        app:layout_constraintStart_toStartOf="@id/ivEntryDate"
+        app:layout_constraintTop_toBottomOf="@id/ivEntryDate"
+        app:layout_constraintEnd_toEndOf="@id/ivEntryDate"/>
+
+
+    <ImageView
+        android:id="@+id/ivPlace"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_place"
         app:layout_constraintTop_toBottomOf="@id/viewRoom"
+        app:layout_constraintBottom_toBottomOf="@id/viewDate"
+        app:layout_constraintStart_toStartOf="@id/viewMiddleDate"
         app:layout_constraintEnd_toEndOf="parent"/>
 
     <TextView
-        android:id="@+id/tvEntryDateValue"
+        android:id="@+id/tvAddress"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        app:layout_constraintTop_toBottomOf="@id/tvEntryDate"
-        app:layout_constraintStart_toStartOf="parent"/>
+        app:layout_constraintTop_toBottomOf="@id/viewRoom"
+        app:layout_constraintBottom_toBottomOf="@id/viewDate"
+        app:layout_constraintStart_toStartOf="@id/viewMiddleDate"
+        app:layout_constraintEnd_toEndOf="parent"/>
 
-    <TextView
-        android:id="@+id/tvSoldDateValue"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        app:layout_constraintTop_toBottomOf="@id/tvSoldDate"
-        app:layout_constraintStart_toEndOf="@id/viewMiddleDate"/>
 
 
     <View
@@ -305,7 +303,7 @@
         android:layout_height="1dp"
         android:layout_margin="20dp"
         android:background="@color/brown"
-        app:layout_constraintTop_toBottomOf="@id/viewMiddleDate"
+        app:layout_constraintTop_toBottomOf="@id/ivSoldDate"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>
     

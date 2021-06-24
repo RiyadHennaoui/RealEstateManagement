@@ -1,7 +1,7 @@
 package com.openclassrooms.realestatemanager.viewmodel
 
 import androidx.lifecycle.ViewModel
-import com.openclassrooms.realestatemanager.networking.UserRepository
+import com.openclassrooms.realestatemanager.repositories.UserRepository
 
 class UserViewModel(private val userRepository: UserRepository)
     : ViewModel() {

@@ -1,6 +1,5 @@
-package com.openclassrooms.realestatemanager.networking
+package com.openclassrooms.realestatemanager.repositories
 
-import android.content.Context
 import android.net.Uri
 import android.util.Log
 import androidx.lifecycle.LiveData

@@ -2,7 +2,7 @@ package com.openclassrooms.realestatemanager.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.openclassrooms.realestatemanager.networking.UserRepository
+import com.openclassrooms.realestatemanager.repositories.UserRepository
 
 @Suppress("UNCHECKED_CAST")
 class UserViewModelFactory(

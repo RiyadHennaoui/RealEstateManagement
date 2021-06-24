@@ -5,9 +5,8 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.EditText
 import android.widget.ImageButton
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import com.openclassrooms.realestatemanager.networking.UserRepository
+import com.openclassrooms.realestatemanager.repositories.UserRepository
 import com.openclassrooms.realestatemanager.viewmodel.UserViewModel
 import com.openclassrooms.realestatemanager.viewmodel.UserViewModelFactory
 

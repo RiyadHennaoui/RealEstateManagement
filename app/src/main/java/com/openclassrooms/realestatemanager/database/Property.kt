@@ -17,6 +17,6 @@ data class Property (@PrimaryKey (autoGenerate = true) var id: Int? = null,
                          @ColumnInfo (name = "picture") var photoUrl: String,
                          @ColumnInfo (name = "address") var address: String,
                          @ColumnInfo (name = "pointOfInterest") var pointOfInterest: String,
-                         @ColumnInfo (name = "entryDate") var entryDate: Date,
-                         @ColumnInfo (name = "saleDate") var saleDate: Date,
+                         @ColumnInfo (name = "entryDate") var entryDate: String,
+                         @ColumnInfo (name = "saleDate") var saleDate: String,
                          @ColumnInfo (name = "estateAgent") var estateAgent: String)

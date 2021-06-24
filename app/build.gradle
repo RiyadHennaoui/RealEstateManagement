@@ -7,8 +7,9 @@ android {
     compileSdkVersion 30
     defaultConfig {
         applicationId "com.openclassrooms.realestatemanager"
-        minSdkVersion 21
+        minSdkVersion 19
         targetSdkVersion 30
+        multiDexEnabled = true
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
@@ -30,6 +31,8 @@ dependencies {
     annotationProcessor "androidx.room:room-compiler:$room_version"
     kapt("androidx.room:room-compiler:$room_version")
 
+    //Multidex
+    implementation("androidx.multidex:multidex:2.0.1")
 
 
     //Room with Coroutines

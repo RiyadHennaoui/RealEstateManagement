@@ -5,11 +5,10 @@ import android.os.Bundle
 import android.widget.Toast
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
-import com.openclassrooms.realestatemanager.fragments.AddPropertyFragment
 
 class MainActivity : AppCompatActivity() {
 
-    val fragmentManager = supportFragmentManager
+
     var bottomNavigationView: BottomNavigationView? = null
     var fab: FloatingActionButton? = null
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -70,10 +69,6 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun openAddProperty() {
-        val transaction = fragmentManager.beginTransaction()
-        val addPropertyFragment = AddPropertyFragment()
-        transaction.replace(R.id.mainContainer, addPropertyFragment)
-        transaction.addToBackStack(null)
-        transaction.commit()
+        //TODO make an Intent to activity
     }
 }

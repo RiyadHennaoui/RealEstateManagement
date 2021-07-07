@@ -11,10 +11,17 @@ interface PropertyDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun upsert(item: Property)
 
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertPhoto(photo: Photo)
 
     @Delete
     suspend fun delete(item: Property)
 
+    @Transaction
     @Query("SELECT * from property")
     fun getAllProperties(): LiveData<List<Property>>
+
+    @Transaction
+    @Query("SELECT * from property WHERE id = :propertyId")
+    suspend fun getPropertyWithPhotos(propertyId: Int): List<PropertyWithPhotos>
 }

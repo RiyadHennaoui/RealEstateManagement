@@ -15,7 +15,7 @@ class PropertyAddAdapter(
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PropertyAddViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.fragment_add_property, parent, false)
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.activity_add_property, parent, false)
 
         return PropertyAddViewHolder(view)
     }

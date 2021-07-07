@@ -6,9 +6,19 @@
     android:background="@color/light_gold">
 
     <ImageView
+        android:id="@+id/ivAddPropertyBack"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:src="@drawable/keyboard_backspace_24"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+
+    <ImageView
         android:id="@+id/ivPropertyImage"
         android:layout_width="match_parent"
-        android:layout_height="200dp"
+        android:layout_height="180dp"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>
@@ -25,6 +35,7 @@
         app:layout_constraintBottom_toBottomOf="@id/ivPropertyImage"/>
 
     <EditText
+        android:id="@+id/etPropertyPrice"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="@id/ivPropertyImage"
@@ -34,6 +45,15 @@
         android:textSize="@dimen/add_text_dimen"
         android:background="@color/gray_brown"
         android:inputType="number"/>
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_baseline_attach_money_24"
+        android:layout_marginStart="5dp"
+        app:layout_constraintStart_toEndOf="@id/etPropertyPrice"
+        app:layout_constraintBottom_toBottomOf="@id/etPropertyPrice"/>
+
 
     <TextView
         android:id="@+id/typePropertyAdd"
@@ -62,6 +82,7 @@
             android:layout_margin="10dp">
 
             <Button
+                android:id="@+id/btnHouse"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="10dp"
@@ -69,6 +90,7 @@
                 android:text="House" />
 
             <Button
+                android:id="@+id/btnManor"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="10dp"
@@ -76,6 +98,7 @@
                 android:text="Manor" />
 
             <Button
+                android:id="@+id/btnCastle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Castle"
@@ -83,6 +106,7 @@
                 android:backgroundTint="@drawable/button_background_color"/>
 
             <Button
+                android:id="@+id/btnDuplex"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="10dp"
@@ -90,6 +114,7 @@
                 android:backgroundTint="@drawable/button_background_color"/>
 
             <Button
+                android:id="@+id/btnPenthouse"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="10dp"
@@ -97,6 +122,7 @@
                 android:backgroundTint="@drawable/button_background_color"/>
 
             <Button
+                android:id="@+id/btnLoft"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="10dp"
@@ -143,10 +169,10 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
-        app:layout_constraintTop_toTopOf="@id/areaValue"
         app:layout_constraintBottom_toBottomOf="@id/areaValue"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/areaValue"
-        app:layout_constraintEnd_toEndOf="parent"/>
+        app:layout_constraintTop_toTopOf="@id/areaValue" />
 
     <View
         android:id="@+id/viewArea"
@@ -210,10 +236,10 @@
         android:src="@drawable/ic_bath"
         app:layout_constraintTop_toBottomOf="@id/viewArea"
         app:layout_constraintStart_toEndOf="@id/etBedroomValue"
-        app:layout_constraintEnd_toStartOf="@id/etBathrommsValue"/>
+        app:layout_constraintEnd_toStartOf="@id/etBathroomsValue"/>
 
     <EditText
-        android:id="@+id/etBathrommsValue"
+        android:id="@+id/etBathroomsValue"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
@@ -330,7 +356,6 @@
         android:textColor="@color/brown"
         android:textSize="@dimen/add_text_dimen"
         app:layout_constraintTop_toBottomOf="@id/viewDate"
-        app:layout_constraintBottom_toTopOf="@id/ibStoreFront"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>
     
@@ -342,7 +367,6 @@
         android:src="@drawable/ic_storefront"
         android:background="@color/light_gold"
         app:layout_constraintTop_toBottomOf="@id/tvPointOfInterest"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@id/ibBus"
         app:layout_constraintStart_toStartOf="parent"/>
     
@@ -354,7 +378,6 @@
         android:src="@drawable/ic_bus"
         android:background="@color/light_gold"
         app:layout_constraintTop_toBottomOf="@id/tvPointOfInterest"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@id/ibSchool"
         app:layout_constraintStart_toEndOf="@id/ibStoreFront"/>
 
@@ -366,7 +389,6 @@
         android:src="@drawable/ic_school"
         android:background="@color/light_gold"
         app:layout_constraintTop_toBottomOf="@id/tvPointOfInterest"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@id/ibTree"
         app:layout_constraintStart_toEndOf="@id/ibBus"/>
 
@@ -378,9 +400,18 @@
         android:src="@drawable/ic_tree"
         android:background="@color/light_gold"
         app:layout_constraintTop_toBottomOf="@id/tvPointOfInterest"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/ibSchool"/>
+
+    <Button
+        android:id="@+id/btnCreate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Create"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginBottom="10dp"/>
 
 
     

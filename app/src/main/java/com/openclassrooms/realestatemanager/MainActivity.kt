@@ -1,5 +1,6 @@
 package com.openclassrooms.realestatemanager
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
@@ -69,6 +70,6 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun openAddProperty() {
-        //TODO make an Intent to activity
+        startActivity(Intent(this, AddPropertyActivity::class.java))
     }
 }

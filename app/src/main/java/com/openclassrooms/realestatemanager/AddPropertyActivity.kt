@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.*
 import androidx.lifecycle.ViewModelProvider
+import com.openclassrooms.realestatemanager.database.Property
 import com.openclassrooms.realestatemanager.database.PropertyDatabase
 import com.openclassrooms.realestatemanager.repositories.PropertyRepository
 import com.openclassrooms.realestatemanager.viewmodel.PropertyViewModel
@@ -11,12 +12,26 @@ import com.openclassrooms.realestatemanager.viewmodel.PropertyViewModelFactory
 import org.w3c.dom.Text
 
 class AddPropertyActivity : AppCompatActivity() {
+
+    lateinit var propertyPhoto: String
+    var price: Int = 0
+    lateinit var typeOfProperty: String
+    var areaValue: Int = 0
+    var numberOfRooms: Int = 0
+    var numberOfBedooms: Int = 0
+    var numberOfBathooms: Int = 0
+    lateinit var entryDate: String
+    lateinit var soldDate: String
+    lateinit var addressOfProperty: String
+    lateinit var pointsOfInterest: List<String>
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_property)
 
         //For ViewModels
-        propertyViewmodelConfig()
+        val propertyRepository = PropertyRepository(PropertyDatabase.invoke(this))
+        val factory = PropertyViewModelFactory(propertyRepository)
+        val propertyViewModel = ViewModelProvider(this, factory).get(PropertyViewModel::class.java)
 
         //Views for property photos
         val ivPropertyImage: ImageView= findViewById(R.id.ivPropertyImage)
@@ -64,7 +79,28 @@ class AddPropertyActivity : AppCompatActivity() {
         //View for back in MainActivity
         val ivBack: ImageView = findViewById(R.id.ivAddPropertyBack)
 
+        btnCreate.setOnClickListener {
 
+            val newProperty = Property(
+                id = 0,
+                price = etPropertyPrice.text.toString().toInt(),
+                type = selecteButton(btnHouse.id),
+                area = tvAreaValue.text.toString().toInt(),
+                roomsNumber = etRoomsValue.text.toString().toInt(),
+                bedRoomsNumber = etBedroomsValue.text.toString().toInt(),
+                bathRoomsNumber = etBathroomsValue.text.toString().toInt(),
+                description = "some desc",
+                photoUrl = "Hey my address is here",
+                address = tvPlace.text.toString(),
+                pointOfInterest = "Square",
+                entryDate = tvEntryDate.text.toString(),
+                saleDate = "SoldDate",
+                estateAgent = "Me"
+            )
+
+
+            propertyViewModel.upsert(newProperty)
+        }
 
 
 
@@ -74,5 +110,30 @@ class AddPropertyActivity : AppCompatActivity() {
         val propertyRepository = PropertyRepository(PropertyDatabase.invoke(this))
         val factory = PropertyViewModelFactory(propertyRepository)
         val propertyViewModel = ViewModelProvider(this, factory).get(PropertyViewModel::class.java)
+    }
+
+    private fun selecteButton(integer: Int): String{
+        when (integer){
+
+            R.id.btnHouse -> typeOfProperty = "House"
+            R.id.btnCastle -> typeOfProperty = "Castle"
+            R.id.btnManor -> typeOfProperty = "Manor"
+            R.id.btnDuplex -> typeOfProperty = "Duplex"
+            R.id.btnPenthouse -> typeOfProperty = "Penthouse"
+            R.id.btnLoft -> typeOfProperty = "Loft"
+
+
+        }
+
+        return typeOfProperty
+    }
+
+
+
+    private fun typeOfPropertyListenerBtn(){
+
+
+
+
     }
 }

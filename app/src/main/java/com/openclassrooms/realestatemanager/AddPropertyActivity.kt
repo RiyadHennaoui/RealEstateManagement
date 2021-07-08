@@ -40,13 +40,6 @@ class AddPropertyActivity : AppCompatActivity() {
         //Edit text for price
         val etPropertyPrice: EditText = findViewById(R.id.etPropertyPrice)
 
-        //Buttons for type of property
-        val btnHouse: Button = findViewById(R.id.btnHouse)
-        val btnManor: Button = findViewById(R.id.btnManor)
-        val btnCastle: Button = findViewById(R.id.btnCastle)
-        val btnDuplex: Button = findViewById(R.id.btnDuplex)
-        val btnPenthouse: Button = findViewById(R.id.btnPenthouse)
-        val btnLoft: Button = findViewById(R.id.btnLoft)
 
         //Views for area
         val tvAreaValue: TextView = findViewById(R.id.areaValue)
@@ -84,7 +77,7 @@ class AddPropertyActivity : AppCompatActivity() {
             val newProperty = Property(
                 id = 0,
                 price = etPropertyPrice.text.toString().toInt(),
-                type = selecteButton(btnHouse.id),
+                type = "House",
                 area = tvAreaValue.text.toString().toInt(),
                 roomsNumber = etRoomsValue.text.toString().toInt(),
                 bedRoomsNumber = etBedroomsValue.text.toString().toInt(),
@@ -112,21 +105,7 @@ class AddPropertyActivity : AppCompatActivity() {
         val propertyViewModel = ViewModelProvider(this, factory).get(PropertyViewModel::class.java)
     }
 
-    private fun selecteButton(integer: Int): String{
-        when (integer){
 
-            R.id.btnHouse -> typeOfProperty = "House"
-            R.id.btnCastle -> typeOfProperty = "Castle"
-            R.id.btnManor -> typeOfProperty = "Manor"
-            R.id.btnDuplex -> typeOfProperty = "Duplex"
-            R.id.btnPenthouse -> typeOfProperty = "Penthouse"
-            R.id.btnLoft -> typeOfProperty = "Loft"
-
-
-        }
-
-        return typeOfProperty
-    }
 
 
 

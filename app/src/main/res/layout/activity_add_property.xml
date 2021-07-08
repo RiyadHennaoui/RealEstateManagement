@@ -75,62 +75,59 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/typePropertyAdd">
 
-        <LinearLayout
+        <com.google.android.material.chip.ChipGroup
+            android:id="@+id/chipGroupTypeOfProperty"
+            android:layout_margin="10dp"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="horizontal"
-            android:layout_margin="10dp">
+            android:layout_height="wrap_content"
+            app:singleLine="true">
 
-            <Button
-                android:id="@+id/btnHouse"
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chipHouse"
+                style="@style/Widget.MaterialComponents.Chip.Choice"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="10dp"
-                android:focusable="true"
-                android:backgroundTint="@drawable/button_background_color"
-                android:text="House" />
+                android:text="House"/>
 
-            <Button
-                android:id="@+id/btnManor"
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chipManor"
+                style="@style/Widget.MaterialComponents.Chip.Choice"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="10dp"
-                android:backgroundTint="@drawable/button_background_color"
-                android:text="Manor" />
+                android:text="Manor"/>
 
-            <Button
-                android:id="@+id/btnCastle"
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chipCastle"
+                style="@style/Widget.MaterialComponents.Chip.Choice"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Castle"
-                android:layout_marginEnd="10dp"
-                android:backgroundTint="@drawable/button_background_color"/>
+                android:text="Castle"/>
 
-            <Button
-                android:id="@+id/btnDuplex"
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chipDuplex"
+                style="@style/Widget.MaterialComponents.Chip.Choice"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="10dp"
-                android:text="Duplex"
-                android:backgroundTint="@drawable/button_background_color"/>
+                android:text="Duplex"/>
 
-            <Button
-                android:id="@+id/btnPenthouse"
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chipPenthouse"
+                style="@style/Widget.MaterialComponents.Chip.Choice"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="10dp"
-                android:text="Penthouse"
-                android:backgroundTint="@drawable/button_background_color"/>
+                android:text="Penthouse"/>
 
-            <Button
-                android:id="@+id/btnLoft"
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chipLoft"
+                style="@style/Widget.MaterialComponents.Chip.Choice"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="10dp"
-                android:backgroundTint="@drawable/button_background_color"
                 android:text="Loft"/>
 
-        </LinearLayout>
+
+
+        </com.google.android.material.chip.ChipGroup>
+
 
     </HorizontalScrollView>
 

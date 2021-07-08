@@ -30,4 +30,9 @@
         <item name="android:textColor">@color/red_500</item>
         <item name="android:textSize">12sp</item>
     </style>
+
+    <style name="CustumChipStyle" parent="Widget.MaterialComponents.Chip.Choice">
+        <item name="chipBackgroundColor">@color/gray_brown</item>
+        <item name="checkedIconTint">@color/colorPrimary</item>
+    </style>
 </resources>

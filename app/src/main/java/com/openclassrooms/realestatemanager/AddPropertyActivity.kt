@@ -73,10 +73,12 @@ class AddPropertyActivity : AppCompatActivity() {
         val tvPlace: TextView = findViewById(R.id.tvAddress)
 
         //Views for Point of interest
-        val ibStore: ImageButton = findViewById(R.id.ibStoreFront)
-        val ibBus: ImageButton = findViewById(R.id.ibBus)
-        val ibSchool: ImageButton = findViewById(R.id.ibSchool)
-        val ibSquare: ImageButton = findViewById(R.id.ibTree)
+        val groupChipsPointsOfInterest: ChipGroup = findViewById(R.id.chipsGroupPointsOfInterest)
+        val chipStops: Chip = findViewById(R.id.chipShops)
+        val chipSchool: Chip = findViewById(R.id.chipSchool)
+        val chipPark: Chip = findViewById(R.id.chipPark)
+        val chipTransport: Chip = findViewById(R.id.chipTransport)
+
 
         //View for create Property
         val btnCreate: Button = findViewById(R.id.btnCreate)
@@ -84,34 +86,38 @@ class AddPropertyActivity : AppCompatActivity() {
         //View for back in MainActivity
         val ivBack: ImageView = findViewById(R.id.ivAddPropertyBack)
 
-        btnCreate.setOnClickListener {
+       btnCreate.setOnClickListener {
+//
+//            val selectedChipId = chipGroupTypeOfProperty.checkedChipId
+//
+//            val choiseInString = typeOfPropertyChoise(selectedChipId)
+//
+//            Log.e("Here", choiseInString)
 
-            val selectedChipId = chipGroupTypeOfProperty.checkedChipId
-
-            val choiseInString = typeOfPropertyChoise(selectedChipId)
-
-            Log.e("Here", choiseInString)
-
-            val newProperty = Property(
-                id = 0,
-                price = etPropertyPrice.text.toString().toInt(),
-                type = "House",
-                area = tvAreaValue.text.toString().toInt(),
-                roomsNumber = etRoomsValue.text.toString().toInt(),
-                bedRoomsNumber = etBedroomsValue.text.toString().toInt(),
-                bathRoomsNumber = etBathroomsValue.text.toString().toInt(),
-                description = "some desc",
-                photoUrl = "Hey my address is here",
-                address = tvPlace.text.toString(),
-                pointOfInterest = "Square",
-                entryDate = tvEntryDate.text.toString(),
-                saleDate = "SoldDate",
-                estateAgent = "Me"
-            )
-
-
-//            propertyViewModel.upsert(newProperty)
+//            val newProperty = Property(
+//                id = 0,
+//                price = etPropertyPrice.text.toString().toInt(),
+//                type = "House",
+//                area = tvAreaValue.text.toString().toInt(),
+//                roomsNumber = etRoomsValue.text.toString().toInt(),
+//                bedRoomsNumber = etBedroomsValue.text.toString().toInt(),
+//                bathRoomsNumber = etBathroomsValue.text.toString().toInt(),
+//                description = "some desc",
+//                photoUrl = "Hey my address is here",
+//                address = tvPlace.text.toString(),
+//                pointOfInterest = "Square",
+//                entryDate = tvEntryDate.text.toString(),
+//                saleDate = "SoldDate",
+//                estateAgent = "Me"
+//            )
+           val pointOfInterest = groupChipsPointsOfInterest.checkedChipIds
+           Log.e("here", pointOfInterest.toString())
+//
+//           propertyViewModel.upsert(newProperty)
         }
+
+
+        val pointOfInterest = groupChipsPointsOfInterest.checkedChipIds
 
 
 

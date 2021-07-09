@@ -31,8 +31,9 @@
         <item name="android:textSize">12sp</item>
     </style>
 
-    <style name="CustumChipStyle" parent="Widget.MaterialComponents.Chip.Choice">
-        <item name="chipBackgroundColor">@color/gray_brown</item>
-        <item name="checkedIconTint">@color/colorPrimary</item>
+    <style name="CustomChipStyle" parent="Widget.MaterialComponents.Chip.Filter">
+        <item name="chipBackgroundColor">@color/chip_background_color</item>
+        <item name="android:textColor">@color/chip_text_color</item>
+        <item name="checkedIconTint">@color/white</item>
     </style>
 </resources>

@@ -85,42 +85,42 @@
 
             <com.google.android.material.chip.Chip
                 android:id="@+id/chipHouse"
-                style="@style/Widget.MaterialComponents.Chip.Choice"
+                style="@style/CustomChipStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="House"/>
 
             <com.google.android.material.chip.Chip
                 android:id="@+id/chipManor"
-                style="@style/Widget.MaterialComponents.Chip.Choice"
+                style="@style/CustomChipStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Manor"/>
 
             <com.google.android.material.chip.Chip
                 android:id="@+id/chipCastle"
-                style="@style/Widget.MaterialComponents.Chip.Choice"
+                style="@style/CustomChipStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Castle"/>
 
             <com.google.android.material.chip.Chip
                 android:id="@+id/chipDuplex"
-                style="@style/Widget.MaterialComponents.Chip.Choice"
+                style="@style/CustomChipStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Duplex"/>
 
             <com.google.android.material.chip.Chip
                 android:id="@+id/chipPenthouse"
-                style="@style/Widget.MaterialComponents.Chip.Choice"
+                style="@style/CustomChipStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Penthouse"/>
 
             <com.google.android.material.chip.Chip
                 android:id="@+id/chipLoft"
-                style="@style/Widget.MaterialComponents.Chip.Choice"
+                style="@style/CustomChipStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Loft"/>

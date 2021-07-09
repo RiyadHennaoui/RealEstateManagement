@@ -2,6 +2,7 @@ package com.openclassrooms.realestatemanager
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.widget.*
 import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.chip.Chip
@@ -11,7 +12,6 @@ import com.openclassrooms.realestatemanager.database.PropertyDatabase
 import com.openclassrooms.realestatemanager.repositories.PropertyRepository
 import com.openclassrooms.realestatemanager.viewmodel.PropertyViewModel
 import com.openclassrooms.realestatemanager.viewmodel.PropertyViewModelFactory
-import org.w3c.dom.Text
 
 class AddPropertyActivity : AppCompatActivity() {
 
@@ -86,6 +86,12 @@ class AddPropertyActivity : AppCompatActivity() {
 
         btnCreate.setOnClickListener {
 
+            val selectedChipId = chipGroupTypeOfProperty.checkedChipId
+
+            val choiseInString = typeOfPropertyChoise(selectedChipId)
+
+            Log.e("Here", choiseInString)
+
             val newProperty = Property(
                 id = 0,
                 price = etPropertyPrice.text.toString().toInt(),
@@ -104,7 +110,7 @@ class AddPropertyActivity : AppCompatActivity() {
             )
 
 
-            propertyViewModel.upsert(newProperty)
+//            propertyViewModel.upsert(newProperty)
         }
 
 
@@ -119,12 +125,21 @@ class AddPropertyActivity : AppCompatActivity() {
 
 
 
+    private fun typeOfPropertyChoise(chipId: Int): String{
+        var userChoice = ""
+        when(chipId){
+
+            R.id.chipHouse -> userChoice = "House"
+            R.id.chipManor -> userChoice = "Manor"
+            R.id.chipCastle -> userChoice = "Castle"
+            R.id.chipDuplex -> userChoice = "Duplex"
+            R.id.chipPenthouse -> userChoice = "Penthouse"
+            R.id.chipLoft -> userChoice = "Loft"
 
 
-    private fun typeOfPropertyListenerBtn(){
-
-
-
-
+        }
+        return userChoice
     }
+
+
 }

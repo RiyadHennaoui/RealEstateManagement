@@ -71,15 +71,16 @@
         android:id="@+id/btnTypeOfProperty"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_margin="5dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/typePropertyAdd">
 
         <com.google.android.material.chip.ChipGroup
             android:id="@+id/chipGroupTypeOfProperty"
-            android:layout_margin="10dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            app:singleSelection="true"
             app:singleLine="true">
 
             <com.google.android.material.chip.Chip

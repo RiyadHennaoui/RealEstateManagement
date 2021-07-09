@@ -4,6 +4,8 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.*
 import androidx.lifecycle.ViewModelProvider
+import com.google.android.material.chip.Chip
+import com.google.android.material.chip.ChipGroup
 import com.openclassrooms.realestatemanager.database.Property
 import com.openclassrooms.realestatemanager.database.PropertyDatabase
 import com.openclassrooms.realestatemanager.repositories.PropertyRepository
@@ -39,6 +41,16 @@ class AddPropertyActivity : AppCompatActivity() {
 
         //Edit text for price
         val etPropertyPrice: EditText = findViewById(R.id.etPropertyPrice)
+
+        //Chips for type of property
+        val chipGroupTypeOfProperty: ChipGroup = findViewById(R.id.chipGroupTypeOfProperty)
+        val cpHouse: Chip = findViewById(R.id.chipHouse)
+        val cpManor: Chip = findViewById(R.id.chipManor)
+        val cpCastle: Chip = findViewById(R.id.chipCastle)
+        val cpPenthouse: Chip = findViewById(R.id.chipPenthouse)
+        val cpDuplex: Chip = findViewById(R.id.chipDuplex)
+        val cpLoft: Chip = findViewById(R.id.chipLoft)
+
 
 
         //Views for area

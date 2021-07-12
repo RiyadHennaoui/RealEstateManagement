@@ -5,55 +5,6 @@
     android:layout_height="match_parent"
     android:background="@color/light_gold">
 
-    <ImageView
-        android:id="@+id/ivAddPropertyBack"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:src="@drawable/keyboard_backspace_24"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
-
-
-    <ImageView
-        android:id="@+id/ivPropertyImage"
-        android:layout_width="match_parent"
-        android:layout_height="180dp"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
-
-
-    <ImageView
-        android:id="@+id/ivAddPhotoProperty"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/ic_radd_photo"
-        app:layout_constraintTop_toTopOf="@id/ivPropertyImage"
-        app:layout_constraintStart_toStartOf="@id/ivPropertyImage"
-        app:layout_constraintEnd_toEndOf="@id/ivPropertyImage"
-        app:layout_constraintBottom_toBottomOf="@id/ivPropertyImage"/>
-
-    <EditText
-        android:id="@+id/etPropertyPrice"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="@id/ivPropertyImage"
-        app:layout_constraintStart_toStartOf="parent"
-        android:layout_margin="10dp"
-        android:hint="Price"
-        android:textSize="@dimen/add_text_dimen"
-        android:background="@color/gray_brown"
-        android:inputType="number"/>
-
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/ic_baseline_attach_money_24"
-        android:layout_marginStart="5dp"
-        app:layout_constraintStart_toEndOf="@id/etPropertyPrice"
-        app:layout_constraintBottom_toBottomOf="@id/etPropertyPrice"/>
-
 
     <TextView
         android:id="@+id/typePropertyAdd"
@@ -64,7 +15,7 @@
         android:textSize="@dimen/add_text_dimen"
         android:textColor="@color/brown"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/ivPropertyImage"/>
+        app:layout_constraintTop_toTopOf="parent"/>
 
 
     <HorizontalScrollView
@@ -132,204 +83,221 @@
 
     </HorizontalScrollView>
 
-    <View
-        android:id="@+id/viewType"
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@color/brown"
+
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/tilPrice"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp"
+        android:hint="Property value"
+        app:endIconMode="clear_text"
+        app:startIconDrawable="@drawable/ic_baseline_attach_money_24"
         app:layout_constraintTop_toBottomOf="@id/btnTypeOfProperty"
-        android:layout_margin="20dp"/>
-
-    <ImageView
-        android:id="@+id/ivArea"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:src="@drawable/ic_area"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/areaValue"
-        app:layout_constraintTop_toBottomOf="@id/viewType"/>
+        app:layout_constraintEnd_toStartOf="@id/tilEntryDate">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/tietPrice"
+            android:inputType="number"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+    </com.google.android.material.textfield.TextInputLayout>
 
 
-    <TextView
-        android:id="@+id/areaValue"
-        android:layout_width="80dp"
-        android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:text="1000"
-        android:textSize="@dimen/add_text_dimen"
-        android:textColor="@color/gray_brown"
-        app:layout_constraintStart_toEndOf="@id/ivArea"
-        app:layout_constraintBottom_toBottomOf="@id/ivArea"
-        app:layout_constraintTop_toTopOf="@id/ivArea"/>
-
-    <SeekBar
-        android:id="@+id/areaSeekBar"
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/tilEntryDate"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        app:layout_constraintBottom_toBottomOf="@id/areaValue"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/areaValue"
-        app:layout_constraintTop_toTopOf="@id/areaValue" />
+        android:layout_margin="20dp"
+        android:hint="Entry Date"
+        app:startIconDrawable="@drawable/ic_baseline_date_range_24"
+        app:layout_constraintTop_toBottomOf="@id/btnTypeOfProperty"
+        app:layout_constraintStart_toEndOf="@id/tilPrice"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/tietEntryDate"
+            android:inputType="date"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/tilArea"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp"
+        android:hint="Property area"
+        app:endIconMode="clear_text"
+        app:startIconDrawable="@drawable/ic_area"
+        app:layout_constraintTop_toBottomOf="@id/tilPrice"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/tilRooms">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/tietArea"
+            android:inputType="number"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/tilRooms"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp"
+        android:hint="Rooms"
+        app:startIconDrawable="@drawable/ic_room"
+        app:layout_constraintTop_toBottomOf="@id/tilEntryDate"
+        app:layout_constraintStart_toEndOf="@id/tilArea"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/tietRooms"
+            android:inputType="number"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/tilBathrooms"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp"
+        android:hint="Bathrooms"
+        app:endIconMode="clear_text"
+        app:startIconDrawable="@drawable/ic_bath"
+        app:layout_constraintTop_toBottomOf="@id/tilArea"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/tilBedrooms">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/tietBathrooms"
+            android:inputType="number"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/tilBedrooms"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp"
+        android:hint="Bedroom"
+        app:startIconDrawable="@drawable/ic_bed"
+        app:layout_constraintTop_toBottomOf="@id/tilRooms"
+        app:layout_constraintStart_toEndOf="@id/tilBathrooms"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/tietBedrooms"
+            android:inputType="number"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+    </com.google.android.material.textfield.TextInputLayout>
 
     <View
-        android:id="@+id/viewArea"
+        android:id="@+id/viewAddress"
         android:layout_width="match_parent"
         android:layout_height="1dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginStart="30dp"
+        android:layout_marginEnd="30dp"
         android:background="@color/brown"
-        app:layout_constraintTop_toBottomOf="@id/areaSeekBar"
-        android:layout_margin="20dp"/>
-
-
-    <ImageView
-        android:id="@+id/ivRooms"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/ic_room"
-        android:layout_margin="10dp"
-        app:layout_constraintTop_toBottomOf="@id/viewArea"
+        app:layout_constraintTop_toBottomOf="@id/tilBathrooms"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/etRoomsValue"/>
-
-    <EditText
-        android:id="@+id/etRoomsValue"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:inputType="number"
-        android:background="@color/gray_brown"
-        app:layout_constraintBottom_toBottomOf="@id/ivRooms"
-        app:layout_constraintTop_toTopOf="@id/ivRooms"
-        app:layout_constraintStart_toEndOf="@id/ivRooms"
-        app:layout_constraintEnd_toStartOf="@id/ivBed"/>
-
-
-    <ImageView
-        android:id="@+id/ivBed"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:src="@drawable/ic_bed"
-        app:layout_constraintTop_toBottomOf="@id/viewArea"
-        app:layout_constraintStart_toEndOf="@id/etRoomsValue"
-        app:layout_constraintEnd_toStartOf="@id/etBedroomValue"/>
-
-    <EditText
-        android:id="@+id/etBedroomValue"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:inputType="number"
-        android:background="@color/gray_brown"
-        app:layout_constraintTop_toTopOf="@id/ivBed"
-        app:layout_constraintBottom_toBottomOf="@id/ivBed"
-        app:layout_constraintStart_toEndOf="@id/ivBed"
-        app:layout_constraintEnd_toStartOf="@id/ivBath"/>
-
-    <ImageView
-        android:id="@+id/ivBath"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:src="@drawable/ic_bath"
-        app:layout_constraintTop_toBottomOf="@id/viewArea"
-        app:layout_constraintStart_toEndOf="@id/etBedroomValue"
-        app:layout_constraintEnd_toStartOf="@id/etBathroomsValue"/>
-
-    <EditText
-        android:id="@+id/etBathroomsValue"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:inputType="number"
-        android:background="@color/gray_brown"
-        app:layout_constraintTop_toTopOf="@id/ivBath"
-        app:layout_constraintStart_toEndOf="@id/ivBath"
-        app:layout_constraintEnd_toEndOf="parent"/>
-
-    <View
-        android:id="@+id/viewRoom"
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@color/brown"
-        app:layout_constraintTop_toBottomOf="@id/etRoomsValue"
-        android:layout_margin="35dp"/>
-
-    <View
-        android:id="@+id/viewMiddleDate"
-        android:layout_width="1dp"
-        android:layout_height="110dp"
-        android:layout_margin="10dp"
-        android:background="@color/brown"
-        app:layout_constraintTop_toBottomOf="@id/viewRoom"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
-
-    <TextView
-        android:id="@+id/tvEntryDate"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:inputType="date"
-        android:text="Entry Date"
-        android:textColor="@color/brown"
-        android:textSize="@dimen/add_text_dimen"
-        app:layout_constraintEnd_toEndOf="@id/viewMiddleDate"
-        app:layout_constraintStart_toEndOf="@+id/ivEntryDate"
-        app:layout_constraintTop_toTopOf="@id/ivEntryDate"
-        app:layout_constraintBottom_toBottomOf="@id/ivEntryDate"/>
-
-    <ImageView
-        android:id="@+id/ivEntryDate"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:src="@drawable/ic_baseline_date_range_24"
-        app:layout_constraintTop_toBottomOf="@id/viewRoom"
-        app:layout_constraintStart_toStartOf="parent"/>
-
-    <TextView
-        android:id="@+id/tvSoldDate"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Sold Date"
-        android:textColor="@color/brown"
-        android:textSize="@dimen/add_text_dimen"
-        app:layout_constraintStart_toEndOf="@id/ivSoldDate"
-        app:layout_constraintTop_toTopOf="@id/ivSoldDate"
-        app:layout_constraintEnd_toStartOf="@id/viewMiddleDate"
-        app:layout_constraintBottom_toBottomOf="@id/ivSoldDate"/>
-
-
-    <ImageView
-        android:id="@+id/ivSoldDate"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:src="@drawable/ic_baseline_date_range_24"
-        app:layout_constraintStart_toStartOf="@id/ivEntryDate"
-        app:layout_constraintTop_toBottomOf="@id/ivEntryDate"
-        app:layout_constraintEnd_toEndOf="@id/ivEntryDate"/>
-
-
-    <ImageView
-        android:id="@+id/ivPlace"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/ic_place"
-        app:layout_constraintTop_toBottomOf="@id/viewRoom"
-        app:layout_constraintBottom_toBottomOf="@id/viewDate"
-        app:layout_constraintStart_toStartOf="@id/viewMiddleDate"
         app:layout_constraintEnd_toEndOf="parent"/>
 
     <TextView
         android:id="@+id/tvAddress"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/viewRoom"
-        app:layout_constraintBottom_toBottomOf="@id/viewDate"
-        app:layout_constraintStart_toStartOf="@id/viewMiddleDate"
-        app:layout_constraintEnd_toEndOf="parent"/>
+        android:layout_marginTop="5dp"
+        android:layout_marginStart="10dp"
+        android:text="Address"
+        android:textColor="@color/brown"
+        android:textSize="@dimen/add_text_dimen"
+        app:layout_constraintTop_toBottomOf="@id/viewAddress"
+        app:layout_constraintStart_toStartOf="parent" />
+
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/tilAddress"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp"
+        android:hint="Address"
+        app:startIconDrawable="@drawable/ic_place"
+        app:layout_constraintTop_toBottomOf="@id/tvAddress"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/tietAddress"
+            android:inputType="textPostalAddress"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/tilZipCode"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintWidth_percent="0.25"
+        android:layout_margin="20dp"
+        android:hint="Zip code"
+        app:endIconMode="clear_text"
+        app:layout_constraintTop_toBottomOf="@id/tilAddress"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/tilState">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/tietZipCode"
+            android:inputType="number"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/tilState"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="0dp"
+        app:layout_constraintWidth_percent="0.55"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp"
+        android:hint="State"
+        app:layout_constraintTop_toBottomOf="@id/tilAddress"
+        app:layout_constraintStart_toEndOf="@id/tilZipCode"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/tietState"
+            android:inputType="text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+    </com.google.android.material.textfield.TextInputLayout>
 
 
 
@@ -338,10 +306,10 @@
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:layout_marginTop="20dp"
-        android:layout_marginStart="20dp"
-        android:layout_marginEnd="20dp"
+        android:layout_marginStart="30dp"
+        android:layout_marginEnd="30dp"
         android:background="@color/brown"
-        app:layout_constraintTop_toBottomOf="@id/ivSoldDate"
+        app:layout_constraintTop_toBottomOf="@id/tilZipCode"
         app:layout_constraintBottom_toTopOf="@id/tvPointOfInterest"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>
@@ -398,22 +366,24 @@
 
 
 
-        <Button
-            android:id="@+id/btnCreate"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Create"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            android:layout_marginBottom="10dp"/>
 
 
     </com.google.android.material.chip.ChipGroup>
 
 
-    
 
+
+
+
+    <ImageButton
+        android:id="@+id/btnCreate"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:background="@drawable/round_button"
+        android:src="@drawable/arrow_right_50"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_margin="15dp"/>
         
 
 

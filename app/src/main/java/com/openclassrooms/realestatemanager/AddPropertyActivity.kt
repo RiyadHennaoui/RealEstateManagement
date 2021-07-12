@@ -35,12 +35,6 @@ class AddPropertyActivity : AppCompatActivity() {
         val factory = PropertyViewModelFactory(propertyRepository)
         val propertyViewModel = ViewModelProvider(this, factory).get(PropertyViewModel::class.java)
 
-        //Views for property photos
-        val ivPropertyImage: ImageView= findViewById(R.id.ivPropertyImage)
-        val ivAddPropertyImage: ImageView = findViewById(R.id.ivAddPhotoProperty)
-
-        //Edit text for price
-        val etPropertyPrice: EditText = findViewById(R.id.etPropertyPrice)
 
         //Chips for type of property
         val chipGroupTypeOfProperty: ChipGroup = findViewById(R.id.chipGroupTypeOfProperty)
@@ -54,23 +48,16 @@ class AddPropertyActivity : AppCompatActivity() {
 
 
         //Views for area
-        val tvAreaValue: TextView = findViewById(R.id.areaValue)
-        val areaSeekBar: SeekBar = findViewById(R.id.areaSeekBar)
+
 
         //Views for numbers of rooms and type
-        val etRoomsValue: EditText = findViewById(R.id.etRoomsValue)
-        val etBedroomsValue: EditText = findViewById(R.id.etBedroomValue)
-        val etBathroomsValue: EditText = findViewById(R.id.etBathroomsValue)
+
 
         //Views for dates
-        val ivEntryDate: ImageView = findViewById(R.id.ivEntryDate)
-        val tvEntryDate: TextView = findViewById(R.id.tvEntryDate)
-        val ivSoldDate: ImageView = findViewById(R.id.ivSoldDate)
-        val tvSoldDate: TextView = findViewById(R.id.tvSoldDate)
+
 
         //Views for address
-        val ivPlace: ImageView = findViewById(R.id.ivPlace)
-        val tvPlace: TextView = findViewById(R.id.tvAddress)
+
 
         //Views for Point of interest
         val groupChipsPointsOfInterest: ChipGroup = findViewById(R.id.chipsGroupPointsOfInterest)
@@ -81,10 +68,10 @@ class AddPropertyActivity : AppCompatActivity() {
 
 
         //View for create Property
-        val btnCreate: Button = findViewById(R.id.btnCreate)
+        val btnCreate: ImageButton = findViewById(R.id.btnCreate)
 
         //View for back in MainActivity
-        val ivBack: ImageView = findViewById(R.id.ivAddPropertyBack)
+
 
        btnCreate.setOnClickListener {
 //

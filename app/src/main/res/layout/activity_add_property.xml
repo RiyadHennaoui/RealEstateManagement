@@ -421,6 +421,53 @@
 
                 </com.google.android.material.chip.ChipGroup>
 
+                <View
+                    android:id="@+id/viewDescription"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginStart="30dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginEnd="30dp"
+                    android:background="@color/brown"
+                    app:layout_constraintBottom_toTopOf="@id/tvDescription"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/chipsGroupPointsOfInterest" />
+
+                <TextView
+                    android:id="@+id/tvDescription"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="5dp"
+                    android:text="Description"
+                    android:textColor="@color/brown"
+                    android:textSize="@dimen/add_text_dimen"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/viewDescription" />
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/tilDescription"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_margin="20dp"
+                    android:hint="Property description"
+                    app:startIconDrawable="@drawable/ic_baseline_assignment_24"
+                    app:counterEnabled="true"
+                    app:counterMaxLength="300"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tvDescription">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/tietDescription"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="textMultiLine" />
+
+                </com.google.android.material.textfield.TextInputLayout>
 
                 <ImageButton
                     android:id="@+id/btnCreate"
@@ -430,7 +477,8 @@
                     android:background="@drawable/round_button"
                     android:src="@drawable/arrow_right_50"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/chipsGroupPointsOfInterest" />
+                    app:layout_constraintTop_toBottomOf="@id/tilDescription"
+                    app:layout_constraintBottom_toBottomOf="parent"/>
 
 
             </androidx.constraintlayout.widget.ConstraintLayout>

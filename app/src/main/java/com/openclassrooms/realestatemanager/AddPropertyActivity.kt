@@ -1,13 +1,16 @@
 package com.openclassrooms.realestatemanager
 
+import android.app.Activity
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.provider.MediaStore
 import android.util.Log
 import android.widget.*
+import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
-import com.openclassrooms.realestatemanager.database.Property
 import com.openclassrooms.realestatemanager.database.PropertyDatabase
 import com.openclassrooms.realestatemanager.repositories.PropertyRepository
 import com.openclassrooms.realestatemanager.viewmodel.PropertyViewModel
@@ -15,7 +18,7 @@ import com.openclassrooms.realestatemanager.viewmodel.PropertyViewModelFactory
 
 class AddPropertyActivity : AppCompatActivity() {
 
-    lateinit var propertyPhoto: String
+    var propertyPhotos = arrayListOf<String>()
     var price: Int = 0
     lateinit var typeOfProperty: String
     var areaValue: Int = 0
@@ -35,6 +38,8 @@ class AddPropertyActivity : AppCompatActivity() {
         val factory = PropertyViewModelFactory(propertyRepository)
         val propertyViewModel = ViewModelProvider(this, factory).get(PropertyViewModel::class.java)
 
+        //For add Pictures
+        val addPhoto: ImageButton = findViewById(R.id.ibAddPhoto)
 
         //Chips for type of property
         val chipGroupTypeOfProperty: ChipGroup = findViewById(R.id.chipGroupTypeOfProperty)
@@ -73,6 +78,30 @@ class AddPropertyActivity : AppCompatActivity() {
         //View for back in MainActivity
 
 
+        val addPhotoDialog = AlertDialog.Builder(this)
+            .setTitle("Add Photo")
+            .setMessage("Chose in your gallery or take it with your camera")
+            .setIcon(resources.getDrawable(R.drawable.ic_radd_photo))
+            .setPositiveButtonIcon(resources.getDrawable(R.drawable.ic_photo_camera_24))
+            .setPositiveButton("") { _, _ ->
+                intentToCamera()
+            }
+            .setNegativeButtonIcon(resources.getDrawable(R.drawable.ic_photo_library_24))
+            .setNegativeButton("") { _, _ ->
+                intentToPictureGallery()
+            }
+            .setNeutralButtonIcon(resources.getDrawable(R.drawable.ic_cancel_24))
+            .setNeutralButton("") { dialog, _ ->
+                dialog.cancel()
+            }
+            .create()
+
+
+        addPhoto.setOnClickListener {
+            addPhotoDialog.show()
+        }
+
+
        btnCreate.setOnClickListener {
 //
 //            val selectedChipId = chipGroupTypeOfProperty.checkedChipId
@@ -107,6 +136,39 @@ class AddPropertyActivity : AppCompatActivity() {
         val pointOfInterest = groupChipsPointsOfInterest.checkedChipIds
 
 
+
+
+
+    }
+
+    private fun intentToCamera() {
+//        val getContent = registerForActivityResult(StartActivityForResult()) { result: ActivityResult ->
+//
+//            if (result.resultCode == Activity.RESULT_OK){
+//                val uri = result.data
+//            }
+//
+//        }
+        Intent (MediaStore.ACTION_IMAGE_CAPTURE).also {
+            startActivityForResult(it, 9)
+        }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, intentData: Intent?){
+        super.onActivityResult(requestCode, resultCode, intentData)
+        if (resultCode == Activity.RESULT_OK && requestCode == 0 || requestCode == 9){
+            val uri = intentData?.data
+            propertyPhotos.add(uri.toString())
+                Log.e("photo", uri.toString())
+        }
+    }
+
+    private fun intentToPictureGallery(){
+
+        Intent (Intent.ACTION_GET_CONTENT).also {
+            it.type = "image/*"
+            startActivityForResult(it, 0)
+        }
 
     }
 

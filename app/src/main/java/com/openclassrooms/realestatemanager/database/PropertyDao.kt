@@ -9,7 +9,7 @@ interface PropertyDao {
 
     //for update and insert
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun upsert(item: Property)
+    suspend fun upsert(item: Property): Int
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertPhoto(photo: Photo)

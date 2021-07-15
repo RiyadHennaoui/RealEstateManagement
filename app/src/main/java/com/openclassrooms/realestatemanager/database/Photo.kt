@@ -9,5 +9,5 @@ data class Photo (
     val id: Int,
     val shortDescription: String,
     val photoUri: String,
-    val propertyId: String
+    var propertyId: Int
 )

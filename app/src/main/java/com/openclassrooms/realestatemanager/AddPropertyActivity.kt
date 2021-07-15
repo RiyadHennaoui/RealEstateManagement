@@ -1,16 +1,23 @@
 package com.openclassrooms.realestatemanager
 
 import android.app.Activity
+import android.content.DialogInterface
 import android.content.Intent
+import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.MediaStore
+import android.text.InputType
 import android.util.Log
 import android.widget.*
 import androidx.appcompat.app.AlertDialog
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
+import com.google.android.material.textfield.TextInputEditText
+import com.openclassrooms.realestatemanager.database.Photo
+import com.openclassrooms.realestatemanager.database.Property
 import com.openclassrooms.realestatemanager.database.PropertyDatabase
 import com.openclassrooms.realestatemanager.repositories.PropertyRepository
 import com.openclassrooms.realestatemanager.viewmodel.PropertyViewModel
@@ -18,6 +25,7 @@ import com.openclassrooms.realestatemanager.viewmodel.PropertyViewModelFactory
 
 class AddPropertyActivity : AppCompatActivity() {
 
+    var uriPhoto: Uri? = null
     var propertyPhotos = arrayListOf<String>()
     var price: Int = 0
     lateinit var typeOfProperty: String
@@ -29,6 +37,9 @@ class AddPropertyActivity : AppCompatActivity() {
     lateinit var soldDate: String
     lateinit var addressOfProperty: String
     lateinit var pointsOfInterest: List<String>
+    var photoDescription = ""
+    var photosList = arrayListOf<Photo>()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_property)
@@ -38,8 +49,13 @@ class AddPropertyActivity : AppCompatActivity() {
         val factory = PropertyViewModelFactory(propertyRepository)
         val propertyViewModel = ViewModelProvider(this, factory).get(PropertyViewModel::class.java)
 
-        //For add Pictures
+        //View for back in MainActivity
+        val btnHome: ImageView = findViewById(R.id.ivHome)
+
+        //Views for Pictures
         val addPhoto: ImageButton = findViewById(R.id.ibAddPhoto)
+        val displayPhoto: ImageView = findViewById(R.id.ivPropertyPhotos)
+
 
         //Chips for type of property
         val chipGroupTypeOfProperty: ChipGroup = findViewById(R.id.chipGroupTypeOfProperty)
@@ -50,19 +66,24 @@ class AddPropertyActivity : AppCompatActivity() {
         val cpDuplex: Chip = findViewById(R.id.chipDuplex)
         val cpLoft: Chip = findViewById(R.id.chipLoft)
 
-
+        //View for price
+        val price: TextInputEditText = findViewById(R.id.tietPrice)
 
         //Views for area
-
+        val areaValue: TextInputEditText = findViewById(R.id.tietArea)
 
         //Views for numbers of rooms and type
-
+        val roomsValue: TextInputEditText = findViewById(R.id.tietRooms)
+        val bedroomsValue: TextInputEditText = findViewById(R.id.tietBedrooms)
+        val bathroomsValue: TextInputEditText = findViewById(R.id.tietBathrooms)
 
         //Views for dates
-
+        val entryDate: TextInputEditText = findViewById(R.id.tietEntryDate)
 
         //Views for address
-
+        val address: TextInputEditText = findViewById(R.id.tietAddress)
+        val zipCode: TextInputEditText = findViewById(R.id.tietZipCode)
+        val state: TextInputEditText = findViewById(R.id.tietState)
 
         //Views for Point of interest
         val groupChipsPointsOfInterest: ChipGroup = findViewById(R.id.chipsGroupPointsOfInterest)
@@ -71,17 +92,72 @@ class AddPropertyActivity : AppCompatActivity() {
         val chipPark: Chip = findViewById(R.id.chipPark)
         val chipTransport: Chip = findViewById(R.id.chipTransport)
 
+        //View for description
+        val description: TextInputEditText = findViewById(R.id.tietDescription)
 
         //View for create Property
         val btnCreate: ImageButton = findViewById(R.id.btnCreate)
 
-        //View for back in MainActivity
+
+        val addPhotoDialog = addPhotoAlertDialog()
 
 
-        val addPhotoDialog = AlertDialog.Builder(this)
+        addPhoto.setOnClickListener {
+            addPhotoDialog.show()
+        }
+
+
+
+        btnCreate.setOnClickListener {
+
+            val selectedChipId = chipGroupTypeOfProperty.checkedChipId
+
+            val userChooseInString = typeOfPropertyChoise(selectedChipId)
+
+            val completeAddress =
+                "${address.text.toString()}, ${zipCode.text.toString()}, ${state.text.toString()}"
+
+            val checkedPointOfInterestIds = groupChipsPointsOfInterest.checkedChipIds
+
+
+
+            Log.e("Here", userChooseInString)
+
+//            val newProperty = Property(
+//                id = 0,
+//                price = price.text.toString().toInt(),
+//                type = userChooseInString,
+//                area = areaValue.text.toString().toInt(),
+//                roomsNumber = roomsValue.text.toString().toInt(),
+//                bedRoomsNumber = bedroomsValue.text.toString().toInt(),
+//                bathRoomsNumber = bathroomsValue.text.toString().toInt(),
+//                description = description.text.toString(),
+//                address = completeAddress,
+//                pointOfInterest = pointsOfInterestToString(checkedPointOfInterestIds),
+//                entryDate = entryDate.text.toString(),
+//                saleDate = "",
+//                estateAgent = "Me"
+//            )
+
+            pointsOfInterestToString(checkedPointOfInterestIds)
+
+            val pointOfInterest = groupChipsPointsOfInterest.checkedChipIds
+            Log.e("here", "${pointsOfInterestToString(pointOfInterest)}")
+//
+//           propertyViewModel.upsert(newProperty)
+        }
+
+
+        val pointOfInterest = groupChipsPointsOfInterest.checkedChipIds
+
+
+    }
+
+    private fun addPhotoAlertDialog(): AlertDialog {
+        return AlertDialog.Builder(this)
             .setTitle("Add Photo")
-            .setMessage("Chose in your gallery or take it with your camera")
-            .setIcon(resources.getDrawable(R.drawable.ic_radd_photo))
+            .setMessage("Choose one in your gallery or take it with your camera")
+            .setIcon(ContextCompat.getDrawable(this, R.drawable.ic_add_photo_orange))
             .setPositiveButtonIcon(resources.getDrawable(R.drawable.ic_photo_camera_24))
             .setPositiveButton("") { _, _ ->
                 intentToCamera()
@@ -95,50 +171,34 @@ class AddPropertyActivity : AppCompatActivity() {
                 dialog.cancel()
             }
             .create()
+    }
 
+    private fun photoDescDialog(photoUri: String) {
+        val builder = AlertDialog.Builder(this)
+            .setTitle("Short description")
 
-        addPhoto.setOnClickListener {
-            addPhotoDialog.show()
+        val input = EditText(this)
+        input.hint = "Enter title of picture"
+        input.inputType = InputType.TYPE_CLASS_TEXT
+        builder.setView(input)
+
+        builder.setPositiveButton("ok", ){ _, _ ->
+            photoDescription = input.text.toString()
         }
-
-
-       btnCreate.setOnClickListener {
-//
-//            val selectedChipId = chipGroupTypeOfProperty.checkedChipId
-//
-//            val choiseInString = typeOfPropertyChoise(selectedChipId)
-//
-//            Log.e("Here", choiseInString)
-
-//            val newProperty = Property(
-//                id = 0,
-//                price = etPropertyPrice.text.toString().toInt(),
-//                type = "House",
-//                area = tvAreaValue.text.toString().toInt(),
-//                roomsNumber = etRoomsValue.text.toString().toInt(),
-//                bedRoomsNumber = etBedroomsValue.text.toString().toInt(),
-//                bathRoomsNumber = etBathroomsValue.text.toString().toInt(),
-//                description = "some desc",
-//                photoUrl = "Hey my address is here",
-//                address = tvPlace.text.toString(),
-//                pointOfInterest = "Square",
-//                entryDate = tvEntryDate.text.toString(),
-//                saleDate = "SoldDate",
-//                estateAgent = "Me"
-//            )
-           val pointOfInterest = groupChipsPointsOfInterest.checkedChipIds
-           Log.e("here", pointOfInterest.toString())
-//
-//           propertyViewModel.upsert(newProperty)
+        builder.setNegativeButton("Cancel") { dialogInterface, _ ->
+            dialogInterface.cancel()
         }
+        builder.show()
 
 
-        val pointOfInterest = groupChipsPointsOfInterest.checkedChipIds
+        val currentPhoto = Photo(0, photoDescription, photoUri, 0)
+        photosList.add(currentPhoto)
+        Log.e("listPhoto", "${photosList.last().shortDescription} + ${photosList.last().photoUri}")
 
+    }
 
-
-
-
+    private fun displayPhotoFunction(displayPhotos: ImageView, uri: Uri) {
+        displayPhotos.setImageURI(uri)
     }
 
     private fun intentToCamera() {
@@ -149,40 +209,40 @@ class AddPropertyActivity : AppCompatActivity() {
 //            }
 //
 //        }
-        Intent (MediaStore.ACTION_IMAGE_CAPTURE).also {
+        Intent(MediaStore.ACTION_IMAGE_CAPTURE).also {
             startActivityForResult(it, 9)
         }
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, intentData: Intent?){
+    override fun onActivityResult(requestCode: Int, resultCode: Int, intentData: Intent?) {
         super.onActivityResult(requestCode, resultCode, intentData)
-        if (resultCode == Activity.RESULT_OK && requestCode == 0 || requestCode == 9){
+        if (resultCode == Activity.RESULT_OK && requestCode == 0 || requestCode == 9) {
             val uri = intentData?.data
+            //TODO Ajouter une méthode pour ajouter un string pour la description de la photo
+
+            photoDescDialog(uri.toString())
             propertyPhotos.add(uri.toString())
-                Log.e("photo", uri.toString())
+            Log.e("photo", uri.toString())
+            for (i in 0..propertyPhotos.size) {
+                Log.e("for photo", propertyPhotos.toString())
+            }
+
         }
     }
 
-    private fun intentToPictureGallery(){
+    private fun intentToPictureGallery() {
 
-        Intent (Intent.ACTION_GET_CONTENT).also {
+        Intent(Intent.ACTION_GET_CONTENT).also {
             it.type = "image/*"
             startActivityForResult(it, 0)
         }
 
     }
 
-    private fun propertyViewmodelConfig() {
-        val propertyRepository = PropertyRepository(PropertyDatabase.invoke(this))
-        val factory = PropertyViewModelFactory(propertyRepository)
-        val propertyViewModel = ViewModelProvider(this, factory).get(PropertyViewModel::class.java)
-    }
 
-
-
-    private fun typeOfPropertyChoise(chipId: Int): String{
+    private fun typeOfPropertyChoise(chipId: Int): String {
         var userChoice = ""
-        when(chipId){
+        when (chipId) {
 
             R.id.chipHouse -> userChoice = "House"
             R.id.chipManor -> userChoice = "Manor"
@@ -194,6 +254,23 @@ class AddPropertyActivity : AppCompatActivity() {
 
         }
         return userChoice
+    }
+
+    private fun pointsOfInterestToString(chipId: List<Int>): String{
+        var pointsOfInterestProperty = ""
+
+        //TODO a virer mettre une liste à la place
+        for (i  in 0..chipId.size)
+            when(chipId.indexOf(i)){
+
+                R.id.chipSchool -> pointsOfInterestProperty += "School "
+                R.id.chipPark -> pointsOfInterestProperty += "Park "
+                R.id.chipShops -> pointsOfInterestProperty += "Shops "
+                R.id.chipTransport -> pointsOfInterestProperty += "Transport "
+
+            }
+
+        return pointsOfInterestProperty
     }
 
 

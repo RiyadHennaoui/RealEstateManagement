@@ -159,15 +159,15 @@ class AddPropertyActivity : AppCompatActivity() {
             .setTitle("Add Photo")
             .setMessage("Choose one in your gallery or take it with your camera")
             .setIcon(ContextCompat.getDrawable(this, R.drawable.ic_add_photo_orange))
-            .setPositiveButtonIcon(resources.getDrawable(R.drawable.ic_photo_camera_24))
+            .setPositiveButtonIcon(ContextCompat.getDrawable(this, R.drawable.ic_photo_camera_24))
             .setPositiveButton("") { _, _ ->
                 intentToCamera()
             }
-            .setNegativeButtonIcon(resources.getDrawable(R.drawable.ic_photo_library_24))
+            .setNegativeButtonIcon(ContextCompat.getDrawable(this, R.drawable.ic_photo_library_24))
             .setNegativeButton("") { _, _ ->
                 intentToPictureGallery()
             }
-            .setNeutralButtonIcon(resources.getDrawable(R.drawable.ic_cancel_24))
+            .setNeutralButtonIcon(ContextCompat.getDrawable(this, R.drawable.ic_cancel_24))
             .setNeutralButton("") { dialog, _ ->
                 dialog.cancel()
             }

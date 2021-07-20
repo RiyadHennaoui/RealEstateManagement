@@ -9,7 +9,8 @@ interface PropertyDao {
 
     //for update and insert
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun upsert(item: Property): Int
+    suspend fun upsert(item: Property): Long
+
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertPhoto(photo: Photo)
@@ -23,5 +24,5 @@ interface PropertyDao {
 
     @Transaction
     @Query("SELECT * from property WHERE id = :propertyId")
-    suspend fun getPropertyWithPhotos(propertyId: Int): List<PropertyWithPhotos>
+    suspend fun getPropertyWithPhotos(propertyId: Long): List<PropertyWithPhotos>
 }

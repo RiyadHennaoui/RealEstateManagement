@@ -14,6 +14,10 @@ class PropertyViewModel(private val repository: PropertyRepository): ViewModel()
         repository.upsertProperty(item)
     }
 
+    fun upsertAllPhotosOfProperty(item: Property, listPhotos: List<Photo>) = CoroutineScope(Dispatchers.Main).launch {
+        repository.upsertPropertyAndPhotos(item, listPhotos)
+    }
+
     fun insertPhoto(item: Photo) = CoroutineScope(Dispatchers.Main).launch {
         repository.insertPhoto(item)
     }

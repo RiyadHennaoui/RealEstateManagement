@@ -5,11 +5,13 @@ import com.openclassrooms.realestatemanager.database.Property
 import com.openclassrooms.realestatemanager.database.PropertyDatabase
 class PropertyRepository(private val db: PropertyDatabase) {
 
+
+    //TODO Livedata Bordel !!
     suspend fun upsertProperty(item: Property) = db.getPropertyDao().upsert(item)
 
     suspend fun upsertPropertyAndPhotos(item: Property, photos: List<Photo>) {
         val idProperty = db.getPropertyDao().upsert(item)
-        photos.find { it.propertyId == 0 }?.propertyId = idProperty
+        photos.find { it.propertyId == 0L }?.propertyId = idProperty
         photos.forEach { db.getPropertyDao().insertPhoto(it) }
     }
 

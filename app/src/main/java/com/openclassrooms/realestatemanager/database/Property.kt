@@ -7,7 +7,7 @@ import java.util.*
 
 
 @Entity (tableName = "property")
-data class Property (@PrimaryKey (autoGenerate = true) var id: Int? = null,
+data class Property (@PrimaryKey (autoGenerate = true) var id: Long? = 0,
                          @ColumnInfo (name = "type") var type: String,
                          @ColumnInfo (name = "price") var price: Int,
                          @ColumnInfo (name = "area") var area: Int,
@@ -16,7 +16,7 @@ data class Property (@PrimaryKey (autoGenerate = true) var id: Int? = null,
                          @ColumnInfo (name = "bathRoomsNumber") var bathRoomsNumber: Int,
                          @ColumnInfo (name = "description") var description: String,
                          @ColumnInfo (name = "address") var address: String,
-                         @ColumnInfo (name = "pointOfInterest") var pointOfInterest: List<String>,
+                         @ColumnInfo (name = "pointOfInterest") var pointOfInterest: ArrayList<String>,
                          @ColumnInfo (name = "entryDate") var entryDate: String,
                          @ColumnInfo (name = "saleDate") var saleDate: String,
                          @ColumnInfo (name = "estateAgent") var estateAgent: String)

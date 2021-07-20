@@ -114,6 +114,7 @@ class AddPropertyActivity : AppCompatActivity() {
 
             val userChooseInString = typeOfPropertyChoise(selectedChipId)
 
+            //TODO modifier l'adresse en latitude logitude
             val completeAddress =
                 "${address.text.toString()}, ${zipCode.text.toString()}, ${state.text.toString()}"
 
@@ -256,19 +257,19 @@ class AddPropertyActivity : AppCompatActivity() {
         return userChoice
     }
 
-    private fun pointsOfInterestToString(chipId: List<Int>): String{
-        var pointsOfInterestProperty = ""
+    private fun pointsOfInterestToString(chipId: List<Int>): List<String>{
+        val pointsOfInterestProperty = arrayListOf<String>()
 
-        //TODO a virer mettre une liste à la place
-        for (i  in 0..chipId.size)
-            when(chipId.indexOf(i)){
-
+        chipId.forEach {
+            when(it){
                 R.id.chipSchool -> pointsOfInterestProperty += "School "
                 R.id.chipPark -> pointsOfInterestProperty += "Park "
                 R.id.chipShops -> pointsOfInterestProperty += "Shops "
                 R.id.chipTransport -> pointsOfInterestProperty += "Transport "
-
             }
+
+        }
+
 
         return pointsOfInterestProperty
     }

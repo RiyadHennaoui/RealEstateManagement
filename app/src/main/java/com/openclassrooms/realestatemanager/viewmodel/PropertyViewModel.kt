@@ -1,5 +1,6 @@
 package com.openclassrooms.realestatemanager.viewmodel
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import com.openclassrooms.realestatemanager.database.Photo
 import com.openclassrooms.realestatemanager.database.Property
@@ -26,7 +27,7 @@ class PropertyViewModel(private val repository: PropertyRepository): ViewModel()
         repository.delete(item)
     }
 
-    fun getAllProperties() = repository.getAllProperties()
+    fun getAllProperties(): LiveData<List<Property>> = repository.getAllProperties()
 
     fun getAllPhotosOfProperty(item: Property) = CoroutineScope(Dispatchers.Main).launch {
         repository.getAllPhotosOfProperty(item)

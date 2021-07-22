@@ -24,5 +24,5 @@ interface PropertyDao {
 
     @Transaction
     @Query("SELECT * from property WHERE id = :propertyId")
-    suspend fun getPropertyWithPhotos(propertyId: Long): LiveData<List<PropertyWithPhotos>>
+    fun getPropertyWithPhotos(propertyId: Long): LiveData<PropertyWithPhotos>
 }

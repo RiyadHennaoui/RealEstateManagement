@@ -63,6 +63,8 @@ dependencies {
     //Firebase Authentication
     implementation 'com.google.firebase:firebase-auth-ktx'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+    //Firebase Storage
+    implementation 'com.google.firebase:firebase-storage-ktx:20.0.0'
 
 
     //Tests

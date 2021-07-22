@@ -23,8 +23,10 @@ import com.openclassrooms.realestatemanager.repositories.PropertyRepository
 import com.openclassrooms.realestatemanager.viewmodel.PropertyViewModel
 import com.openclassrooms.realestatemanager.viewmodel.PropertyViewModelFactory
 
-class AddPropertyActivity : AppCompatActivity() {
+private const val REQUEST_CODE_IMAGE_PICK = 0
+private const val REQUEST_CODE_TAKE_IMAGE_WITH_CAMERA = 9
 
+class AddPropertyActivity : AppCompatActivity() {
     var uriPhoto: Uri? = null
     var propertyPhotos = arrayListOf<String>()
     var price: Int = 0
@@ -211,13 +213,13 @@ class AddPropertyActivity : AppCompatActivity() {
 //
 //        }
         Intent(MediaStore.ACTION_IMAGE_CAPTURE).also {
-            startActivityForResult(it, 9)
+            startActivityForResult(it, REQUEST_CODE_TAKE_IMAGE_WITH_CAMERA)
         }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, intentData: Intent?) {
         super.onActivityResult(requestCode, resultCode, intentData)
-        if (resultCode == Activity.RESULT_OK && requestCode == 0 || requestCode == 9) {
+        if (resultCode == Activity.RESULT_OK && requestCode == REQUEST_CODE_IMAGE_PICK || requestCode == REQUEST_CODE_TAKE_IMAGE_WITH_CAMERA) {
             val uri = intentData?.data
             //TODO Ajouter une méthode pour ajouter un string pour la description de la photo
 
@@ -235,7 +237,7 @@ class AddPropertyActivity : AppCompatActivity() {
 
         Intent(Intent.ACTION_GET_CONTENT).also {
             it.type = "image/*"
-            startActivityForResult(it, 0)
+            startActivityForResult(it, REQUEST_CODE_IMAGE_PICK)
         }
 
     }

@@ -28,7 +28,7 @@ private const val REQUEST_CODE_TAKE_IMAGE_WITH_CAMERA = 9
 
 class AddPropertyActivity : AppCompatActivity() {
     var uriPhoto: Uri? = null
-    var propertyPhotos = arrayListOf<String>()
+    var propertyPhotos = arrayListOf<Photo>()
     var price: Int = 0
     lateinit var typeOfProperty: String
     var areaValue: Int = 0
@@ -42,9 +42,12 @@ class AddPropertyActivity : AppCompatActivity() {
     var photoDescription = ""
     var photosList = arrayListOf<Photo>()
 
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_property)
+
 
         //For ViewModels
         val propertyRepository = PropertyRepository(PropertyDatabase.invoke(this))
@@ -150,6 +153,8 @@ class AddPropertyActivity : AppCompatActivity() {
 //           propertyViewModel.upsert(newProperty)
         }
 
+        uploadPhotosToFirebase(propertyPhotos, propertyViewModel)
+
 
         val pointOfInterest = groupChipsPointsOfInterest.checkedChipIds
 
@@ -176,12 +181,19 @@ class AddPropertyActivity : AppCompatActivity() {
             .create()
     }
 
+    private fun uploadPhotosToFirebase(album: ArrayList<Photo>, propertyViewModel: PropertyViewModel){
+        album.forEach {
+            propertyViewModel.uploadPhotoToFirebase(it, it.shortDescription)
+            Log.e("upload", it.shortDescription)
+        }
+    }
+
     private fun photoDescDialog(photoUri: String) {
         val builder = AlertDialog.Builder(this)
-            .setTitle("Short description")
+            .setTitle("Image name")
 
         val input = EditText(this)
-        input.hint = "Enter title of picture"
+        input.hint = "Enter name of picture"
         input.inputType = InputType.TYPE_CLASS_TEXT
         builder.setView(input)
 
@@ -224,10 +236,12 @@ class AddPropertyActivity : AppCompatActivity() {
             //TODO Ajouter une méthode pour ajouter un string pour la description de la photo
 
             photoDescDialog(uri.toString())
-            propertyPhotos.add(uri.toString())
+            var currentPhoto = Photo(0, photoDescription, uri.toString(), 0)
+
+            propertyPhotos.add(currentPhoto)
             Log.e("photo", uri.toString())
             for (i in 0..propertyPhotos.size) {
-                Log.e("for photo", propertyPhotos.toString())
+                Log.e("for photo", "${propertyPhotos} + {${propertyPhotos.size}}")
             }
 
         }

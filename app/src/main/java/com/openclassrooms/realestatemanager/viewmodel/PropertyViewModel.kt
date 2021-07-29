@@ -36,5 +36,7 @@ class PropertyViewModel(private val repository: PropertyRepository) : ViewModel(
 
     fun getAllPhotosOfProperty(item: Property) = repository.getAllPhotosOfProperty(item)
 
+    fun uploadPhotoToFirebase(item: Photo, fileName: String) = repository.uploadPhotoToFirestore(item, fileName)
+
 
 }

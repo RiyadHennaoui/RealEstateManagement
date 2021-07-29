@@ -1,18 +1,21 @@
 package com.openclassrooms.realestatemanager.repositories
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
+import android.net.Uri
+import android.util.Log
 import androidx.lifecycle.liveData
+import com.google.firebase.ktx.Firebase
+import com.google.firebase.storage.ktx.storage
 import com.openclassrooms.realestatemanager.database.Photo
 import com.openclassrooms.realestatemanager.database.Property
 import com.openclassrooms.realestatemanager.database.PropertyDatabase
-import com.openclassrooms.realestatemanager.database.PropertyWithPhotos
 
 
 class PropertyRepository(private val db: PropertyDatabase) {
 
+    var storageImageRef = Firebase.storage.reference
 
 
+//TODO utiliser les livedatascope dans l'ensemble du repo
     suspend fun upsertProperty(item: Property) = db.getPropertyDao().upsert(item)
 
     fun upsertPropertyAndPhotos(item: Property, photos: List<Photo>) = liveData{
@@ -28,9 +31,29 @@ class PropertyRepository(private val db: PropertyDatabase) {
 
     suspend fun insertPhoto(item: Photo) = db.getPropertyDao().insertPhoto(item)
 
-    fun getAllProperties() = db.getPropertyDao().getAllProperties()
+    fun getAllProperties() = liveData {
+        val listOfProperties = db.getPropertyDao().getAllProperties()
+        emit(listOfProperties)
+    }
 
-    fun getAllPhotosOfProperty(item: Property) = db.getPropertyDao().getPropertyWithPhotos(item.id!!)
+    fun getAllPhotosOfProperty(item: Property) = liveData {
+        val listOfPhotos = db.getPropertyDao().getPropertyWithPhotos(item.id!!)
+        emit(listOfPhotos)
+    }
+
+    fun uploadPhotoToFirestore(item: Photo, fileName: String)= liveData{
+        val photoUri = Uri.parse(item.photoUri)
+        val uploadImageToFirebaseStorage = storageImageRef.child("image/$fileName").putFile(photoUri)
+        emit(uploadImageToFirebaseStorage)
+        Log.e("repo", item.photoUri)
+    }
+
+//    fun downloadPhotoInFirestore() = liveData {
+//
+//
+//
+//    }
+
 
 }
 

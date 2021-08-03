@@ -151,9 +151,10 @@ class AddPropertyActivity : AppCompatActivity() {
             Log.e("here", "${pointsOfInterestToString(pointOfInterest)}")
 //
 //           propertyViewModel.upsert(newProperty)
+            uploadPhotosToFirebase(propertyPhotos, propertyViewModel)
         }
 
-        uploadPhotosToFirebase(propertyPhotos, propertyViewModel)
+
 
 
         val pointOfInterest = groupChipsPointsOfInterest.checkedChipIds
@@ -183,9 +184,13 @@ class AddPropertyActivity : AppCompatActivity() {
 
     private fun uploadPhotosToFirebase(album: ArrayList<Photo>, propertyViewModel: PropertyViewModel){
         album.forEach {
-            propertyViewModel.uploadPhotoToFirebase(it, it.shortDescription)
+            propertyViewModel.uploadPhotoWithCoroutine(it, it.shortDescription)
             Log.e("upload", it.shortDescription)
         }
+    }
+
+    private fun uploadOnePhotoInStorage(photo: Photo, propertyViewModel: PropertyViewModel){
+        propertyViewModel.uploadPhotoToFirebase(photo, photo.shortDescription)
     }
 
     private fun photoDescDialog(photoUri: String) {
@@ -199,6 +204,7 @@ class AddPropertyActivity : AppCompatActivity() {
 
         builder.setPositiveButton("ok", ){ _, _ ->
             photoDescription = input.text.toString()
+
         }
         builder.setNegativeButton("Cancel") { dialogInterface, _ ->
             dialogInterface.cancel()
@@ -207,6 +213,7 @@ class AddPropertyActivity : AppCompatActivity() {
 
 
         val currentPhoto = Photo(0, photoDescription, photoUri, 0)
+
         photosList.add(currentPhoto)
         Log.e("listPhoto", "${photosList.last().shortDescription} + ${photosList.last().photoUri}")
 
@@ -231,7 +238,9 @@ class AddPropertyActivity : AppCompatActivity() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, intentData: Intent?) {
         super.onActivityResult(requestCode, resultCode, intentData)
-        if (resultCode == Activity.RESULT_OK && requestCode == REQUEST_CODE_IMAGE_PICK || requestCode == REQUEST_CODE_TAKE_IMAGE_WITH_CAMERA) {
+        if (resultCode == Activity.RESULT_OK &&
+            requestCode == REQUEST_CODE_IMAGE_PICK ||
+            requestCode == REQUEST_CODE_TAKE_IMAGE_WITH_CAMERA) {
             val uri = intentData?.data
             //TODO Ajouter une méthode pour ajouter un string pour la description de la photo
 
@@ -241,9 +250,11 @@ class AddPropertyActivity : AppCompatActivity() {
             propertyPhotos.add(currentPhoto)
             Log.e("photo", uri.toString())
             for (i in 0..propertyPhotos.size) {
-                Log.e("for photo", "${propertyPhotos} + {${propertyPhotos.size}}")
+                Log.e("for photo", "$propertyPhotos + size = ${propertyPhotos.size}")
             }
 
+        }else {
+            Log.e("onActivityResult", "not work")
         }
     }
 

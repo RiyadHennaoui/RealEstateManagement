@@ -8,6 +8,9 @@ import com.google.firebase.storage.ktx.storage
 import com.openclassrooms.realestatemanager.database.Photo
 import com.openclassrooms.realestatemanager.database.Property
 import com.openclassrooms.realestatemanager.database.PropertyDatabase
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 
 class PropertyRepository(private val db: PropertyDatabase) {
@@ -46,6 +49,19 @@ class PropertyRepository(private val db: PropertyDatabase) {
         val uploadImageToFirebaseStorage = storageImageRef.child("image/$fileName").putFile(photoUri)
         emit(uploadImageToFirebaseStorage)
         Log.e("repo", item.photoUri)
+    }
+
+    fun uploadPhotoWithCoroutines(item: Photo, fileName: String) = CoroutineScope(Dispatchers.IO).launch {
+
+        try {
+            val photoUri = Uri.parse(item.photoUri)
+            storageImageRef.child("image/$fileName").putFile(photoUri)
+            Log.e("repo Coroutine", item.photoUri)
+        }catch (e: Exception){
+            Log.e("repo Coroutine", e.message!!)
+        }
+
+
     }
 
 //    fun downloadPhotoInFirestore() = liveData {

@@ -38,5 +38,5 @@ class PropertyViewModel(private val repository: PropertyRepository) : ViewModel(
 
     fun uploadPhotoToFirebase(item: Photo, fileName: String) = repository.uploadPhotoToFirestore(item, fileName)
 
-
+    fun uploadPhotoWithCoroutine(item: Photo, fileName: String) = repository.uploadPhotoWithCoroutines(item, fileName)
 }

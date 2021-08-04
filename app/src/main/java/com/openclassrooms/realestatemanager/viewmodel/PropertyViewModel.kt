@@ -13,10 +13,8 @@ class PropertyViewModel(private val repository: PropertyRepository) : ViewModel(
 
     //TODO voir avec Thie les Livedata avec coroutines
 
-    fun upsert(item: Property) = liveData {
-        val id = repository.upsertProperty(item)
-        emit(id)
-    }
+    fun upsert(item: Property) = repository.upsertProperty(item)
+
 
 
     fun upsertAllPhotosOfProperty(item: Property, listPhotos: List<Photo>) =

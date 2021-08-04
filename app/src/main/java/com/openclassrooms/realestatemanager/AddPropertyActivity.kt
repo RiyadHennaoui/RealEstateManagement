@@ -12,6 +12,7 @@ import android.util.Log
 import android.widget.*
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
@@ -41,7 +42,6 @@ class AddPropertyActivity : AppCompatActivity() {
     lateinit var pointsOfInterest: List<String>
     var photoDescription = ""
     var photosList = arrayListOf<Photo>()
-
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -126,38 +126,34 @@ class AddPropertyActivity : AppCompatActivity() {
             val checkedPointOfInterestIds = groupChipsPointsOfInterest.checkedChipIds
 
 
-
-            Log.e("Here", userChooseInString)
-
-//            val newProperty = Property(
-//                id = 0,
-//                price = price.text.toString().toInt(),
-//                type = userChooseInString,
-//                area = areaValue.text.toString().toInt(),
-//                roomsNumber = roomsValue.text.toString().toInt(),
-//                bedRoomsNumber = bedroomsValue.text.toString().toInt(),
-//                bathRoomsNumber = bathroomsValue.text.toString().toInt(),
-//                description = description.text.toString(),
-//                address = completeAddress,
-//                pointOfInterest = pointsOfInterestToString(checkedPointOfInterestIds),
-//                entryDate = entryDate.text.toString(),
-//                saleDate = "",
-//                estateAgent = "Me"
-//            )
+            val newProperty = Property(
+                id = 0,
+                price = price.text.toString().toInt(),
+                type = userChooseInString,
+                area = areaValue.text.toString().toInt(),
+                roomsNumber = roomsValue.text.toString().toInt(),
+                bedRoomsNumber = bedroomsValue.text.toString().toInt(),
+                bathRoomsNumber = bathroomsValue.text.toString().toInt(),
+                description = description.text.toString(),
+                address = completeAddress,
+                pointOfInterest = pointsOfInterestToString(checkedPointOfInterestIds),
+                entryDate = entryDate.text.toString(),
+                saleDate = "",
+                estateAgent = "Me"
+            )
 
             pointsOfInterestToString(checkedPointOfInterestIds)
 
+
             val pointOfInterest = groupChipsPointsOfInterest.checkedChipIds
             Log.e("here", "${pointsOfInterestToString(pointOfInterest)}")
-//
-//           propertyViewModel.upsert(newProperty)
-            uploadPhotosToFirebase(propertyPhotos, propertyViewModel)
+            propertyViewModel.upsert(newProperty).observe(this, { property ->
+
+                uploadPhotosToFirebase(propertyPhotos, propertyViewModel)
+            })
+
         }
 
-
-
-
-        val pointOfInterest = groupChipsPointsOfInterest.checkedChipIds
 
 
     }
@@ -182,14 +178,17 @@ class AddPropertyActivity : AppCompatActivity() {
             .create()
     }
 
-    private fun uploadPhotosToFirebase(album: ArrayList<Photo>, propertyViewModel: PropertyViewModel){
+    private fun uploadPhotosToFirebase(
+        album: ArrayList<Photo>,
+        propertyViewModel: PropertyViewModel
+    ) {
         album.forEach {
             propertyViewModel.uploadPhotoWithCoroutine(it, it.shortDescription)
             Log.e("upload", it.shortDescription)
         }
     }
 
-    private fun uploadOnePhotoInStorage(photo: Photo, propertyViewModel: PropertyViewModel){
+    private fun uploadOnePhotoInStorage(photo: Photo, propertyViewModel: PropertyViewModel) {
         propertyViewModel.uploadPhotoToFirebase(photo, photo.shortDescription)
     }
 
@@ -202,7 +201,7 @@ class AddPropertyActivity : AppCompatActivity() {
         input.inputType = InputType.TYPE_CLASS_TEXT
         builder.setView(input)
 
-        builder.setPositiveButton("ok", ){ _, _ ->
+        builder.setPositiveButton("ok") { _, _ ->
             photoDescription = input.text.toString()
 
         }
@@ -240,7 +239,8 @@ class AddPropertyActivity : AppCompatActivity() {
         super.onActivityResult(requestCode, resultCode, intentData)
         if (resultCode == Activity.RESULT_OK &&
             requestCode == REQUEST_CODE_IMAGE_PICK ||
-            requestCode == REQUEST_CODE_TAKE_IMAGE_WITH_CAMERA) {
+            requestCode == REQUEST_CODE_TAKE_IMAGE_WITH_CAMERA
+        ) {
             val uri = intentData?.data
             //TODO Ajouter une méthode pour ajouter un string pour la description de la photo
 
@@ -253,7 +253,7 @@ class AddPropertyActivity : AppCompatActivity() {
                 Log.e("for photo", "$propertyPhotos + size = ${propertyPhotos.size}")
             }
 
-        }else {
+        } else {
             Log.e("onActivityResult", "not work")
         }
     }
@@ -284,11 +284,11 @@ class AddPropertyActivity : AppCompatActivity() {
         return userChoice
     }
 
-    private fun pointsOfInterestToString(chipId: List<Int>): List<String>{
+    private fun pointsOfInterestToString(chipId: List<Int>): ArrayList<String> {
         val pointsOfInterestProperty = arrayListOf<String>()
 
         chipId.forEach {
-            when(it){
+            when (it) {
                 R.id.chipSchool -> pointsOfInterestProperty += "School "
                 R.id.chipPark -> pointsOfInterestProperty += "Park "
                 R.id.chipShops -> pointsOfInterestProperty += "Shops "

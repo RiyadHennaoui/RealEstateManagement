@@ -147,13 +147,13 @@ class AddPropertyActivity : AppCompatActivity() {
 
             val pointOfInterest = groupChipsPointsOfInterest.checkedChipIds
             Log.e("here", "${pointsOfInterestToString(pointOfInterest)}")
-            propertyViewModel.upsert(newProperty).observe(this, { property ->
+            propertyViewModel.upsert(newProperty).observe(this, {
+                Log.e("property id", "$it")
+                uploadPhotosToFirebase(propertyPhotos, newProperty, propertyViewModel)
 
-                uploadPhotosToFirebase(propertyPhotos, propertyViewModel)
             })
 
         }
-
 
 
     }
@@ -180,12 +180,20 @@ class AddPropertyActivity : AppCompatActivity() {
 
     private fun uploadPhotosToFirebase(
         album: ArrayList<Photo>,
+        property: Property,
         propertyViewModel: PropertyViewModel
     ) {
-        album.forEach {
-            propertyViewModel.uploadPhotoWithCoroutine(it, it.shortDescription)
-            Log.e("upload", it.shortDescription)
-        }
+        propertyViewModel.upsertAllPhotosOfProperty(property, album).observe(this, { propertyId ->
+
+//                val photoTitle = "${it.shortDescription}$propertyId"
+//                propertyViewModel.uploadPhotoToFirebase(it, photoTitle).observe(this, { lol ->
+                    Log.e("upload", "${propertyId}")
+//                })
+
+
+//                propertyViewModel.uploadPhotoWithCoroutine(it, photoTitle)
+
+        })
     }
 
     private fun uploadOnePhotoInStorage(photo: Photo, propertyViewModel: PropertyViewModel) {

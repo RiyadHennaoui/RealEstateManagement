@@ -29,6 +29,12 @@ class PropertyRepository(private val db: PropertyDatabase) {
         photos.find { it.propertyId == 0L }?.propertyId = idProperty
         photos.forEach {
             db.getPropertyDao().insertPhoto(it)
+            CoroutineScope(Dispatchers.IO).launch {
+                val photoUri = Uri.parse(it.photoUri)
+                storageImageRef.child("image/${it.propertyId}${it.shortDescription}").putFile(photoUri)
+                Log.e("repo Photo", "${it.propertyId}")
+            }
+
         }
         emit(idProperty)
     }

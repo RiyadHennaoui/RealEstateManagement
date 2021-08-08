@@ -5,6 +5,7 @@ import android.util.Log
 import androidx.lifecycle.liveData
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
+import com.google.gson.Gson
 import com.openclassrooms.realestatemanager.database.Photo
 import com.openclassrooms.realestatemanager.database.Property
 import com.openclassrooms.realestatemanager.database.PropertyDatabase
@@ -26,13 +27,15 @@ class PropertyRepository(private val db: PropertyDatabase) {
 
     fun upsertPropertyAndPhotos(item: Property, photos: List<Photo>) = liveData {
         val idProperty = db.getPropertyDao().upsert(item)
-        photos.find { it.propertyId == 0L }?.propertyId = idProperty
         photos.forEach {
+            it.propertyId = idProperty
             db.getPropertyDao().insertPhoto(it)
             CoroutineScope(Dispatchers.IO).launch {
                 val photoUri = Uri.parse(it.photoUri)
+                val gson = Gson()
                 storageImageRef.child("image/${it.propertyId}${it.shortDescription}").putFile(photoUri)
                 Log.e("repo Photo", "${it.propertyId}")
+                Log.e("repo gson", gson.toJson(it))
             }
 
         }

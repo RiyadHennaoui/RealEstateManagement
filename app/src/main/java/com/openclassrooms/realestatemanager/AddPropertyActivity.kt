@@ -1,7 +1,6 @@
 package com.openclassrooms.realestatemanager
 
 import android.app.Activity
-import android.content.DialogInterface
 import android.content.Intent
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
@@ -12,7 +11,6 @@ import android.util.Log
 import android.widget.*
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
@@ -147,11 +145,11 @@ class AddPropertyActivity : AppCompatActivity() {
 
             val pointOfInterest = groupChipsPointsOfInterest.checkedChipIds
             Log.e("here", "${pointsOfInterestToString(pointOfInterest)}")
-            propertyViewModel.upsert(newProperty).observe(this, {
-                Log.e("property id", "$it")
-                uploadPhotosToFirebase(propertyPhotos, newProperty, propertyViewModel)
-
-            })
+            propertyViewModel.upsertPropertyAndPhotos(newProperty, propertyPhotos)
+                .observe(this, {
+                    Log.e("property id", "$it")
+                    finish()
+                })
 
         }
 
@@ -178,27 +176,6 @@ class AddPropertyActivity : AppCompatActivity() {
             .create()
     }
 
-    private fun uploadPhotosToFirebase(
-        album: ArrayList<Photo>,
-        property: Property,
-        propertyViewModel: PropertyViewModel
-    ) {
-        propertyViewModel.upsertAllPhotosOfProperty(property, album).observe(this, { propertyId ->
-
-//                val photoTitle = "${it.shortDescription}$propertyId"
-//                propertyViewModel.uploadPhotoToFirebase(it, photoTitle).observe(this, { lol ->
-                    Log.e("upload", "${propertyId}")
-//                })
-
-
-//                propertyViewModel.uploadPhotoWithCoroutine(it, photoTitle)
-
-        })
-    }
-
-    private fun uploadOnePhotoInStorage(photo: Photo, propertyViewModel: PropertyViewModel) {
-        propertyViewModel.uploadPhotoToFirebase(photo, photo.shortDescription)
-    }
 
     private fun photoDescDialog(photoUri: String) {
         val builder = AlertDialog.Builder(this)
@@ -211,6 +188,10 @@ class AddPropertyActivity : AppCompatActivity() {
 
         builder.setPositiveButton("ok") { _, _ ->
             photoDescription = input.text.toString()
+            val currentPhoto = Photo(0, photoDescription, photoUri, 0)
+
+            photosList.add(currentPhoto)
+            Log.e("listPhoto", "${photosList.last().shortDescription} + ${photosList.last().photoUri}")
 
         }
         builder.setNegativeButton("Cancel") { dialogInterface, _ ->
@@ -219,10 +200,6 @@ class AddPropertyActivity : AppCompatActivity() {
         builder.show()
 
 
-        val currentPhoto = Photo(0, photoDescription, photoUri, 0)
-
-        photosList.add(currentPhoto)
-        Log.e("listPhoto", "${photosList.last().shortDescription} + ${photosList.last().photoUri}")
 
     }
 
@@ -253,16 +230,6 @@ class AddPropertyActivity : AppCompatActivity() {
             //TODO Ajouter une méthode pour ajouter un string pour la description de la photo
 
             photoDescDialog(uri.toString())
-            var currentPhoto = Photo(0, photoDescription, uri.toString(), 0)
-
-            propertyPhotos.add(currentPhoto)
-            Log.e("photo", uri.toString())
-            for (i in 0..propertyPhotos.size) {
-                Log.e("for photo", "$propertyPhotos + size = ${propertyPhotos.size}")
-            }
-
-        } else {
-            Log.e("onActivityResult", "not work")
         }
     }
 

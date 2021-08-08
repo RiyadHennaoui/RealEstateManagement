@@ -17,7 +17,7 @@ class PropertyViewModel(private val repository: PropertyRepository) : ViewModel(
 
 
 
-    fun upsertAllPhotosOfProperty(item: Property, listPhotos: List<Photo>) =
+    fun upsertPropertyAndPhotos(item: Property, listPhotos: List<Photo>) =
         repository.upsertPropertyAndPhotos(item, listPhotos)
 
 

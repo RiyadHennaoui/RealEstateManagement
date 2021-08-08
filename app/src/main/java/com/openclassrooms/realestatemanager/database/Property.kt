@@ -7,7 +7,7 @@ import java.util.*
 
 
 @Entity (tableName = "property")
-data class Property (@PrimaryKey (autoGenerate = true) var id: Long? = 0,
+data class Property (@PrimaryKey (autoGenerate = true) var id: Long,
                          @ColumnInfo (name = "type") var type: String,
                          @ColumnInfo (name = "price") var price: Int,
                          @ColumnInfo (name = "area") var area: Int,

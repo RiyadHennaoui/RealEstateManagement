@@ -12,9 +12,13 @@ import android.widget.*
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
+import androidx.viewpager.widget.PagerAdapter
+import androidx.viewpager.widget.ViewPager
+import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
 import com.google.android.material.textfield.TextInputEditText
+import com.openclassrooms.realestatemanager.adapter.ViewPagerAdapter
 import com.openclassrooms.realestatemanager.database.Photo
 import com.openclassrooms.realestatemanager.database.Property
 import com.openclassrooms.realestatemanager.database.PropertyDatabase
@@ -42,6 +46,7 @@ class AddPropertyActivity : AppCompatActivity() {
     var photosList = arrayListOf<Photo>()
 
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_property)
@@ -57,8 +62,6 @@ class AddPropertyActivity : AppCompatActivity() {
 
         //Views for Pictures
         val addPhoto: ImageButton = findViewById(R.id.ibAddPhoto)
-        val displayPhoto: ImageView = findViewById(R.id.ivPropertyPhotos)
-
 
         //Chips for type of property
         val chipGroupTypeOfProperty: ChipGroup = findViewById(R.id.chipGroupTypeOfProperty)
@@ -101,8 +104,16 @@ class AddPropertyActivity : AppCompatActivity() {
         //View for create Property
         val btnCreate: ImageButton = findViewById(R.id.btnCreate)
 
+        //For ViewPager
+        val viewPager: ViewPager2 = findViewById(R.id.vpPropertyPhotos)
+        var adapter = ViewPagerAdapter(photosList)
+        viewPager.adapter = adapter
+
+
+
 
         val addPhotoDialog = addPhotoAlertDialog()
+
 
 
         addPhoto.setOnClickListener {

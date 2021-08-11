@@ -2,6 +2,7 @@ package com.openclassrooms.realestatemanager.adapter
 
 import android.content.Context
 import android.net.Uri
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -36,23 +37,18 @@ class ViewPagerAdapter(val photos: List<Photo>) :
         val imageView: ImageView = holder.itemView.findViewById(R.id.ivProperties)
         val textView: TextView = holder.itemView.findViewById(R.id.tvPictureTitle)
 
-        if (photos.isEmpty()) {
-            imageView.setImageResource(R.drawable.no_image)
+        val currentPhotoUri = Uri.parse(photos[position].photoUri)
+        imageView.setImageURI(currentPhotoUri)
+        textView.text = photos[position].shortDescription
 
-        } else {
-            val currentPhotoUri = Uri.parse(photos[position].photoUri)
-            imageView.setImageURI(currentPhotoUri)
-            textView.text = photos[position].shortDescription
 
-        }
+
     }
 
     override fun getItemCount(): Int {
-        if (photos.isEmpty()) {
-            return 0
-        } else {
-            return photos.size
-        }
+
+        return photos.size
+
     }
 
 

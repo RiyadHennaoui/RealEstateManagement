@@ -8,15 +8,19 @@ import android.os.Bundle
 import android.provider.MediaStore
 import android.text.InputType
 import android.util.Log
+import android.view.View
 import android.widget.*
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
+import androidx.core.view.get
 import androidx.lifecycle.ViewModelProvider
 import androidx.viewpager.widget.PagerAdapter
 import androidx.viewpager.widget.ViewPager
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
+import com.google.android.material.tabs.TabLayout
+import com.google.android.material.tabs.TabLayoutMediator
 import com.google.android.material.textfield.TextInputEditText
 import com.openclassrooms.realestatemanager.adapter.ViewPagerAdapter
 import com.openclassrooms.realestatemanager.database.Photo
@@ -44,7 +48,6 @@ class AddPropertyActivity : AppCompatActivity() {
     lateinit var pointsOfInterest: List<String>
     var photoDescription = ""
     var photosList = arrayListOf<Photo>()
-
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -104,11 +107,11 @@ class AddPropertyActivity : AppCompatActivity() {
         //View for create Property
         val btnCreate: ImageButton = findViewById(R.id.btnCreate)
 
-        //For ViewPager
+        //For ViewPager and TabLayout
         val viewPager: ViewPager2 = findViewById(R.id.vpPropertyPhotos)
+        val tabLayout: TabLayout = findViewById(R.id.tabLayout)
         var adapter = ViewPagerAdapter(photosList)
         viewPager.adapter = adapter
-
 
 
 
@@ -117,6 +120,7 @@ class AddPropertyActivity : AppCompatActivity() {
 
 
         addPhoto.setOnClickListener {
+            displayDotsIndicators(tabLayout, viewPager)
             addPhotoDialog.show()
         }
 
@@ -167,6 +171,16 @@ class AddPropertyActivity : AppCompatActivity() {
 
     }
 
+    private fun displayDotsIndicators(
+        tabLayout: TabLayout,
+        viewPager: ViewPager2
+    ) {
+        TabLayoutMediator(tabLayout, viewPager) { tab, position ->
+
+
+        }.attach()
+    }
+
     private fun addPhotoAlertDialog(): AlertDialog {
         return AlertDialog.Builder(this)
             .setTitle("Add Photo")
@@ -202,7 +216,10 @@ class AddPropertyActivity : AppCompatActivity() {
             val currentPhoto = Photo(0, photoDescription, photoUri, 0)
 
             photosList.add(currentPhoto)
-            Log.e("listPhoto", "${photosList.last().shortDescription} + ${photosList.last().photoUri}")
+            Log.e(
+                "listPhoto",
+                "${photosList.last().shortDescription} + ${photosList.last().photoUri}"
+            )
 
         }
         builder.setNegativeButton("Cancel") { dialogInterface, _ ->
@@ -211,12 +228,8 @@ class AddPropertyActivity : AppCompatActivity() {
         builder.show()
 
 
-
     }
 
-    private fun displayPhotoFunction(displayPhotos: ImageView, uri: Uri) {
-        displayPhotos.setImageURI(uri)
-    }
 
     private fun intentToCamera() {
 //        val getContent = registerForActivityResult(StartActivityForResult()) { result: ActivityResult ->

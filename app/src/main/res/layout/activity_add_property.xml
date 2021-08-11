@@ -32,10 +32,14 @@
                     app:layout_constraintEnd_toEndOf="parent"/>
 
 
-                <TableLayout
+                <com.google.android.material.tabs.TabLayout
                     android:id="@+id/tabLayout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    app:tabBackground="@drawable/tab_selector"
+                    android:backgroundTint="@android:color/transparent"
+                    app:tabGravity="center"
+                    app:tabIndicatorHeight="0dp"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintBottom_toBottomOf="@id/vpPropertyPhotos"/>

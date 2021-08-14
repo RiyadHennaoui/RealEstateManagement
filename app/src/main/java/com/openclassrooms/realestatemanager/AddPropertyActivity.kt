@@ -8,6 +8,7 @@ import android.os.Bundle
 import android.provider.MediaStore
 import android.text.InputType
 import android.util.Log
+import android.view.MotionEvent
 import android.view.View
 import android.widget.*
 import androidx.appcompat.app.AlertDialog
@@ -19,6 +20,7 @@ import androidx.viewpager.widget.ViewPager
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
+import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import com.google.android.material.textfield.TextInputEditText
@@ -34,18 +36,8 @@ private const val REQUEST_CODE_IMAGE_PICK = 0
 private const val REQUEST_CODE_TAKE_IMAGE_WITH_CAMERA = 9
 
 class AddPropertyActivity : AppCompatActivity() {
-    var uriPhoto: Uri? = null
+
     var propertyPhotos = arrayListOf<Photo>()
-    var price: Int = 0
-    lateinit var typeOfProperty: String
-    var areaValue: Int = 0
-    var numberOfRooms: Int = 0
-    var numberOfBedooms: Int = 0
-    var numberOfBathooms: Int = 0
-    lateinit var entryDate: String
-    lateinit var soldDate: String
-    lateinit var addressOfProperty: String
-    lateinit var pointsOfInterest: List<String>
     var photoDescription = ""
     var photosList = arrayListOf<Photo>()
 
@@ -61,6 +53,7 @@ class AddPropertyActivity : AppCompatActivity() {
         val propertyViewModel = ViewModelProvider(this, factory).get(PropertyViewModel::class.java)
 
         //View for back in MainActivity
+        //TODO ne pas oublier l'intent
         val btnHome: ImageView = findViewById(R.id.ivHome)
 
         //Views for Pictures
@@ -68,12 +61,6 @@ class AddPropertyActivity : AppCompatActivity() {
 
         //Chips for type of property
         val chipGroupTypeOfProperty: ChipGroup = findViewById(R.id.chipGroupTypeOfProperty)
-        val cpHouse: Chip = findViewById(R.id.chipHouse)
-        val cpManor: Chip = findViewById(R.id.chipManor)
-        val cpCastle: Chip = findViewById(R.id.chipCastle)
-        val cpPenthouse: Chip = findViewById(R.id.chipPenthouse)
-        val cpDuplex: Chip = findViewById(R.id.chipDuplex)
-        val cpLoft: Chip = findViewById(R.id.chipLoft)
 
         //View for price
         val price: TextInputEditText = findViewById(R.id.tietPrice)
@@ -96,10 +83,6 @@ class AddPropertyActivity : AppCompatActivity() {
 
         //Views for Point of interest
         val groupChipsPointsOfInterest: ChipGroup = findViewById(R.id.chipsGroupPointsOfInterest)
-        val chipStops: Chip = findViewById(R.id.chipShops)
-        val chipSchool: Chip = findViewById(R.id.chipSchool)
-        val chipPark: Chip = findViewById(R.id.chipPark)
-        val chipTransport: Chip = findViewById(R.id.chipTransport)
 
         //View for description
         val description: TextInputEditText = findViewById(R.id.tietDescription)
@@ -114,7 +97,6 @@ class AddPropertyActivity : AppCompatActivity() {
         viewPager.adapter = adapter
 
 
-
         val addPhotoDialog = addPhotoAlertDialog()
 
 
@@ -123,6 +105,8 @@ class AddPropertyActivity : AppCompatActivity() {
             displayDotsIndicators(tabLayout, viewPager)
             addPhotoDialog.show()
         }
+
+        entryDateClicked(entryDate)
 
 
 
@@ -168,6 +152,29 @@ class AddPropertyActivity : AppCompatActivity() {
 
         }
 
+
+    }
+
+
+    private fun entryDateClicked(entryDate: TextInputEditText) {
+        entryDate.setOnClickListener {
+            displayCalendar(entryDate)
+
+        }
+    }
+
+    private fun displayCalendar(entryDate: TextInputEditText) {
+        val datePicker =
+            MaterialDatePicker.Builder.datePicker()
+                .setTitleText("Select Date")
+                .setSelection(MaterialDatePicker.todayInUtcMilliseconds())
+                .build()
+
+
+        datePicker.show(supportFragmentManager, "Property Entry Date")
+        datePicker.addOnPositiveButtonClickListener {
+            entryDate.setText(datePicker.headerText)
+        }
 
     }
 
@@ -251,7 +258,6 @@ class AddPropertyActivity : AppCompatActivity() {
             requestCode == REQUEST_CODE_TAKE_IMAGE_WITH_CAMERA
         ) {
             val uri = intentData?.data
-            //TODO Ajouter une méthode pour ajouter un string pour la description de la photo
 
             photoDescDialog(uri.toString())
         }
@@ -293,7 +299,6 @@ class AddPropertyActivity : AppCompatActivity() {
                 R.id.chipShops -> pointsOfInterestProperty += "Shops "
                 R.id.chipTransport -> pointsOfInterestProperty += "Transport "
             }
-
         }
 
 

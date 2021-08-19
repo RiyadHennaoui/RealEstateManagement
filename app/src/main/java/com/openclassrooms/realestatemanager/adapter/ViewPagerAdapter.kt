@@ -38,7 +38,9 @@ class ViewPagerAdapter(val photos: List<Photo>) :
         val textView: TextView = holder.itemView.findViewById(R.id.tvPictureTitle)
 
         val currentPhotoUri = Uri.parse(photos[position].photoUri)
+        //TODO Utiliser Glide avec CenterCorp
         imageView.setImageURI(currentPhotoUri)
+        imageView.scaleType = ImageView.ScaleType.CENTER_CROP
         textView.text = photos[position].shortDescription
 
 

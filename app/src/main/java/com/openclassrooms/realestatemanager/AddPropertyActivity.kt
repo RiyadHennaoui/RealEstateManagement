@@ -40,6 +40,8 @@ class AddPropertyActivity : AppCompatActivity() {
     var propertyPhotos = arrayListOf<Photo>()
     var photoDescription = ""
     var photosList = arrayListOf<Photo>()
+    lateinit var adapter: ViewPagerAdapter
+    lateinit var viewPager: ViewPager2
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -91,10 +93,11 @@ class AddPropertyActivity : AppCompatActivity() {
         val btnCreate: ImageButton = findViewById(R.id.btnCreate)
 
         //For ViewPager and TabLayout
-        val viewPager: ViewPager2 = findViewById(R.id.vpPropertyPhotos)
+        viewPager = findViewById(R.id.vpPropertyPhotos)
         val tabLayout: TabLayout = findViewById(R.id.tabLayout)
-        var adapter = ViewPagerAdapter(photosList)
+        adapter = ViewPagerAdapter(photosList)
         viewPager.adapter = adapter
+        displayDotsIndicators(tabLayout, viewPager)
 
 
         val addPhotoDialog = addPhotoAlertDialog()
@@ -102,7 +105,6 @@ class AddPropertyActivity : AppCompatActivity() {
 
 
         addPhoto.setOnClickListener {
-            displayDotsIndicators(tabLayout, viewPager)
             addPhotoDialog.show()
         }
 
@@ -223,6 +225,9 @@ class AddPropertyActivity : AppCompatActivity() {
             val currentPhoto = Photo(0, photoDescription, photoUri, 0)
 
             photosList.add(currentPhoto)
+            adapter.notifyDataSetChanged()
+            viewPager.currentItem = photosList.size-1
+
             Log.e(
                 "listPhoto",
                 "${photosList.last().shortDescription} + ${photosList.last().photoUri}"
@@ -260,6 +265,7 @@ class AddPropertyActivity : AppCompatActivity() {
             val uri = intentData?.data
 
             photoDescDialog(uri.toString())
+
         }
     }
 

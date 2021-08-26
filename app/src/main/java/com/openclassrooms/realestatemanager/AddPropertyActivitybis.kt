@@ -22,6 +22,7 @@ import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import com.google.android.material.textfield.TextInputEditText
+import com.google.gson.Gson
 import com.openclassrooms.realestatemanager.adapter.ViewPagerAdapter
 import com.openclassrooms.realestatemanager.database.Photo
 import com.openclassrooms.realestatemanager.database.Property
@@ -46,6 +47,7 @@ class AddPropertyActivity : AppCompatActivity() {
     lateinit var bindings: ActivityAddPropertyBinding
 
 
+    lateinit var photoUri: Uri
     var propertyPhotos = arrayListOf<Photo>()
     var photoDescription = ""
     var photosList = arrayListOf<Photo>()
@@ -199,7 +201,7 @@ class AddPropertyActivity : AppCompatActivity() {
 
             photosList.add(currentPhoto)
             adapter.notifyDataSetChanged()
-            viewPager.currentItem = photosList.size-1
+            viewPager.currentItem = photosList.size - 1
 
             Log.e(
                 "listPhoto",
@@ -224,16 +226,17 @@ class AddPropertyActivity : AppCompatActivity() {
 //            }
 //
 //        }
+        //TODO
         Intent(MediaStore.ACTION_IMAGE_CAPTURE).also { takePictureIntent ->
             takePictureIntent.resolveActivity(packageManager)?.also {
                 val photoFile: File? = try {
                     createImageFile()
-                }catch (e: IOException){
+                } catch (e: IOException) {
                     Log.e("intentToCamera", e.toString())
                     null
                 }
                 photoFile?.also {
-                    val photoUri: Uri = FileProvider.getUriForFile(
+                    photoUri = FileProvider.getUriForFile(
                         this,
                         "com.openclassrooms.realestatemanager.fileprovider",
                         it
@@ -263,34 +266,23 @@ class AddPropertyActivity : AppCompatActivity() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, intentData: Intent?) {
         super.onActivityResult(requestCode, resultCode, intentData)
 
-//        if(resultCode == Activity.RESULT_OK){
-//            Log.e("ResultOk photos", intentData?.extras?.get("intentData").toString())
-//            var uri: Uri? = null
-//            when(requestCode){
-//                REQUEST_CODE_TAKE_IMAGE_WITH_CAMERA -> uri = getImageUriFromBitmap(this,
-//                    intentData?.extras?.get("intentData") as Bitmap
-//                )
-//                REQUEST_CODE_IMAGE_PICK -> uri = intentData?.data
-//            }
-//            photoDescDialog(uri.toString())
-//        }
-        if (resultCode == Activity.RESULT_OK &&
-            requestCode == REQUEST_CODE_IMAGE_PICK ||
-            requestCode == REQUEST_CODE_TAKE_IMAGE_WITH_CAMERA
-        ) {
-            val uri = intentData?.data
-//            val uriCam = intentData?.extras?.get("intentData") as Bitmap
-
-            Log.e("uri onActivityResult", "$uri + ${intentData?.data}")
+        if (resultCode == Activity.RESULT_OK) {
+            Log.e("ResultOk photos", intentData?.extras?.get("intentData").toString())
+            val uri: Uri? = when (requestCode) {
+                REQUEST_CODE_TAKE_IMAGE_WITH_CAMERA -> photoUri
+                REQUEST_CODE_IMAGE_PICK -> intentData?.data
+                else -> null
+            }
             photoDescDialog(uri.toString())
-
         }
+
     }
 
     private fun getImageUriFromBitmap(context: Context, bitmap: Bitmap): Uri? {
         val bytes = ByteArrayOutputStream()
         bitmap.compress(Bitmap.CompressFormat.JPEG, 100, bytes)
-        val path = MediaStore.Images.Media.insertImage(context.contentResolver, bitmap, "Title", null)
+        val path =
+            MediaStore.Images.Media.insertImage(context.contentResolver, bitmap, "Title", null)
         return Uri.parse(path.toString())
     }
 

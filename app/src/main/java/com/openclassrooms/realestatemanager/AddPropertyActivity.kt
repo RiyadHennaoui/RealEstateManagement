@@ -1,24 +1,22 @@
 package com.openclassrooms.realestatemanager
 
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
+import android.graphics.Bitmap
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.Environment
 import android.provider.MediaStore
 import android.text.InputType
 import android.util.Log
-import android.view.MotionEvent
-import android.view.View
 import android.widget.*
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
-import androidx.core.view.get
+import androidx.core.content.FileProvider
 import androidx.lifecycle.ViewModelProvider
-import androidx.viewpager.widget.PagerAdapter
-import androidx.viewpager.widget.ViewPager
 import androidx.viewpager2.widget.ViewPager2
-import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
 import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.android.material.tabs.TabLayout
@@ -31,6 +29,13 @@ import com.openclassrooms.realestatemanager.database.PropertyDatabase
 import com.openclassrooms.realestatemanager.repositories.PropertyRepository
 import com.openclassrooms.realestatemanager.viewmodel.PropertyViewModel
 import com.openclassrooms.realestatemanager.viewmodel.PropertyViewModelFactory
+import java.io.ByteArrayOutputStream
+import java.io.File
+import java.io.IOException
+import java.text.SimpleDateFormat
+import java.util.*
+import kotlin.collections.ArrayList
+import kotlin.jvm.Throws
 
 private const val REQUEST_CODE_IMAGE_PICK = 0
 private const val REQUEST_CODE_TAKE_IMAGE_WITH_CAMERA = 9
@@ -42,6 +47,7 @@ class AddPropertyActivity : AppCompatActivity() {
     var photosList = arrayListOf<Photo>()
     lateinit var adapter: ViewPagerAdapter
     lateinit var viewPager: ViewPager2
+    lateinit var currentPhotoPath: String
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -116,7 +122,7 @@ class AddPropertyActivity : AppCompatActivity() {
 
             val selectedChipId = chipGroupTypeOfProperty.checkedChipId
 
-            val userChooseInString = typeOfPropertyChoise(selectedChipId)
+            val userChooseInString = typeOfPropertyChoice(selectedChipId)
 
             //TODO modifier l'adresse en latitude logitude
             val completeAddress =
@@ -251,22 +257,74 @@ class AddPropertyActivity : AppCompatActivity() {
 //            }
 //
 //        }
-        Intent(MediaStore.ACTION_IMAGE_CAPTURE).also {
-            startActivityForResult(it, REQUEST_CODE_TAKE_IMAGE_WITH_CAMERA)
+        Intent(MediaStore.ACTION_IMAGE_CAPTURE).also { takePictureIntent ->
+            takePictureIntent.resolveActivity(packageManager)?.also {
+                val photoFile: File? = try {
+                    createImageFile()
+                }catch (e: IOException){
+                    Log.e("intentToCamera", e.toString())
+                    null
+                }
+                photoFile?.also {
+                    val photoUri: Uri = FileProvider.getUriForFile(
+                        this,
+                        "com.openclassrooms.realestatemanager.fileprovider",
+                        it
+                    )
+                    takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoUri)
+                    startActivityForResult(takePictureIntent, REQUEST_CODE_TAKE_IMAGE_WITH_CAMERA)
+                }
+            }
+
+        }
+    }
+
+    @Throws(IOException::class)
+    private fun createImageFile(): File {
+        //Create an image file name
+        val timestamp: String = SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())
+        val storageDir: File? = getExternalFilesDir(Environment.DIRECTORY_PICTURES)
+        return File.createTempFile(
+            "JPEG_${timestamp}",
+            ".jpg",
+            storageDir
+        ).apply {
+            currentPhotoPath = absolutePath
         }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, intentData: Intent?) {
         super.onActivityResult(requestCode, resultCode, intentData)
+
+//        if(resultCode == Activity.RESULT_OK){
+//            Log.e("ResultOk photos", intentData?.extras?.get("intentData").toString())
+//            var uri: Uri? = null
+//            when(requestCode){
+//                REQUEST_CODE_TAKE_IMAGE_WITH_CAMERA -> uri = getImageUriFromBitmap(this,
+//                    intentData?.extras?.get("intentData") as Bitmap
+//                )
+//                REQUEST_CODE_IMAGE_PICK -> uri = intentData?.data
+//            }
+//            photoDescDialog(uri.toString())
+//        }
         if (resultCode == Activity.RESULT_OK &&
             requestCode == REQUEST_CODE_IMAGE_PICK ||
             requestCode == REQUEST_CODE_TAKE_IMAGE_WITH_CAMERA
         ) {
             val uri = intentData?.data
+            val uriCam = intentData?.extras?.get("intentData") as Bitmap
 
+            Log.e("uri onActivityResult", "$uri + ${intentData?.data} ou $uriCam")
             photoDescDialog(uri.toString())
 
         }
+    }
+
+    private fun getImageUriFromBitmap(context: Context, bitmap: Bitmap): Uri? {
+        val bytes = ByteArrayOutputStream()
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, bytes)
+        val path = MediaStore.Images.Media.insertImage(context.contentResolver, bitmap, "Title", null)
+        return Uri.parse(path.toString())
     }
 
     private fun intentToPictureGallery() {
@@ -279,7 +337,7 @@ class AddPropertyActivity : AppCompatActivity() {
     }
 
 
-    private fun typeOfPropertyChoise(chipId: Int): String {
+    private fun typeOfPropertyChoice(chipId: Int): String {
         var userChoice = ""
         when (chipId) {
 

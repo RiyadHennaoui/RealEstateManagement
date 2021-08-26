@@ -26,6 +26,7 @@ import com.openclassrooms.realestatemanager.adapter.ViewPagerAdapter
 import com.openclassrooms.realestatemanager.database.Photo
 import com.openclassrooms.realestatemanager.database.Property
 import com.openclassrooms.realestatemanager.database.PropertyDatabase
+import com.openclassrooms.realestatemanager.databinding.ActivityAddPropertyBinding
 import com.openclassrooms.realestatemanager.repositories.PropertyRepository
 import com.openclassrooms.realestatemanager.viewmodel.PropertyViewModel
 import com.openclassrooms.realestatemanager.viewmodel.PropertyViewModelFactory
@@ -40,7 +41,10 @@ import kotlin.jvm.Throws
 private const val REQUEST_CODE_IMAGE_PICK = 0
 private const val REQUEST_CODE_TAKE_IMAGE_WITH_CAMERA = 9
 
+
 class AddPropertyActivity : AppCompatActivity() {
+    lateinit var bindings: ActivityAddPropertyBinding
+
 
     var propertyPhotos = arrayListOf<Photo>()
     var photoDescription = ""
@@ -52,7 +56,9 @@ class AddPropertyActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_add_property)
+        bindings = ActivityAddPropertyBinding.inflate(layoutInflater)
+        val view = bindings.root
+        setContentView(view)
 
 
         //For ViewModels
@@ -60,89 +66,54 @@ class AddPropertyActivity : AppCompatActivity() {
         val factory = PropertyViewModelFactory(propertyRepository)
         val propertyViewModel = ViewModelProvider(this, factory).get(PropertyViewModel::class.java)
 
-        //View for back in MainActivity
-        //TODO ne pas oublier l'intent
-        val btnHome: ImageView = findViewById(R.id.ivHome)
-
-        //Views for Pictures
-        val addPhoto: ImageButton = findViewById(R.id.ibAddPhoto)
-
-        //Chips for type of property
-        val chipGroupTypeOfProperty: ChipGroup = findViewById(R.id.chipGroupTypeOfProperty)
-
-        //View for price
-        val price: TextInputEditText = findViewById(R.id.tietPrice)
-
-        //Views for area
-        val areaValue: TextInputEditText = findViewById(R.id.tietArea)
-
-        //Views for numbers of rooms and type
-        val roomsValue: TextInputEditText = findViewById(R.id.tietRooms)
-        val bedroomsValue: TextInputEditText = findViewById(R.id.tietBedrooms)
-        val bathroomsValue: TextInputEditText = findViewById(R.id.tietBathrooms)
-
-        //Views for dates
-        val entryDate: TextInputEditText = findViewById(R.id.tietEntryDate)
-
-        //Views for address
-        val address: TextInputEditText = findViewById(R.id.tietAddress)
-        val zipCode: TextInputEditText = findViewById(R.id.tietZipCode)
-        val state: TextInputEditText = findViewById(R.id.tietState)
-
-        //Views for Point of interest
-        val groupChipsPointsOfInterest: ChipGroup = findViewById(R.id.chipsGroupPointsOfInterest)
-
-        //View for description
-        val description: TextInputEditText = findViewById(R.id.tietDescription)
-
-        //View for create Property
-        val btnCreate: ImageButton = findViewById(R.id.btnCreate)
 
         //For ViewPager and TabLayout
-        viewPager = findViewById(R.id.vpPropertyPhotos)
-        val tabLayout: TabLayout = findViewById(R.id.tabLayout)
+        viewPager = bindings.vpPropertyPhotos
         adapter = ViewPagerAdapter(photosList)
         viewPager.adapter = adapter
-        displayDotsIndicators(tabLayout, viewPager)
+        displayDotsIndicators(bindings.tabLayout, viewPager)
 
 
         val addPhotoDialog = addPhotoAlertDialog()
 
 
 
-        addPhoto.setOnClickListener {
+        bindings.ibAddPhoto.setOnClickListener {
             addPhotoDialog.show()
         }
 
-        entryDateClicked(entryDate)
+        entryDateClicked(bindings.tietEntryDate)
+
+        createPropertyInDB(propertyViewModel)
 
 
+    }
 
-        btnCreate.setOnClickListener {
+    private fun createPropertyInDB(propertyViewModel: PropertyViewModel) {
+        bindings.btnCreate.setOnClickListener {
 
-            val selectedChipId = chipGroupTypeOfProperty.checkedChipId
-
-            val userChooseInString = typeOfPropertyChoice(selectedChipId)
+            val userChooseInString =
+                typeOfPropertyChoice(bindings.chipGroupTypeOfProperty.checkedChipId)
 
             //TODO modifier l'adresse en latitude logitude
             val completeAddress =
-                "${address.text.toString()}, ${zipCode.text.toString()}, ${state.text.toString()}"
+                "${bindings.tietAddress.text.toString()}, ${bindings.tietZipCode.text.toString()}, ${bindings.tietState.text.toString()}"
 
-            val checkedPointOfInterestIds = groupChipsPointsOfInterest.checkedChipIds
+            val checkedPointOfInterestIds = bindings.chipsGroupPointsOfInterest.checkedChipIds
 
 
             val newProperty = Property(
                 id = 0,
-                price = price.text.toString().toInt(),
+                price = bindings.tietPrice.text.toString().toInt(),
                 type = userChooseInString,
-                area = areaValue.text.toString().toInt(),
-                roomsNumber = roomsValue.text.toString().toInt(),
-                bedRoomsNumber = bedroomsValue.text.toString().toInt(),
-                bathRoomsNumber = bathroomsValue.text.toString().toInt(),
-                description = description.text.toString(),
+                area = bindings.tietArea.text.toString().toInt(),
+                roomsNumber = bindings.tietRooms.text.toString().toInt(),
+                bedRoomsNumber = bindings.tietBedrooms.text.toString().toInt(),
+                bathRoomsNumber = bindings.tietBathrooms.text.toString().toInt(),
+                description = bindings.tietDescription.text.toString(),
                 address = completeAddress,
                 pointOfInterest = pointsOfInterestToString(checkedPointOfInterestIds),
-                entryDate = entryDate.text.toString(),
+                entryDate = bindings.tietEntryDate.text.toString(),
                 saleDate = "",
                 estateAgent = "Me"
             )
@@ -150,8 +121,6 @@ class AddPropertyActivity : AppCompatActivity() {
             pointsOfInterestToString(checkedPointOfInterestIds)
 
 
-            val pointOfInterest = groupChipsPointsOfInterest.checkedChipIds
-            Log.e("here", "${pointsOfInterestToString(pointOfInterest)}")
             propertyViewModel.upsertPropertyAndPhotos(newProperty, propertyPhotos)
                 .observe(this, {
                     Log.e("property id", "$it")
@@ -159,8 +128,6 @@ class AddPropertyActivity : AppCompatActivity() {
                 })
 
         }
-
-
     }
 
 
@@ -312,9 +279,9 @@ class AddPropertyActivity : AppCompatActivity() {
             requestCode == REQUEST_CODE_TAKE_IMAGE_WITH_CAMERA
         ) {
             val uri = intentData?.data
-            val uriCam = intentData?.extras?.get("intentData") as Bitmap
+//            val uriCam = intentData?.extras?.get("intentData") as Bitmap
 
-            Log.e("uri onActivityResult", "$uri + ${intentData?.data} ou $uriCam")
+            Log.e("uri onActivityResult", "$uri + ${intentData?.data}")
             photoDescDialog(uri.toString())
 
         }

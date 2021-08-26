@@ -9,21 +9,23 @@ import android.widget.ImageView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
-
+import com.openclassrooms.realestatemanager.databinding.SplashScreenBinding
 
 class SplashScreen : AppCompatActivity() {
-    private var realEstateLogo: ImageView? = null
+    lateinit var binding: SplashScreenBinding
     private lateinit var auth:FirebaseAuth
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.splash_screen)
+        binding = SplashScreenBinding.inflate(layoutInflater)
+        val view = binding.root
+        setContentView(view)
 
         auth = Firebase.auth
 
 
-        realEstateLogo = findViewById(R.id.splash_screen_iv_logo)
+        val realEstateLogo = binding.splashScreenIvLogo
         val animFadeIn: Animation = AnimationUtils.loadAnimation(applicationContext, R.anim.fade_in)
-        realEstateLogo!!.startAnimation(animFadeIn)
+        realEstateLogo.startAnimation(animFadeIn)
 
         animFadeIn.setAnimationListener(object : Animation.AnimationListener {
             override fun onAnimationStart(p0: Animation?) {

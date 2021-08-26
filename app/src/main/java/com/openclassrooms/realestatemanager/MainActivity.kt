@@ -6,18 +6,22 @@ import android.os.Bundle
 import android.widget.Toast
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.openclassrooms.realestatemanager.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
+    lateinit var binding: ActivityMainBinding
 
 
     var bottomNavigationView: BottomNavigationView? = null
     var fab: FloatingActionButton? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        val view = binding.root
+        setContentView(view)
 
         bottomNavigationView = findViewById(R.id.bottomNavigationView)
-        fab = findViewById(R.id.fab)
+        fab = binding.fab
 
 
         disableMiddleItemInButtomAppBar()

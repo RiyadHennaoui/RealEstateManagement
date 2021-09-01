@@ -1,9 +1,7 @@
 package com.openclassrooms.realestatemanager
 
 import android.app.Activity
-import android.content.Context
 import android.content.Intent
-import android.graphics.Bitmap
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -15,14 +13,15 @@ import android.widget.*
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
+import androidx.core.widget.doBeforeTextChanged
+import androidx.core.widget.doOnTextChanged
 import androidx.lifecycle.ViewModelProvider
 import androidx.viewpager2.widget.ViewPager2
-import com.google.android.material.chip.ChipGroup
 import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import com.google.android.material.textfield.TextInputEditText
-import com.google.gson.Gson
+import com.google.android.material.textfield.TextInputLayout
 import com.openclassrooms.realestatemanager.adapter.ViewPagerAdapter
 import com.openclassrooms.realestatemanager.database.Photo
 import com.openclassrooms.realestatemanager.database.Property
@@ -31,7 +30,6 @@ import com.openclassrooms.realestatemanager.databinding.ActivityAddPropertyBindi
 import com.openclassrooms.realestatemanager.repositories.PropertyRepository
 import com.openclassrooms.realestatemanager.viewmodel.PropertyViewModel
 import com.openclassrooms.realestatemanager.viewmodel.PropertyViewModelFactory
-import java.io.ByteArrayOutputStream
 import java.io.File
 import java.io.IOException
 import java.text.SimpleDateFormat
@@ -94,42 +92,87 @@ class AddPropertyActivity : AppCompatActivity() {
     private fun createPropertyInDB(propertyViewModel: PropertyViewModel) {
         bindings.btnCreate.setOnClickListener {
 
-            val userChooseInString =
-                typeOfPropertyChoice(bindings.chipGroupTypeOfProperty.checkedChipId)
+            var allIsGood = true
+            var isGood: Boolean
+            listOfInputs().forEach {
+               isGood = checkWrongOrEmptyValues(it.second, it.first)
+                Log.e("isGood", "$isGood + ${it.first}")
+                if (!isGood){
+                    it.first.error = "Required *"
+                    allIsGood = false
+                }
+            }
 
-            //TODO modifier l'adresse en latitude logitude
-            val completeAddress =
-                "${bindings.tietAddress.text.toString()}, ${bindings.tietZipCode.text.toString()}, ${bindings.tietState.text.toString()}"
+            if (allIsGood) {
+                val userChooseInString =
+                    typeOfPropertyChoice(bindings.chipGroupTypeOfProperty.checkedChipId)
 
-            val checkedPointOfInterestIds = bindings.chipsGroupPointsOfInterest.checkedChipIds
+                //TODO modifier l'adresse en latitude logitude
+                val completeAddress =
+                    "${bindings.tietAddress.text.toString()}, ${bindings.tietZipCode.text.toString()}, ${bindings.tietState.text.toString()}"
 
-
-            val newProperty = Property(
-                id = 0,
-                price = bindings.tietPrice.text.toString().toInt(),
-                type = userChooseInString,
-                area = bindings.tietArea.text.toString().toInt(),
-                roomsNumber = bindings.tietRooms.text.toString().toInt(),
-                bedRoomsNumber = bindings.tietBedrooms.text.toString().toInt(),
-                bathRoomsNumber = bindings.tietBathrooms.text.toString().toInt(),
-                description = bindings.tietDescription.text.toString(),
-                address = completeAddress,
-                pointOfInterest = pointsOfInterestToString(checkedPointOfInterestIds),
-                entryDate = bindings.tietEntryDate.text.toString(),
-                saleDate = "",
-                estateAgent = "Me"
-            )
-
-            pointsOfInterestToString(checkedPointOfInterestIds)
+                val checkedPointOfInterestIds = bindings.chipsGroupPointsOfInterest.checkedChipIds
 
 
-            propertyViewModel.upsertPropertyAndPhotos(newProperty, propertyPhotos)
-                .observe(this, {
-                    Log.e("property id", "$it")
-                    finish()
-                })
+                val newProperty = Property(
+                    id = 0,
+                    price = bindings.tietPrice.text.toString().toInt(),
+                    type = userChooseInString,
+                    area = bindings.tietArea.text.toString().toInt(),
+                    roomsNumber = bindings.tietRooms.text.toString().toInt(),
+                    bedRoomsNumber = bindings.tietBedrooms.text.toString().toInt(),
+                    bathRoomsNumber = bindings.tietBathrooms.text.toString().toInt(),
+                    description = bindings.tietDescription.text.toString(),
+                    address = completeAddress,
+                    pointOfInterest = pointsOfInterestToString(checkedPointOfInterestIds),
+                    entryDate = bindings.tietEntryDate.text.toString(),
+                    saleDate = "",
+                    estateAgent = "Me"
+                )
+
+                pointsOfInterestToString(checkedPointOfInterestIds)
+
+
+                propertyViewModel.upsertPropertyAndPhotos(newProperty, propertyPhotos)
+                    .observe(this, {
+                        Log.e("property id", "$it")
+                        finish()
+                    })
+
+            }else{
+                Toast.makeText(this, "please fill all input", Toast.LENGTH_LONG).show()
+            }
+            }
+
+
+    }
+
+    private fun checkWrongOrEmptyValues(
+        inputEditText: TextInputEditText,
+        inputLayout: TextInputLayout
+    ): Boolean {
+        var isGood = true
+
+
+            if (inputEditText.text.isNullOrBlank() || inputEditText.text.isNullOrEmpty()) {
+                inputLayout.error = "Required *"
+                isGood = false
 
         }
+
+        return isGood
+    }
+
+    private fun listOfInputs(): List<Pair<TextInputLayout, TextInputEditText>> {
+
+        return listOf(
+            Pair(bindings.tilPrice, bindings.tietPrice),
+            Pair(bindings.tilEntryDate, bindings.tietEntryDate),
+            Pair(bindings.tilArea, bindings.tietArea),
+            Pair(bindings.tilRooms, bindings.tietRooms),
+            Pair(bindings.tilBathrooms, bindings.tietBathrooms),
+            Pair(bindings.tilBedrooms, bindings.tietBedrooms),
+        )
     }
 
 
@@ -278,13 +321,6 @@ class AddPropertyActivity : AppCompatActivity() {
 
     }
 
-    private fun getImageUriFromBitmap(context: Context, bitmap: Bitmap): Uri? {
-        val bytes = ByteArrayOutputStream()
-        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, bytes)
-        val path =
-            MediaStore.Images.Media.insertImage(context.contentResolver, bitmap, "Title", null)
-        return Uri.parse(path.toString())
-    }
 
     private fun intentToPictureGallery() {
 

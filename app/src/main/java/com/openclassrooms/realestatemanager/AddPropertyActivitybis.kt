@@ -106,6 +106,7 @@ class AddPropertyActivity : AppCompatActivity() {
                 isGood = checkWrongOrEmptyValues(it.second, it.first)
                 Log.e("isGood", "$isGood + ${it.first}")
                 if (!isGood) {
+                    it.first.requestFocus()
                     it.first.error = "Required *"
                     allIsGood = false
                 }
@@ -149,7 +150,7 @@ class AddPropertyActivity : AppCompatActivity() {
                 propertyViewModel.upsertPropertyAndPhotos(newProperty, photosList)
                     .observe(this, {
                         Log.e("property id", "$it + ${photosList.size}")
-//                        finish()
+                        finish()
                     })
 
             } else {

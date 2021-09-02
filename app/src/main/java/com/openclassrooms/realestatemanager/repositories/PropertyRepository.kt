@@ -2,8 +2,10 @@ package com.openclassrooms.realestatemanager.repositories
 
 import android.net.Uri
 import android.util.Log
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.liveData
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.QueryDocumentSnapshot
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
@@ -11,7 +13,6 @@ import com.google.gson.Gson
 import com.openclassrooms.realestatemanager.database.Photo
 import com.openclassrooms.realestatemanager.database.Property
 import com.openclassrooms.realestatemanager.database.PropertyDatabase
-import com.openclassrooms.realestatemanager.database.PropertyWithoutSQL
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -61,11 +62,37 @@ class PropertyRepository(private val db: PropertyDatabase) {
     fun getAllProperties() = liveData {
         val listOfProperties = db.getPropertyDao().getAllProperties()
         emit(listOfProperties)
+        //TODO faire l'appel firestore ici
+
     }
 
     fun getAllPhotosOfProperty(item: Property) = liveData {
         val listOfPhotos = db.getPropertyDao().getPropertyWithPhotos(item.id!!)
         emit(listOfPhotos)
+    }
+
+    fun getAllProperties2(): MutableLiveData<List<Property>>{
+        val properties = MutableLiveData<List<Property>>()
+        CoroutineScope(Dispatchers.IO).launch {
+            properties.postValue(db.getPropertyDao().getAllProperties().value)
+            getAllPropertiesInFirebase(properties)
+        }
+
+        return properties
+    }
+
+    private fun getAllPropertiesInFirebase(properties: MutableLiveData<List<Property>>) {
+        val propertiesList = ArrayList<Property>()
+        firestoreDb.collection("properties")
+            .get()
+            .addOnCompleteListener {
+                 it.result!!.documents.forEach { document ->
+                     val currentProperty = document.toObject(Property::class.java)
+                     propertiesList.add(currentProperty!!)
+                 }
+                properties.postValue(propertiesList)
+            }
+
     }
 
 
@@ -98,18 +125,17 @@ class PropertyRepository(private val db: PropertyDatabase) {
 
     private fun insertPropertyInFirestore(property: Property, photos: List<Photo>)  {
 
-        val firestoreProperty = convertProperty(property)
-        convertProperty(property)
+        //TODO refactor to livedata
         Log.e("upsertPropertyFirestore", "dedans")
         FirebaseFirestore.setLoggingEnabled(true)
         firestoreDb.collection("properties")
-            .document("${firestoreProperty.id}")
-            .set(firestoreProperty)
+            .document("${property.id}+${property.estateAgent}")
+            .set(property)
             .addOnCompleteListener {
                 if (it.isSuccessful){
                     val gson = Gson()
                     Log.e("lambda", "ok + ${photos.size} + ${gson.toJson(photos)} ")
-                    addPhotosInFirestore(photos, firestoreProperty.id.toString())
+                    addPhotosInFirestore(photos, property)
                 }
             }
 
@@ -117,13 +143,14 @@ class PropertyRepository(private val db: PropertyDatabase) {
 
     private fun addPhotosInFirestore(
         photos: List<Photo>,
-        PropertyId: String
+        property: Property
     ) {
+        //TODO refactor to livedata
         photos.forEach {
             Log.e("forE photocall", "${it.propertyId}${it.photoUri}")
             firestoreDb
                 .collection("properties")
-                .document(PropertyId)
+                .document("${property.id}+${property.estateAgent}")
                 .collection("photos")
                 .add(it)
 
@@ -131,24 +158,9 @@ class PropertyRepository(private val db: PropertyDatabase) {
     }
 
 
-    private fun convertProperty(property: Property): PropertyWithoutSQL {
 
-        return PropertyWithoutSQL(
-            property.id,
-            property.type,
-            property.price,
-            property.area,
-            property.roomsNumber,
-            property.bedRoomsNumber,
-            property.bathRoomsNumber,
-            property.description,
-            property.address,
-            property.pointOfInterest,
-            property.entryDate,
-            property.saleDate,
-            property.estateAgent
-        )
-    }
+
+
 
 
 }

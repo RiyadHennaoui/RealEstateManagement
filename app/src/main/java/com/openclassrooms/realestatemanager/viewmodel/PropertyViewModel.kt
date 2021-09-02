@@ -3,7 +3,6 @@ package com.openclassrooms.realestatemanager.viewmodel
 import androidx.lifecycle.*
 import com.openclassrooms.realestatemanager.database.Photo
 import com.openclassrooms.realestatemanager.database.Property
-import com.openclassrooms.realestatemanager.database.PropertyWithPhotos
 import com.openclassrooms.realestatemanager.repositories.PropertyRepository
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -34,7 +33,8 @@ class PropertyViewModel(private val repository: PropertyRepository) : ViewModel(
 
     fun getAllPhotosOfProperty(item: Property) = repository.getAllPhotosOfProperty(item)
 
-    fun uploadPhotoToFirebase(item: Photo, fileName: String) = repository.uploadPhotoToFirestore(item, fileName)
+    fun uploadPhotoToFirebaseStorage(item: Photo, fileName: String) = repository.uploadPhotoToFirebaseStorage(item, fileName)
 
     fun uploadPhotoWithCoroutine(item: Photo, fileName: String) = repository.uploadPhotoWithCoroutines(item, fileName)
+
 }

@@ -46,7 +46,6 @@ class AddPropertyActivity : AppCompatActivity() {
 
 
     lateinit var photoUri: Uri
-    var propertyPhotos = arrayListOf<Photo>()
     var photoDescription = ""
     var photosList = arrayListOf<Photo>()
     lateinit var adapter: ViewPagerAdapter
@@ -95,9 +94,9 @@ class AddPropertyActivity : AppCompatActivity() {
             var allIsGood = true
             var isGood: Boolean
             listOfInputs().forEach {
-               isGood = checkWrongOrEmptyValues(it.second, it.first)
+                isGood = checkWrongOrEmptyValues(it.second, it.first)
                 Log.e("isGood", "$isGood + ${it.first}")
-                if (!isGood){
+                if (!isGood) {
                     it.first.error = "Required *"
                     allIsGood = false
                 }
@@ -133,16 +132,16 @@ class AddPropertyActivity : AppCompatActivity() {
                 pointsOfInterestToString(checkedPointOfInterestIds)
 
 
-                propertyViewModel.upsertPropertyAndPhotos(newProperty, propertyPhotos)
+                propertyViewModel.upsertPropertyAndPhotos(newProperty, photosList)
                     .observe(this, {
-                        Log.e("property id", "$it")
-                        finish()
+                        Log.e("property id", "$it + ${photosList.size}")
+//                        finish()
                     })
 
-            }else{
+            } else {
                 Toast.makeText(this, "please fill all input", Toast.LENGTH_LONG).show()
             }
-            }
+        }
 
 
     }
@@ -154,9 +153,9 @@ class AddPropertyActivity : AppCompatActivity() {
         var isGood = true
 
 
-            if (inputEditText.text.isNullOrBlank() || inputEditText.text.isNullOrEmpty()) {
-                inputLayout.error = "Required *"
-                isGood = false
+        if (inputEditText.text.isNullOrBlank() || inputEditText.text.isNullOrEmpty()) {
+            inputLayout.error = "Required *"
+            isGood = false
 
         }
 
@@ -310,7 +309,7 @@ class AddPropertyActivity : AppCompatActivity() {
         super.onActivityResult(requestCode, resultCode, intentData)
 
         if (resultCode == Activity.RESULT_OK) {
-            Log.e("ResultOk photos", intentData?.extras?.get("intentData").toString())
+            Log.e("ResultOk photos", "intentData.extra = ${intentData?.extras?.get("intentData")} / intentData.data = ${intentData?.data}")
             val uri: Uri? = when (requestCode) {
                 REQUEST_CODE_TAKE_IMAGE_WITH_CAMERA -> photoUri
                 REQUEST_CODE_IMAGE_PICK -> intentData?.data

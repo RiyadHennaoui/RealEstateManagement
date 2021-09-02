@@ -4,8 +4,11 @@ import android.net.Uri
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.liveData
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.ktx.userProfileChangeRequest
+import com.google.firebase.firestore.auth.User
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -62,7 +65,7 @@ class UserRepository {
     }
 
 
-    fun singin(userEmail:String, userPassword:String): LiveData<Boolean>{
+    fun singIn(userEmail:String, userPassword:String): LiveData<Boolean>{
 
         //TODO gerer le cas où le mot de passe est erroné.
         var isLog: MutableLiveData<Boolean> = MutableLiveData()
@@ -85,6 +88,10 @@ class UserRepository {
         }
 
         return isLog
+    }
+
+    fun currentUser() = liveData {
+        emit(auth.currentUser)
     }
 
 

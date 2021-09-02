@@ -22,14 +22,18 @@ import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
+import com.google.firebase.auth.FirebaseUser
 import com.openclassrooms.realestatemanager.adapter.ViewPagerAdapter
 import com.openclassrooms.realestatemanager.database.Photo
 import com.openclassrooms.realestatemanager.database.Property
 import com.openclassrooms.realestatemanager.database.PropertyDatabase
 import com.openclassrooms.realestatemanager.databinding.ActivityAddPropertyBinding
 import com.openclassrooms.realestatemanager.repositories.PropertyRepository
+import com.openclassrooms.realestatemanager.repositories.UserRepository
 import com.openclassrooms.realestatemanager.viewmodel.PropertyViewModel
 import com.openclassrooms.realestatemanager.viewmodel.PropertyViewModelFactory
+import com.openclassrooms.realestatemanager.viewmodel.UserViewModel
+import com.openclassrooms.realestatemanager.viewmodel.UserViewModelFactory
 import java.io.File
 import java.io.IOException
 import java.text.SimpleDateFormat
@@ -60,10 +64,15 @@ class AddPropertyActivity : AppCompatActivity() {
         setContentView(view)
 
 
-        //For ViewModels
+        //For Property ViewModels
         val propertyRepository = PropertyRepository(PropertyDatabase.invoke(this))
         val factory = PropertyViewModelFactory(propertyRepository)
         val propertyViewModel = ViewModelProvider(this, factory).get(PropertyViewModel::class.java)
+
+        //For User ViewModels
+        val userRepository = UserRepository()
+        val userFactory = UserViewModelFactory(userRepository)
+        val userViewModel = ViewModelProvider(this, userFactory).get(UserViewModel::class.java)
 
 
         //For ViewPager and TabLayout
@@ -83,12 +92,12 @@ class AddPropertyActivity : AppCompatActivity() {
 
         entryDateClicked(bindings.tietEntryDate)
 
-        createPropertyInDB(propertyViewModel)
+        createPropertyInDB(propertyViewModel, userViewModel)
 
 
     }
 
-    private fun createPropertyInDB(propertyViewModel: PropertyViewModel) {
+    private fun createPropertyInDB(propertyViewModel: PropertyViewModel, userViewModel: UserViewModel) {
         bindings.btnCreate.setOnClickListener {
 
             var allIsGood = true
@@ -113,6 +122,11 @@ class AddPropertyActivity : AppCompatActivity() {
                 val checkedPointOfInterestIds = bindings.chipsGroupPointsOfInterest.checkedChipIds
 
 
+
+                var userName = ""
+                userViewModel.currentUser().observe(this, {
+                    userName = it?.displayName.toString()
+                })
                 val newProperty = Property(
                     id = 0,
                     price = bindings.tietPrice.text.toString().toInt(),
@@ -126,7 +140,7 @@ class AddPropertyActivity : AppCompatActivity() {
                     pointOfInterest = pointsOfInterestToString(checkedPointOfInterestIds),
                     entryDate = bindings.tietEntryDate.text.toString(),
                     saleDate = "",
-                    estateAgent = "Me"
+                    estateAgent = userName
                 )
 
                 pointsOfInterestToString(checkedPointOfInterestIds)

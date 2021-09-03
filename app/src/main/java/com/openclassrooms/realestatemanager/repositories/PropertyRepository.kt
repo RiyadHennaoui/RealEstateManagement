@@ -89,6 +89,7 @@ class PropertyRepository(private val db: PropertyDatabase) {
                  it.result!!.documents.forEach { document ->
                      val currentProperty = document.toObject(Property::class.java)
                      propertiesList.add(currentProperty!!)
+                     Log.e("fGetProperties", "${propertiesList.size}")
                  }
                 properties.postValue(propertiesList)
             }

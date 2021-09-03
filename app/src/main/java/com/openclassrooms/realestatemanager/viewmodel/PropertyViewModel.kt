@@ -30,6 +30,7 @@ class PropertyViewModel(private val repository: PropertyRepository) : ViewModel(
 
     fun getAllProperties() = repository.getAllProperties()
 
+    fun getAllProperties2() = repository.getAllProperties2()
 
     fun getAllPhotosOfProperty(item: Property) = repository.getAllPhotosOfProperty(item)
 

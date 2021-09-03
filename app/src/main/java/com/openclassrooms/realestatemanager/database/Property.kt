@@ -6,17 +6,35 @@ import androidx.room.PrimaryKey
 import java.util.*
 
 
-@Entity (tableName = "property")
-data class Property (@PrimaryKey (autoGenerate = true) var id: Long,
-                         @ColumnInfo (name = "type") var type: String,
-                         @ColumnInfo (name = "price") var price: Int,
-                         @ColumnInfo (name = "area") var area: Int,
-                         @ColumnInfo (name = "roomsNumber") var roomsNumber: Int,
-                         @ColumnInfo (name = "bedRoomsNumber") var bedRoomsNumber: Int,
-                         @ColumnInfo (name = "bathRoomsNumber") var bathRoomsNumber: Int,
-                         @ColumnInfo (name = "description") var description: String,
-                         @ColumnInfo (name = "address") var address: String,
-                         @ColumnInfo (name = "pointOfInterest") var pointOfInterest: ArrayList<String>,
-                         @ColumnInfo (name = "entryDate") var entryDate: String,
-                         @ColumnInfo (name = "saleDate") var saleDate: String,
-                         @ColumnInfo (name = "estateAgent") var estateAgent: String)
+@Entity(tableName = "property")
+data class Property(
+    @PrimaryKey(autoGenerate = true) var id: Long,
+    @ColumnInfo(name = "type") var type: String,
+    @ColumnInfo(name = "price") var price: Int,
+    @ColumnInfo(name = "area") var area: Int,
+    @ColumnInfo(name = "roomsNumber") var roomsNumber: Int,
+    @ColumnInfo(name = "bedRoomsNumber") var bedRoomsNumber: Int,
+    @ColumnInfo(name = "bathRoomsNumber") var bathRoomsNumber: Int,
+    @ColumnInfo(name = "description") var description: String,
+    @ColumnInfo(name = "address") var address: String,
+    @ColumnInfo(name = "pointOfInterest") var pointOfInterest: ArrayList<String>,
+    @ColumnInfo(name = "entryDate") var entryDate: String,
+    @ColumnInfo(name = "saleDate") var saleDate: String,
+    @ColumnInfo(name = "estateAgent") var estateAgent: String
+) {
+    constructor() : this(
+        -1,
+        "",
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        "",
+        "",
+        arrayListOf(),
+        "",
+        "",
+        ""
+    )
+}

@@ -23,6 +23,7 @@ import com.google.android.material.tabs.TabLayoutMediator
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import com.google.firebase.auth.FirebaseUser
+import com.google.gson.Gson
 import com.openclassrooms.realestatemanager.adapter.ViewPagerAdapter
 import com.openclassrooms.realestatemanager.database.Photo
 import com.openclassrooms.realestatemanager.database.Property
@@ -93,6 +94,9 @@ class AddPropertyActivity : AppCompatActivity() {
         entryDateClicked(bindings.tietEntryDate)
 
         createPropertyInDB(propertyViewModel, userViewModel)
+        bindings.tvAdd.setOnClickListener {
+            getAllProperties(propertyViewModel)
+        }
 
 
     }
@@ -376,6 +380,17 @@ class AddPropertyActivity : AppCompatActivity() {
 
 
         return pointsOfInterestProperty
+    }
+
+    private fun getAllProperties(propertyViewModel: PropertyViewModel){
+        val gson = Gson()
+        propertyViewModel.getAllProperties2().observe(this, androidx.lifecycle.Observer {
+
+
+        })
+
+
+
     }
 
 

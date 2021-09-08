@@ -89,11 +89,27 @@ class PropertyRepository(private val db: PropertyDatabase) {
                  it.result!!.documents.forEach { document ->
                      val currentProperty = document.toObject(Property::class.java)
                      propertiesList.add(currentProperty!!)
+                     getPhotosOfProperty("${currentProperty.id}")
                      Log.e("fGetProperties", "${propertiesList.size}")
                  }
                 properties.postValue(propertiesList)
             }
 
+    }
+
+    private fun getPhotosOfProperty(id: String) {
+        val photosList = ArrayList<Photo>()
+        firestoreDb.collection("properties")
+            .document(id)
+            .collection("photos")
+            .get()
+            .addOnCompleteListener {
+                it.result!!.documents.forEach { document ->
+                    val currentPhoto = document.toObject(Photo::class.java)
+                    photosList.add(currentPhoto!!)
+                }
+
+            }
     }
 
 

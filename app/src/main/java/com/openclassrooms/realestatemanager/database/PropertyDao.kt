@@ -22,7 +22,13 @@ interface PropertyDao {
     @Query("SELECT * from property")
     fun getAllProperties(): LiveData<List<Property>>
 
+    //TODO a tester
     @Transaction
-    @Query("SELECT * from property WHERE id = :propertyId")
+    @Query("SELECT * from property, photo WHERE property.id = :propertyId AND property.id = propertyId")
     fun getPropertyWithPhotos(propertyId: Long): LiveData<PropertyWithPhotos>
+
+    //TODO a tester
+    @Transaction
+    @Query("SELECT * from property, photo WHERE property.id = propertyId")
+    fun getAllPropertiesWithPhotos(): LiveData<List<PropertyWithPhotos>>
 }

@@ -4,9 +4,7 @@ import android.net.Uri
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.liveData
-import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.QueryDocumentSnapshot
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
@@ -14,10 +12,10 @@ import com.google.gson.Gson
 import com.openclassrooms.realestatemanager.database.Photo
 import com.openclassrooms.realestatemanager.database.Property
 import com.openclassrooms.realestatemanager.database.PropertyDatabase
+import com.openclassrooms.realestatemanager.database.PropertyWithPhotos
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
 
 class PropertyRepository(private val db: PropertyDatabase) {
@@ -75,41 +73,37 @@ class PropertyRepository(private val db: PropertyDatabase) {
         emit(listOfPhotos)
     }
 
-    fun getAllProperties2(): MutableLiveData<List<Property>> {
-        val properties = MutableLiveData<List<Property>>()
+    fun getAllProperties2(): MutableLiveData<List<PropertyWithPhotos>> {
+        val properties = MutableLiveData<List<PropertyWithPhotos>>()
 
         CoroutineScope(Dispatchers.IO).launch {
-            properties.postValue(db.getPropertyDao().getAllProperties().value)
+            properties.postValue(db.getPropertyDao().getAllPropertiesWithPhotos().value)
             getAllPropertiesInFirebase(properties)
-
-
         }
 
         return properties
     }
 
     private fun savePropertiesInRoom(
-        currentProperties: List<Property>,
-        photos: List<Photo>
+        propertiesWithPhotos: List<PropertyWithPhotos>
     ) {
 
         CoroutineScope(Dispatchers.Default).launch {
 
-            photos.forEach {
-                Log.e("saveInRoom", "forEachPhoto")
-                insertPhoto(it)
-            }
+            propertiesWithPhotos.forEach { propertyWithPhotos ->
 
-            currentProperties.forEach { currentProperty ->
-
-            Log.e("saveInRoom", "forEachProperty")
-                upsertProperty(currentProperty)
+                Log.e("saveInRoom", "forEachProperty")
+                upsertProperty(propertyWithPhotos.property)
+                propertyWithPhotos.photos.forEach {
+                    Log.e("saveInRoom", "forEachPhoto")
+                    insertPhoto(it)
+                }
 
             }
         }
     }
 
-    private fun getAllPropertiesInFirebase(properties: MutableLiveData<List<Property>>): MutableLiveData<List<Property>> {
+    private fun getAllPropertiesInFirebase(propertiesWithPhotos: MutableLiveData<List<PropertyWithPhotos>>) {
         val propertiesList = ArrayList<Property>()
         firestoreDb.collection("properties")
             .get()
@@ -117,31 +111,16 @@ class PropertyRepository(private val db: PropertyDatabase) {
                 it.result!!.documents.forEach { document ->
                     val currentProperty = document.toObject(Property::class.java)
                     propertiesList.add(currentProperty!!)
-                    getPhotosOfProperty("${currentProperty.id}")
+
                     Log.e("fGetProperties", "${propertiesList.size}")
                 }
-                properties.postValue(propertiesList)
-                getPropertyPhotosInFirestore(propertiesList)
+
+                getPropertyPhotosInFirestore(propertiesList, propertiesWithPhotos)
 
             }
 
-        return properties
     }
 
-    private fun getPhotosOfProperty(id: String) {
-        val photosList = ArrayList<Photo>()
-        firestoreDb.collection("properties")
-            .document(id)
-            .collection("photos")
-            .get()
-            .addOnCompleteListener {
-                it.result!!.documents.forEach { document ->
-                    val currentPhoto = document.toObject(Photo::class.java)
-                    photosList.add(currentPhoto!!)
-                }
-
-            }
-    }
 
 
     fun uploadPhotoToFirebaseStorage(item: Photo, fileName: String) = liveData {
@@ -214,30 +193,37 @@ class PropertyRepository(private val db: PropertyDatabase) {
         return listOFPhotos
     }
 
-    private fun getPropertyPhotosInFirestore(properties: List<Property>): MutableLiveData<List<Photo>> {
+    private fun getPropertyPhotosInFirestore(
+        properties: List<Property>,
+        propertiesWithPhotos: MutableLiveData<List<PropertyWithPhotos>>
+    ) {
 
-        val listOfPhotos = MutableLiveData<List<Photo>>()
-        val listOfSimplePhotos = mutableListOf<Photo>()
+        val listPropertiesWithPhotos = mutableListOf<PropertyWithPhotos>()
+        var counter = 0
 
         properties.forEach { property ->
+            val listOfSimplePhotos = mutableListOf<Photo>()
             firestoreDb
                 .collection("properties")
                 .document(property.id.toString())
                 .collection("photos")
                 .get()
                 .addOnCompleteListener { document ->
-
+                    counter++
                     document.result!!.documents.forEach {
                         val currentPhoto = it.toObject(Photo::class.java)
 
                         listOfSimplePhotos.add(currentPhoto!!)
                     }
-                    listOfPhotos.postValue(listOfSimplePhotos)
-                    savePropertiesInRoom(properties, listOfSimplePhotos)
+                    listPropertiesWithPhotos.add(PropertyWithPhotos(property, listOfSimplePhotos))
+                    if (counter == properties.size) {
+                        propertiesWithPhotos.postValue(listPropertiesWithPhotos)
+                        savePropertiesInRoom(listPropertiesWithPhotos)
+                    }
+
                 }
         }
 
-        return listOfPhotos
     }
 
 

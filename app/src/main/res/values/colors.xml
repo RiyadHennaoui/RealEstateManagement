@@ -14,4 +14,5 @@
     <color name="gold">#ED9434</color>
     <color name="orange">#E6651B</color>
     <color name="red_500">#FF0000</color>
+    <color name="transparent">#4D000000</color>
 </resources>

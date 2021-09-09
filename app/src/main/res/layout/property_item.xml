@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="300dp"
+    android:layout_marginBottom="5dp">
+
+    <ImageView
+        android:id="@+id/ivPicturePropertyItem"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:background="@color/transparent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <TextView
+            android:id="@+id/tvTitlePropertyItem"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:text="Title"
+            android:textColor="@color/white"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+        <TextView
+            android:id="@+id/tvPricePropertyItem"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:text="Price"
+            android:textColor="@color/white"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
+
+        <ImageView
+            android:id="@+id/ivAreaPropertyItem"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_area"
+            app:layout_constraintEnd_toStartOf="@id/ivRoomPropertyItem"
+            app:layout_constraintTop_toBottomOf="@id/tvTitlePropertyItem"
+            app:layout_constraintStart_toStartOf="parent"
+            />
+
+        <TextView
+            android:id="@+id/tvAreaPropertyItem"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="100"
+            android:textColor="@color/white"
+            android:layout_marginStart="5dp"
+            app:layout_constraintStart_toEndOf="@id/ivAreaPropertyItem"
+            app:layout_constraintTop_toTopOf="@id/ivAreaPropertyItem"
+            app:layout_constraintBottom_toBottomOf="@id/ivAreaPropertyItem"/>
+
+        <ImageView
+            android:id="@+id/ivRoomPropertyItem"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_room"
+            app:layout_constraintStart_toEndOf="@id/ivAreaPropertyItem"
+            app:layout_constraintTop_toTopOf="@id/ivAreaPropertyItem"
+            app:layout_constraintEnd_toStartOf="@id/ivBedroomPropertyItem"/>
+
+        <TextView
+            android:id="@+id/tvRoomPropertyItem"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="10"
+            android:textColor="@color/white"
+            android:layout_marginStart="5dp"
+            app:layout_constraintStart_toEndOf="@id/ivRoomPropertyItem"
+            app:layout_constraintTop_toTopOf="@id/ivRoomPropertyItem"
+            app:layout_constraintBottom_toBottomOf="@id/ivRoomPropertyItem"/>
+        <ImageView
+            android:id="@+id/ivBedroomPropertyItem"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_bed"
+            app:layout_constraintBottom_toBottomOf="@id/ivRoomPropertyItem"
+            app:layout_constraintStart_toEndOf="@id/ivRoomPropertyItem"
+            app:layout_constraintEnd_toStartOf="@id/ivBathroomPropertyItem"/>
+        <TextView
+            android:id="@+id/tvBedroomPropertyItem"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="5"
+            android:textColor="@color/white"
+            android:layout_marginStart="5dp"
+            app:layout_constraintStart_toEndOf="@id/ivBedroomPropertyItem"
+            app:layout_constraintBottom_toBottomOf="@id/tvAreaPropertyItem"/>
+        <ImageView
+            android:id="@+id/ivBathroomPropertyItem"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_bath"
+            app:layout_constraintStart_toEndOf="@id/ivBedroomPropertyItem"
+            app:layout_constraintBottom_toBottomOf="@id/ivBedroomPropertyItem"
+            app:layout_constraintEnd_toEndOf="parent"/>
+        <TextView
+            android:id="@+id/tvBathroomPropertyItem"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="2"
+            android:textColor="@color/white"
+            android:layout_marginStart="5dp"
+            app:layout_constraintStart_toEndOf="@id/ivBathroomPropertyItem"
+            app:layout_constraintBottom_toBottomOf="@id/tvBedroomPropertyItem"
+            />
+
+
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -4,6 +4,7 @@ import android.net.Uri
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.liveData
+import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.QueryDocumentSnapshot
 import com.google.firebase.firestore.ktx.firestore
@@ -16,6 +17,7 @@ import com.openclassrooms.realestatemanager.database.PropertyDatabase
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 
 class PropertyRepository(private val db: PropertyDatabase) {
@@ -25,7 +27,9 @@ class PropertyRepository(private val db: PropertyDatabase) {
 
 
     fun upsertProperty(item: Property) = liveData {
+        Log.e("upsertRoom", "in")
         val id = db.getPropertyDao().upsert(item)
+        Log.e("upsertRoom", "$id")
         emit(id)
     }
 
@@ -67,34 +71,61 @@ class PropertyRepository(private val db: PropertyDatabase) {
     }
 
     fun getAllPhotosOfProperty(item: Property) = liveData {
-        val listOfPhotos = db.getPropertyDao().getPropertyWithPhotos(item.id!!)
+        val listOfPhotos = db.getPropertyDao().getPropertyWithPhotos(item.id)
         emit(listOfPhotos)
     }
 
-    fun getAllProperties2(): MutableLiveData<List<Property>>{
+    fun getAllProperties2(): MutableLiveData<List<Property>> {
         val properties = MutableLiveData<List<Property>>()
+
         CoroutineScope(Dispatchers.IO).launch {
             properties.postValue(db.getPropertyDao().getAllProperties().value)
             getAllPropertiesInFirebase(properties)
+
+
         }
 
         return properties
     }
 
-    private fun getAllPropertiesInFirebase(properties: MutableLiveData<List<Property>>) {
+    private fun savePropertiesInRoom(
+        currentProperties: List<Property>,
+        photos: List<Photo>
+    ) {
+
+        CoroutineScope(Dispatchers.Default).launch {
+
+            photos.forEach {
+                Log.e("saveInRoom", "forEachPhoto")
+                insertPhoto(it)
+            }
+
+            currentProperties.forEach { currentProperty ->
+
+            Log.e("saveInRoom", "forEachProperty")
+                upsertProperty(currentProperty)
+
+            }
+        }
+    }
+
+    private fun getAllPropertiesInFirebase(properties: MutableLiveData<List<Property>>): MutableLiveData<List<Property>> {
         val propertiesList = ArrayList<Property>()
         firestoreDb.collection("properties")
             .get()
             .addOnCompleteListener {
-                 it.result!!.documents.forEach { document ->
-                     val currentProperty = document.toObject(Property::class.java)
-                     propertiesList.add(currentProperty!!)
-                     getPhotosOfProperty("${currentProperty.id}")
-                     Log.e("fGetProperties", "${propertiesList.size}")
-                 }
+                it.result!!.documents.forEach { document ->
+                    val currentProperty = document.toObject(Property::class.java)
+                    propertiesList.add(currentProperty!!)
+                    getPhotosOfProperty("${currentProperty.id}")
+                    Log.e("fGetProperties", "${propertiesList.size}")
+                }
                 properties.postValue(propertiesList)
+                getPropertyPhotosInFirestore(propertiesList)
+
             }
 
+        return properties
     }
 
     private fun getPhotosOfProperty(id: String) {
@@ -140,29 +171,35 @@ class PropertyRepository(private val db: PropertyDatabase) {
 
     }
 
-    private fun insertPropertyInFirestore(property: Property, photos: List<Photo>)  {
+    private fun insertPropertyInFirestore(
+        property: Property,
+        photos: List<Photo>
+    ): MutableLiveData<Property> {
 
         //TODO refactor to livedata
+        val currentProperty = MutableLiveData<Property>()
         Log.e("upsertPropertyFirestore", "dedans")
         FirebaseFirestore.setLoggingEnabled(true)
         firestoreDb.collection("properties")
             .document("${property.id}+${property.estateAgent}")
             .set(property)
             .addOnCompleteListener {
-                if (it.isSuccessful){
+                if (it.isSuccessful) {
                     val gson = Gson()
                     Log.e("lambda", "ok + ${photos.size} + ${gson.toJson(photos)} ")
                     addPhotosInFirestore(photos, property)
+                    currentProperty.postValue(property)
                 }
             }
-
+        return currentProperty
     }
 
     private fun addPhotosInFirestore(
         photos: List<Photo>,
         property: Property
-    ) {
+    ): MutableLiveData<List<Photo>> {
         //TODO refactor to livedata
+        val listOFPhotos = MutableLiveData<List<Photo>>()
         photos.forEach {
             Log.e("forE photocall", "${it.propertyId}${it.photoUri}")
             firestoreDb
@@ -172,12 +209,36 @@ class PropertyRepository(private val db: PropertyDatabase) {
                 .add(it)
 
         }
+        listOFPhotos.postValue(photos)
+
+        return listOFPhotos
     }
 
+    private fun getPropertyPhotosInFirestore(properties: List<Property>): MutableLiveData<List<Photo>> {
 
+        val listOfPhotos = MutableLiveData<List<Photo>>()
+        val listOfSimplePhotos = mutableListOf<Photo>()
 
+        properties.forEach { property ->
+            firestoreDb
+                .collection("properties")
+                .document(property.id.toString())
+                .collection("photos")
+                .get()
+                .addOnCompleteListener { document ->
 
+                    document.result!!.documents.forEach {
+                        val currentPhoto = it.toObject(Photo::class.java)
 
+                        listOfSimplePhotos.add(currentPhoto!!)
+                    }
+                    listOfPhotos.postValue(listOfSimplePhotos)
+                    savePropertiesInRoom(properties, listOfSimplePhotos)
+                }
+        }
+
+        return listOfPhotos
+    }
 
 
 }

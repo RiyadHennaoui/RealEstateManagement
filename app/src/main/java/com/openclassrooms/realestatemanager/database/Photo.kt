@@ -10,4 +10,14 @@ data class Photo (
     val shortDescription: String,
     val photoUri: String,
     var propertyId: Long
-)
+) {
+
+    constructor(): this(
+        -1,
+        "",
+        "",
+        -1
+    )
+
+
+}
